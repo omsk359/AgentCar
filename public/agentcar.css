@@ -1,0 +1,100 @@
+.agent_car_widget {
+  position: absolute;
+  right: 10px;
+  bottom: 20px;
+  font-family: Halvetica, Verdana, Arial;
+  font-size: 12px;
+  display: block;
+  width: 350px;
+  min-height: 300px;
+  color: #A7A9AB;
+}
+.agent_car_widget * {
+  margin: 0;
+  padding: 0;
+}
+.agent_car_widget a {
+  color: #fff;
+}
+.agent_car_widget .agent_car_border {
+  margin-top: 26px;
+  border: solid 1px #ccc;
+  border-radius: 20px 0px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+.agent_car_widget .agent_car_logo {
+  position: absolute;
+  left: 30px;
+  top: 0;
+  width: 118px;
+  height: 65px;
+  background: #BE1E2D;
+  box-sizing: border-box;
+  padding: 1em;
+  border-radius: 15px 0px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+}
+.agent_car_widget .agent_car_close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  height: 20px;
+  width: 20px;
+  background: #BE1E2D;
+  box-sizing: border-box;
+  border-radius: 0px 4px;
+}
+.agent_car_widget .agent_car_close a {
+  display: block;
+  padding: 3px 2px 2px 5px;
+  text-decoration: none;
+}
+.agent_car_widget .agent_car_close a:hover {
+  background-color: #ac1c29;
+  border-radius: 0px 4px;
+}
+.agent_car_widget .agent_car_body {
+  box-sizing: border-box;
+  min-height: 250px;
+  margin-top: 0px;
+  padding-top: 40px;
+  background: #404041;
+  border-radius: 20px 0px;
+  border: solid 5px #fff;
+}
+.agent_car_widget .agent_car_body .agent_car_form {
+  margin-left: 5px;
+  margin-bottom: 13px;
+}
+.agent_car_widget .agent_car_body .agent_car_group {
+  width: 350px;
+  display: table;
+}
+.agent_car_widget .agent_car_body .agent_car_cell {
+  display: table-cell;
+  width: 80px;
+  padding: 4px 1px 4px 5px;
+}
+.agent_car_widget .agent_car_body label {
+  display: table-cell;
+  width: 160px;
+  text-align: right;
+}
+.agent_car_widget .agent_car_body input[type="text"] {
+  width: 70px;
+  padding-left: 3px;
+}
+.agent_car_widget .agent_car_body .agent_car_search {
+  width: 300px;
+  height: 25px;
+  margin-top: 5px;
+  margin-left: 15px;
+  background: #BE1E2D;
+  color: #fff;
+  border: 0;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+.agent_car_widget .agent_car_body .agent_car_search:hover {
+  background-color: #ac1c29;
+}
