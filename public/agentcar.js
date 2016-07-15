@@ -42,7 +42,7 @@ function main() {
         var css_link = $("<link>", { 
             rel: "stylesheet", 
             type: "text/css", 
-            href: "http://localhost:3000/agentcar.css" 
+            href: "http://82.196.1.193/agentcar.css" 
         });
         css_link.appendTo('head');
 		
@@ -56,7 +56,7 @@ function main() {
 		var recentCars = carsCollection.reactiveQuery({});
 		
 		var ac_html = '<div class="agent_car_border"><div class="agent_car_body"><div class="agent_car_logo"></div></div></div>';
-		var ac_logo = '<a href="#"><img src="http://localhost:3000/agentcar.png" width="92" height="92" alt="AgentСar"/></a>';
+		var ac_logo = '<a href="#"><img src="http://82.196.1.193/agentcar.png" width="92" height="92" alt="AgentСar"/></a>';
 		var ac_close = '<div class="agent_car_close"><a href="#" id="agent_car_close_x">X</a></div>';
 		
 		$( ".agent_car_widget" ).append( ac_html );
