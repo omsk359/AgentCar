@@ -97,11 +97,11 @@ function main() {
 				
 				switch(true) {
 					case (ac_form_cash >= 470000 && ac_form_cash <= 530000): {
-						ac_return = '<div class="agent_car_return"><h3>Мы нашли для вас</h3><div class="agent_car_return_"><img src="/img/picanto1.jpg" width="250"/></div></div>';
+						ac_return = '<div class="agent_car_return"><h3>Мы нашли для вас</h3><div class="agent_car_return_"><img src="http://'+ ACurl +'/img/picanto1.jpg" width="250"/></div></div>';
 						break;
 					}
 					case (ac_form_cash > 530000 && ac_form_cash <= 610000): {
-						ac_return = '<div class="agent_car_return"><h3>Мы нашли для вас</h3><div class="agent_car_return_"><img src="/img/picanto2.jpg" width="250"/></div></div>';
+						ac_return = '<div class="agent_car_return"><h3>Мы нашли для вас</h3><div class="agent_car_return_"><img src="http://'+ ACurl +'/img/picanto2.jpg" width="250"/></div></div>';
 						break;
 					}
 					default: {
