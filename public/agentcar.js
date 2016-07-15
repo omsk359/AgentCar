@@ -72,11 +72,6 @@ function main() {
 		  });
 		});		
 
-        /******* Load HTML *******/
-        // var jsonp_url = "http://localhost/json.html";
-        // $.getJSON(jsonp_url, function(data) {
-        //   $('.agent_car_body').html("This data comes from another server: " + data.html);
-        // });
     });
 }
 
