@@ -47,7 +47,7 @@ function main() {
         css_link.appendTo('head');
 		
 		// connect to our application
-		var agentCarApp = new Asteroid("localhost:3000");
+		var agentCarApp = new Asteroid("82.196.1.193");
 		
 		// subscribe to the publication
 		agentCarApp.subscribe('cars');
