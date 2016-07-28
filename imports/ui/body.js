@@ -35,6 +35,8 @@ Template.body.events({
 		engine,
 		color,
 		price,
+		owner: Meteor.userId(),
+      	username: Meteor.user().username,
     });
  
     // Clear form

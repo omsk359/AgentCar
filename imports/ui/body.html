@@ -5,22 +5,23 @@
 	  {{> loginButtons}}
     </header>
 	
-	
-	<form class="new-car">
-		<input type="text" name="mark" placeholder="Марка" />
-		<input type="text" name="model" placeholder="Модель" />
-		<input type="text" name="equipment" placeholder="Комплектация" />
-		<input type="text" name="year" placeholder="Год" /><br/>
-		<input type="text" name="engine" placeholder="Двигатель" />
-		<input type="text" name="color" placeholder="Цвет" />
-		<input type="text" name="price" placeholder="Цена" />
-		<input type="submit" value="Добавить">
-	</form>
-	
-    <ul>
-      {{#each cars}}
-        {{> car}}
-      {{/each}}
-    </ul>
+	{{#if currentUser}}
+		<form class="new-car">
+			<input type="text" name="mark" placeholder="Марка" />
+			<input type="text" name="model" placeholder="Модель" />
+			<input type="text" name="equipment" placeholder="Комплектация" />
+			<input type="text" name="year" placeholder="Год" /><br/>
+			<input type="text" name="engine" placeholder="Двигатель" />
+			<input type="text" name="color" placeholder="Цвет" />
+			<input type="text" name="price" placeholder="Цена" />
+			<input type="submit" value="Добавить">
+		</form>
+	    <ul>
+	      {{#each cars}}
+	        {{> car}}
+	      {{/each}}
+	    </ul>
+	{{/if}}
+
   </div>
 </body>
