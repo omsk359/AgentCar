@@ -1,0 +1,7 @@
+<template name="car">
+	<li class="{{#if checked}}checked{{/if}}">
+	    <button class="delete">&times;</button>
+	    <input type="checkbox" checked="{{checked}}" class="toggle-checked" />
+		<span class="text">{{mark}} {{model}} {{equipment}} {{year}} / {{engine}} / {{color}} - {{price}} р.</span>
+	</li>
+</template>

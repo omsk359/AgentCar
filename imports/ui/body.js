@@ -1,7 +1,8 @@
 import { Template } from 'meteor/templating';
  
 import { Cars } from '../api/cars.js';
- 
+
+import './car.js'; 
 import './body.html';
  
 Template.body.helpers({
