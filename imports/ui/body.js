@@ -25,19 +25,9 @@ Template.body.events({
     const engine = target.engine.value;
     const color = target.color.value;
     const price = target.price.value;
- 
-    // Insert a task into the collection
-    Cars.insert({
-		mark,
-		model,
-		equipment,
-		year,
-		engine,
-		color,
-		price,
-		owner: Meteor.userId(),
-      	username: Meteor.user().username,
-    });
+	
+	// Insert a task into the collection
+    Meteor.call('cars.insert', mark, model, equipment, year, engine, color, price);
  
     // Clear form
     target.mark.value = '';
