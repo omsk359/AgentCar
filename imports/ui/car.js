@@ -3,6 +3,12 @@ import { Template } from 'meteor/templating';
 import { Cars } from '../api/cars.js';
  
 import './car.html';
+
+Template.car.helpers({
+	isOwner() {
+		return this.owner === Meteor.userId();
+	},
+});
  
 Template.car.events({
 	'click .toggle-checked'() {

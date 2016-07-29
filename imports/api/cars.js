@@ -4,6 +4,13 @@ import { check } from 'meteor/check';
  
 export const Cars = new Mongo.Collection('cars');
 
+if (Meteor.isServer) {
+	// This code only runs on the server
+	Meteor.publish('cars', function carsPublication() {
+		return Cars.find({ owner: this.userId });
+	});
+}
+
 Meteor.methods({
 	'cars.insert'(mark, model, equipment, year, engine, color, price, photo) {
 		check(mark, String);

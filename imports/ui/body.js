@@ -1,14 +1,22 @@
 import { Template } from 'meteor/templating';
+import { ReactiveDict } from 'meteor/reactive-dict';
  
 import { Cars } from '../api/cars.js';
 
 import './car.js'; 
 import './body.html';
+
+Template.body.onCreated(function bodyOnCreated() {
+	this.state = new ReactiveDict();
+	Meteor.subscribe('cars');
+});
  
 Template.body.helpers({
-  cars() {
-    return Cars.find({}, { sort: { price: -1 } });
-  },
+	cars() {
+		return Cars.find({ },
+			{ sort: { price: -1 },
+		});
+	},
 });
 
 Template.body.events({
