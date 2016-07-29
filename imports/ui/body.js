@@ -25,9 +25,10 @@ Template.body.events({
     const engine = target.engine.value;
     const color = target.color.value;
     const price = target.price.value;
+    const photo = target.photo.value;
 	
 	// Insert a task into the collection
-    Meteor.call('cars.insert', mark, model, equipment, year, engine, color, price);
+    Meteor.call('cars.insert', mark, model, equipment, year, engine, color, price, photo);
  
     // Clear form
     target.mark.value = '';
@@ -37,5 +38,6 @@ Template.body.events({
     target.engine.value = '';
     target.color.value = '';
     target.price.value = '';
+    target.photo.value = '';
   },
 });

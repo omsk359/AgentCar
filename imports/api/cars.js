@@ -5,7 +5,7 @@ import { check } from 'meteor/check';
 export const Cars = new Mongo.Collection('cars');
 
 Meteor.methods({
-	'cars.insert'(mark, model, equipment, year, engine, color, price) {
+	'cars.insert'(mark, model, equipment, year, engine, color, price, photo) {
 		check(mark, String);
 		check(model, String);
 		check(equipment, String);
@@ -13,6 +13,7 @@ Meteor.methods({
 		check(engine, String);
 		check(color, String);
 		check(price, String);
+		check(photo, String);
 
 		// Make sure the user is logged in before inserting a task
 		if (! this.userId) {
@@ -27,6 +28,7 @@ Meteor.methods({
 			engine,
 			color,
 			price,
+			photo,
 			//      createdAt: new Date(),
 			owner: this.userId,
 			username: Meteor.users.findOne(this.userId).username,
