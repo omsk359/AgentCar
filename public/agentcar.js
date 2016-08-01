@@ -3,7 +3,11 @@
 // Localize jQuery variable
 var jQuery;
 
+<<<<<<< HEAD
 // var ACurl = "localhost:3000";
+=======
+//var ACurl = "localhost:3000";
+>>>>>>> master
 var ACurl = "95.85.15.40";
 
 /******** Load jQuery if not present *********/
@@ -97,11 +101,11 @@ function main() {
 				
 				switch(true) {
 					case (ac_form_cash >= 470000 && ac_form_cash <= 530000): {
-						ac_return = '<div class="agent_car_return"><h3>Мы нашли для вас</h3><div class="agent_car_return_"><img src="/img/picanto1.jpg" width="250"/></div></div>';
+						ac_return = '<div class="agent_car_return"><h3>Мы нашли для вас</h3><div class="agent_car_return_"><img src="http://'+ ACurl +'/img/picanto1.jpg" width="250"/></div></div>';
 						break;
 					}
 					case (ac_form_cash > 530000 && ac_form_cash <= 610000): {
-						ac_return = '<div class="agent_car_return"><h3>Мы нашли для вас</h3><div class="agent_car_return_"><img src="/img/picanto2.jpg" width="250"/></div></div>';
+						ac_return = '<div class="agent_car_return"><h3>Мы нашли для вас</h3><div class="agent_car_return_"><img src="http://'+ ACurl +'/img/picanto2.jpg" width="250"/></div></div>';
 						break;
 					}
 					default: {
@@ -120,7 +124,12 @@ function main() {
 // 		  result.forEach(function(result) {
 // 		    $('.agent_car_body').append('<li>' + result.model + '</li>');
 // 		  });
+<<<<<<< HEAD
 // 		});	
+=======
+// 		});
+	
+>>>>>>> master
 
     });
 }
