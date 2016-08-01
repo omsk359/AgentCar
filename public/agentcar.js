@@ -120,12 +120,6 @@ function main() {
 // 		  result.forEach(function(result) {
 // 		    $('.agent_car_body').append('<li>' + result.model + '</li>');
 // 		  });
-<<<<<<< HEAD
-// 		});	
-=======
-// 		});
-	
->>>>>>> master
 
     });
 }
