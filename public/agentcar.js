@@ -3,8 +3,8 @@
 // Localize jQuery variable
 var jQuery;
 
-//var ACurl = "localhost:3000";
-var ACurl = "146.185.180.153";
+var ACurl = "localhost:3000";
+//var ACurl = "95.85.15.40";
 
 /******** Load jQuery if not present *********/
 if (window.jQuery === undefined || window.jQuery.fn.jquery !== '3.0.0') {
