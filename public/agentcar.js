@@ -3,11 +3,7 @@
 // Localize jQuery variable
 var jQuery;
 
-<<<<<<< HEAD
-// var ACurl = "localhost:3000";
-=======
 //var ACurl = "localhost:3000";
->>>>>>> master
 var ACurl = "95.85.15.40";
 
 /******** Load jQuery if not present *********/
