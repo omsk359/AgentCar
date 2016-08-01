@@ -14,7 +14,7 @@ Template.body.onCreated(function bodyOnCreated() {
 Template.body.helpers({
 	cars() {
 		return Cars.find({ },
-			{ sort: { price: -1 },
+			{ sort: { mark: 1, model: 1, equipment: 1 },
 		});
 	},
 });

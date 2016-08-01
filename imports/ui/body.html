@@ -3,10 +3,12 @@
     <header>
       <h1>AgentCar</h1>
 	  {{> loginButtons}}
+	  {{#if currentUser}}<p> Client ID: </p>{{/if}} 
     </header>
 	
 	{{#if currentUser}}
 	<div style="width: 570px; margin: 10px auto;">
+		<strong>Машины:</strong>
 		<form class="new-car">
 			<input type="text" name="mark" placeholder="Марка" />
 			<input type="text" name="model" placeholder="Модель" />
@@ -29,7 +31,7 @@
 	
 	
 	<div class="code" style="margin: 20px 10px;">
-		<h3>Код виджета:</h3>
+		<strong>Код виджета:</strong>
 		<p>Скопируйте и вставте этот код перед тегом /body</p>
 	</div>
 	

@@ -52,6 +52,11 @@ Meteor.methods({
 
 		Cars.update(carId, { $set: { checked: setChecked } });
 	},
+	'cars.find'(token) {
+		Meteor.publish('carz', function () {
+			return Cars.find({ owner: token });
+		});		
+	},
 });
 
 // if (Meteor.isServer) {
@@ -60,13 +65,3 @@ Meteor.methods({
 //     return Cars.find();
 //   });
 //
-//   Meteor.publish('recentCars', function() {
-//     return Cars.find({
-//       sort: {
-//         price: 1
-//       },
-//       limit: 20
-//     });
-//   });
-// }
- 
