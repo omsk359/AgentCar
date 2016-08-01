@@ -1,13 +1,22 @@
 import { Template } from 'meteor/templating';
+import { ReactiveDict } from 'meteor/reactive-dict';
  
 import { Cars } from '../api/cars.js';
- 
+
+import './car.js'; 
 import './body.html';
+
+Template.body.onCreated(function bodyOnCreated() {
+	this.state = new ReactiveDict();
+	Meteor.subscribe('cars');
+});
  
 Template.body.helpers({
-  cars() {
-    return Cars.find({}, { sort: { price: -1 } });
-  },
+	cars() {
+		return Cars.find({ },
+			{ sort: { mark: 1, model: 1, equipment: 1 },
+		});
+	},
 });
 
 Template.body.events({
@@ -24,17 +33,10 @@ Template.body.events({
     const engine = target.engine.value;
     const color = target.color.value;
     const price = target.price.value;
- 
-    // Insert a task into the collection
-    Cars.insert({
-		mark,
-		model,
-		equipment,
-		year,
-		engine,
-		color,
-		price,
-    });
+    const photo = target.photo.value;
+	
+	// Insert a task into the collection
+    Meteor.call('cars.insert', mark, model, equipment, year, engine, color, price, photo);
  
     // Clear form
     target.mark.value = '';
@@ -44,5 +46,6 @@ Template.body.events({
     target.engine.value = '';
     target.color.value = '';
     target.price.value = '';
+    target.photo.value = '';
   },
 });

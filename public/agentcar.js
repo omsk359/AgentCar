@@ -3,7 +3,11 @@
 // Localize jQuery variable
 var jQuery;
 
+<<<<<<< HEAD
+// var ACurl = "localhost:3000";
+=======
 //var ACurl = "localhost:3000";
+>>>>>>> master
 var ACurl = "95.85.15.40";
 
 /******** Load jQuery if not present *********/
@@ -54,9 +58,9 @@ function main() {
 		
 		// subscribe to the publication
 		agentCarApp.subscribe('cars');
-		
+		//
 		var carsCollection = agentCarApp.getCollection('cars');
-		var recentCars = carsCollection.reactiveQuery({});
+		var Cars = carsCollection.reactiveQuery({});
 		
 		var ac_html = '<div class="agent_car_border"><div class="agent_car_body"><form class="agent_car_form" action="" id="agent_car_form"></form><div class="agent_car_logo"></div></div></div>',
 			ac_logo = '<a href="#"><img src="http://'+ ACurl +'/agentcar.png" width="92" height="92" alt="AgentСar"/></a>',
@@ -64,7 +68,7 @@ function main() {
 			ac_form_want = '<div class="agent_car_group"><label for="agent_car_mark">Я хочу KIA</label><div class="agent_car_cell"><select name="agent_car_mark" id=""><option value="Любую">Любую</option><option value="picanto">Picanto</option><option value="Rio">Rio</option><option value="Ceed">Ceed</option><option value="Pro Ceed">Pro Ceed</option><option value="Sportage">Sportage</option></select></div></div>',
 			ac_i_have = '<div class="agent_car_group"><label for="agent_car_i_have">У меня есть</label><div class="agent_car_cell"><input name="agent_car_i_have" id="agent_car_i_have" type="text" value=""/></div></div>',
 			ac_i_credit = '<div class="agent_car_group"><label for="agent_car_credit">Я хочу кредит</label><div class="agent_car_cell"><input name="agent_car_credit" id="agent_car_credit" type="checkbox" value=""/></div></div>',
-			ac_i_credit_pay = '<div class="agent_car_group" id="agent_car_credit_pay"><label for="agent_car_credit_pay">с ежимесячным платежом</label><div class="agent_car_cell"><input name="agent_car_credit_pay" id="agent_car_credit_pay" type="text" value="10000"/></div></div>',
+			ac_i_credit_pay = '<div class="agent_car_group" id="agent_car_credit_pay"><label for="agent_car_credit_pay">с ежемесячным платежом</label><div class="agent_car_cell"><input name="agent_car_credit_pay" id="agent_car_credit_pay" type="text" value="10000"/></div></div>',
 			ac_i_credit_time = '<div class="agent_car_group" id="agent_car_credit_time"><label for="agent_car_credit_time">сроком на</label><div class="agent_car_cell"><select name="agent_car_credit_time" id="agent_car_credit_time"><option value="12">12</option><option value="24">24</option><option value="36">36</option><option value="60">60</option></select></div></div>',
 			ac_trade_in = '<div class="agent_car_group"><label for="agent_car_trade_in">Хочу Trade-In</label><div class="agent_car_cell"><input name="agent_car_trade_in" id="agent_car_trade_in" type="checkbox" value=""/></div></div>',
 			ac_cost = '<div class="agent_car_group" id="agent_car_my_car_cost"><label for="agent_car_my_car_cost">Моя машина стоит</label><div class="agent_car_cell"><input name="agent_car_my_car_cost" id="agent_car_my_car_cost" type="text" value=""/></div></div>',
@@ -120,8 +124,12 @@ function main() {
 // 		  result.forEach(function(result) {
 // 		    $('.agent_car_body').append('<li>' + result.model + '</li>');
 // 		  });
+<<<<<<< HEAD
+// 		});	
+=======
 // 		});
 	
+>>>>>>> master
 
     });
 }
