@@ -1,15 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 import { check } from 'meteor/check';
- 
-export const Cars = new Mongo.Collection('cars');
-
-if (Meteor.isServer) {
-	// This code only runs on the server
-	Meteor.publish('cars', function carsPublication() {
-		return Cars.find({ owner: this.userId });
-	});
-}
 
 Meteor.methods({
 	'cars.insert'(mark, model, equipment, year, engine, color, price, photo) {
@@ -55,13 +46,6 @@ Meteor.methods({
 	'cars.find'(token) {
 		Meteor.publish('carz', function () {
 			return Cars.find({ owner: token });
-		});		
+		});
 	},
 });
-
-// if (Meteor.isServer) {
-//   // This code only runs on the server
-//   Meteor.publish('cars', function carsPublication() {
-//     return Cars.find();
-//   });
-//
