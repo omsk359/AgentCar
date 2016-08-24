@@ -3,7 +3,7 @@ import React from 'react';
 const About = () => {
     return (
         <div>
-            Super our project!  
+            Our1 super project!  
         </div>
     )
 };

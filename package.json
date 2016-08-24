@@ -1,5 +1,5 @@
 {
-  "name": "widget",
+  "name": "AgentCar",
   "private": true,
   "scripts": {
     "start": "meteor run"
