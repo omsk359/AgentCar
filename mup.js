@@ -1,7 +1,7 @@
 module.exports = {
   servers: {
     one: {
-      host: '45.62.240.62',
+      host: 'debian359.tk',
       username: 'root',
       // pem:
       // password:

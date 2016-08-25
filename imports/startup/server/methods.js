@@ -1,6 +1,12 @@
 import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 import { check } from 'meteor/check';
+import Cars from '/imports/common/collections/cars';
+import Statistics from '/imports/common/collections/Statistics';
+import QueriesHistory from '/imports/common/collections/QueriesHistory';
+import _ from 'lodash';
+
+const delta = 50000;
 
 Meteor.methods({
 	'cars.insert'(mark, model, equipment, year, engine, color, price, photo) {
@@ -28,7 +34,7 @@ Meteor.methods({
 			price,
 			photo,
 			//      createdAt: new Date(),
-			owner: this.userId,
+			ownerId: this.userId,
 			username: Meteor.users.findOne(this.userId).username,
 		});
 	},
@@ -43,9 +49,55 @@ Meteor.methods({
 
 		Cars.update(carId, { $set: { checked: setChecked } });
 	},
-	'cars.find'(token) {
-		Meteor.publish('carz', function () {
-			return Cars.find({ owner: token });
-		});
+
+	availableMarkNames(ownerId) {
+		check(ownerId, String);
+
+		Meteor.call('onWidgetLoaded', ownerId);
+
+		return Cars.distinct('mark', { ownerId });
 	},
+
+	onWidgetOpen(ownerId) {
+		check(ownerId, String);
+
+		Statistics.update({ ownerId }, { $inc: { widgetOpen: 1 } }, { upsert: true });
+	},
+	onWidgetLoaded(ownerId) {
+		check(ownerId, String);
+
+		Statistics.update({ ownerId }, { $inc: { widgetLoaded: 1 } }, { upsert: true });
+	},
+
+	carsByParams({ ownerId, mark, ac_form_i_have, ac_form_credit_pay = 0,
+						  		ac_form_credit_time = 0, ac_form_car_cost = 0 }) {
+		console.log('Params: ', arguments);
+		check(ownerId, String);
+		check(mark, String);
+		check(ac_form_i_have, Number);
+		check(ac_form_credit_pay, Number);
+		check(ac_form_credit_time, Number);
+		check(ac_form_car_cost, Number);
+
+		var ac_form_cash = ac_form_i_have + ac_form_credit_pay * ac_form_credit_time + ac_form_car_cost;
+		var ac_gte_cash = ac_form_cash - delta;
+		var ac_lte_cash = ac_form_cash + delta;
+		// console.log(`gte: ${ac_gte_cash}; lte: ${ac_lte_cash}`);
+		// console.log(`Cars: ${Cars.find({ mark, price: { $gte: ac_gte_cash, $lte: ac_lte_cash } }).count()}`);
+
+		var foundCars =  Cars.find({
+			ownerId, mark, checked: true,
+			price: { $gte: ac_gte_cash, $lte: ac_lte_cash }
+		}).fetch();
+
+		QueriesHistory.insert({ ownerId,
+			query: {
+				mark, ac_form_i_have, ac_form_credit_pay, ac_form_credit_time, ac_form_car_cost
+			},
+			result: _.map(foundCars, '_id')
+		});
+		Statistics.update({ ownerId }, { $inc: { queries: 1 } }, { upsert: true });
+
+		return foundCars;
+	}
 });
