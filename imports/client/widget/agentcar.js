@@ -1,7 +1,10 @@
 import Asteroid from './lib/asteroid.browser';
 
+// widget root
+$('<div class="agent_car_widget"></div>').insertAfter(document.currentScript);
 
-const ownerId = 'kZD2WwvnheG9RCwwD';
+// window.$ = $; // for debug
+const ownerId = $(document.currentScript).data('userid');
 // const ACurl = "localhost:3000";
 // const ACurl = "198.211.121.66";
 const ACurl = 'debian359.tk';
@@ -15,9 +18,9 @@ var rq = statistics.reactiveQuery({});
 rq.on('change', function() {
     console.log('CHANGE! ', rq.result);
     const [{ queries, widgetLoaded, widgetOpen }] = rq.result;
-    $('#widget_stat').remove();
+    $('#agent_car_widget_stat').remove();
     $('.agent_car_body').append(
-        `<div id="widget_stat">
+        `<div id="agent_car_widget_stat">
             Открытий/загрузок виджета: ${widgetOpen||0}/${widgetLoaded||0};
             Отправлено форм: ${queries||0}
         </div>`
