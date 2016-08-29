@@ -1,42 +1,48 @@
 import Asteroid from './lib/asteroid.browser';
 
-// widget root
-$('<div class="agent_car_widget"></div>').insertAfter(document.currentScript);
-
-// window.$ = $; // for debug
-const ownerId = $(document.currentScript).data('userid');
 // const ACurl = "localhost:3000";
 // const ACurl = "198.211.121.66";
 const ACurl = 'debian359.tk';
 
+require('./agentcar.css');
+
+const DEBUG = typeof localStorage != 'undefined' && !!localStorage.getItem('agentCarDebug')
+
+const ac_maket = require('html!./ac_maket.html');
+DEBUG && console.log('maket: ', ac_maket);
+
+const ac_result = require('html!./ac_result.html');
+DEBUG && console.log('ac_result: ', ac_result);
+
+const ownerId = $(document.currentScript).data('id');
 const asteroid = new Asteroid(ACurl);
 
-asteroid.subscribe('statistics', ownerId);
-var statistics = asteroid.getCollection('statistics');
-var rq = statistics.reactiveQuery({});
+if (DEBUG) {
+    window.$ = $; // make jq available for debug
 
-rq.on('change', function() {
-    console.log('CHANGE! ', rq.result);
-    const [{ queries, widgetLoaded, widgetOpen }] = rq.result;
-    $('#agent_car_widget_stat').remove();
-    $('.agent_car_body').append(
-        `<div id="agent_car_widget_stat">
-            Открытий/загрузок виджета: ${widgetOpen||0}/${widgetLoaded||0};
-            Отправлено форм: ${queries||0}
-        </div>`
-    );
-});
+    asteroid.subscribe('statistics', ownerId);
+    var statistics = asteroid.getCollection('statistics');
+    var rq = statistics.reactiveQuery({});
 
-function updateMarkNames() {
-    asteroid.call("availableMarkNames", ownerId).result
+    rq.on('change', function() {
+        DEBUG && console.log('CHANGE! ', rq.result);
+        const [{ queries, widgetLoaded, widgetOpen }] = rq.result;
+        $('#agent_car_widget_stat').remove();
+        $('.agent_car_body').append(
+            `<div id="agent_car_widget_stat">
+                Открытий/загрузок виджета: ${widgetOpen||0}/${widgetLoaded||0};
+                Отправлено форм: ${queries||0}
+            </div>`
+        );
+    });
+}
+
+function availableMarksModels(cb) {
+    asteroid.call('availableMarksModels', ownerId).result
         .then(result => {
-            console.log("availableMarkNames Success");
-            console.log(result);
-            // $('select#agent_car_mark option').remove();
-            $('select#agent_car_mark').empty();
-            result.forEach(mark => {
-                $('select#agent_car_mark').append(`<option value="${mark}">${mark}</option>`);
-            });
+            DEBUG && console.log("availableMarksModels Success");
+            DEBUG && console.log(result);
+            cb(result);
         })
         .catch(error => {
             console.log("availableMarkNames Error");
@@ -45,10 +51,10 @@ function updateMarkNames() {
 }
 
 function filterByParams(params, cb) {
-    console.log('Params: ', { ...params, ownerId });
+    DEBUG && console.log('Params: ', { ...params, ownerId });
     asteroid.call("carsByParams", { ...params, ownerId }).result
     .then(result => {
-        console.log("carsByParams Success: ", result);
+        DEBUG && console.log("carsByParams Success: ", result);
         cb(result);
     }).catch(error => {
         console.log("carsByParams Error");
@@ -59,158 +65,110 @@ function filterByParams(params, cb) {
 function onWidgetOpen() {
     asteroid.call("onWidgetOpen", ownerId).result
     .then(result => {
-        console.log("onWidgetOpen Success: ", result);
+        DEBUG && console.log("onWidgetOpen Success: ", result);
     }).catch(error => {
         console.log("onWidgetOpen Error");
         console.error(error);
     });
 }
 
-$(document).ready(function() {
-    /* Load CSS ***/
-    var css_link = $("<link>", {
-        rel: "stylesheet",
-        type: "text/css",
-        href: "http://" + ACurl + "/agentcar.css"
+function showSearchResults(results) {
+    DEBUG && console.log('Total results: ', results.length);
+
+    $('.agent_car_form').hide();
+    $('.agent_car_result_block').show();
+
+    $('.agent_car_result').empty();
+    $('.agent_car_result_link').empty();
+
+    const onSelect_i = i => {
+        const result = results[i];
+        $('.ac_link_active').removeClass('ac_link_active');
+        $(`.agent_car_result_link a:eq(${i})`).addClass('ac_link_active');
+        $('.agent_car_result').replaceWith(
+            `<div class="agent_car_result">
+                <div class="agent_car_mark">
+                    <strong>${result.mark} ${result.model}</strong><br/>
+                    <img src="${result.photo}" width="130"/>
+                </div>
+                <div class="agent_car_equip">
+                    <br/>${result.equipment}
+                    <br/>${result.engine}
+                    <br/>${result.color}<br/>
+                    <div class="agent_car_price">${result.price} Р</div>
+                </div>
+            </div>`
+        );
+    };
+    if (results.length > 1)
+        results.forEach((result, i) => {
+            $('.agent_car_result_link').append(`<a href="#">${i+1}</a>`);
+            $('.agent_car_result_link a:last').click(onSelect_i.bind(null, i));
+         });
+    if (results.length) {
+        $('.agent_car_return h3').text('Мы нашли для Вас');
+        onSelect_i(0);
+    } else
+        $('.agent_car_return h3').text('Мы ничего для Вас не нашли');
+}
+
+function initSearchResults() {
+    $('.agent_car_search').click(() => {
+        $('.agent_car_form').show();
+        $('.agent_car_result_block').hide();
     });
-    css_link.appendTo('head');
+}
+function initMaket() {
+    $('.agent_car_result_block').hide();
 
-    var ac_html = `
-    <div class="agent_car_border">
-        <div class="agent_car_body">
-            <form class="agent_car_form" action="" id="agent_car_form">
-                <div class="agent_car_group">
-                    <label for="agent_car_mark">Я хочу машину</label>
-                    <div class="agent_car_cell">
-                        <select name="agent_car_mark" id="agent_car_mark">
-                            <option value="">Любую</option>
-                            <option value="Picanto">Picanto</option>
-                            <option value="Rio">Rio</option>
-                            <option value="Ceed">Ceed</option>
-                            <option value="Pro Ceed">Pro Ceed</option>
-                            <option value="Sportage">Sportage</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="agent_car_group">
-                    <label for="agent_car_i_have">У меня есть</label>
-                    <div class="agent_car_cell">
-                        <input name="agent_car_i_have" id="agent_car_i_have" type="text" value="" />
-                    </div>
-                </div>
-                <div class="agent_car_group">
-                    <label for="agent_car_credit">Я хочу кредит</label>
-                    <div class="agent_car_cell">
-                        <input name="agent_car_credit" id="agent_car_credit" type="checkbox" value="" />
-                    </div>
-                </div>
-                <div class="agent_car_group" id="agent_car_credit_pay">
-                    <label for="agent_car_credit_pay">с ежемесячным платежом</label>
-                    <div class="agent_car_cell">
-                        <input name="agent_car_credit_pay" id="agent_car_credit_pay" type="text" />
-                    </div>
-                </div>
-                <div class="agent_car_group" id="agent_car_credit_time">
-                    <label for="agent_car_credit_time">сроком на</label>
-                    <div class="agent_car_cell">
-                        <select name="agent_car_credit_time" id="agent_car_credit_time">
-                            <option value="12">12</option>
-                            <option value="24">24</option>
-                            <option value="36">36</option>
-                            <option value="60">60</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="agent_car_group">
-                    <label for="agent_car_trade_in">Хочу Trade-In</label>
-                    <div class="agent_car_cell">
-                        <input name="agent_car_trade_in" id="agent_car_trade_in" type="checkbox" value="" />
-                    </div>
-                </div>
-                <div class="agent_car_group" id="agent_car_my_car_cost">
-                    <label for="agent_car_my_car_cost">Моя машина стоит</label>
-                    <div class="agent_car_cell">
-                        <input name="agent_car_my_car_cost" id="agent_car_my_car_cost" type="text" value="" />
-                    </div>
-                </div>
-                <div class="agent_car_group">
-                    <label for="agent_car_run_in">Рассматриваем авто с пробегом?</label>
-                    <div class="agent_car_cell">
-                        <input name="agent_car_trade_in" type="checkbox" value="" />
-                    </div>
-                </div>
-                <input type="submit" name="go" class="agent_car_search" value="Что Вы можете мне предложить?" />
+    $( "[name=agent_car_credit_pay]" ).hide();
+	$( "[name=agent_car_credit_time]" ).hide();
+	$( "[name=agent_car_my_car_cost]" ).hide();
 
-            </form>
-            <div class="agent_car_logo">
-                <a href="#"><img src="http://${ACurl}/agentcar.png" width="92" height="92" alt="AgentСar" />
-                </a>
-            </div>
-            <div class="agent_car_return"></div>
-        </div>
-    </div>
-`;
-
-	$( ".agent_car_widget" ).append( ac_html );
-
-    updateMarkNames();
-
-	$( "#agent_car_credit_pay" ).hide();
-	$( "#agent_car_credit_time" ).hide();
-	$( "#agent_car_my_car_cost" ).hide();
-
-	$('#agent_car_credit').click(function() {
-		$('#agent_car_credit_pay').toggle();
-		$('#agent_car_credit_time').toggle();
+	$('[name=agent_car_credit]').click(function() {
+		$('[name=agent_car_credit_pay]').toggle();
+		$('[name=agent_car_credit_time]').toggle();
 	});
 
-	$('#agent_car_trade_in').click(function() {
-		$('#agent_car_my_car_cost').toggle();
+	$('[name=agent_car_trade_in]').click(function() {
+		$('[name=agent_car_my_car_cost]').toggle();
 	});
 
-    $('.agent_car_logo').click(()  => {
-        onWidgetOpen();
-    });
+    $('.agent_car_logo').click(onWidgetOpen);
 
-	$('#agent_car_form').submit(function(e) {
-        e.preventDefault();
+	$('.agent_car_form').submit(function(e) {
+        var ac_form_i_have = +$("input[name=agent_car_i_have]").val(),
+            ac_form_credit_pay = +$("input[name=agent_car_credit_pay]").val(),
+            ac_form_credit_time = +$("select[name=agent_car_credit_time]").val(),
+            ac_form_car_cost = +$("input[name=agent_car_my_car_cost]").val(),
+            model = $("select[name=agent_car_mark]").val();
 
-        $('#agent_car_form').hide();
-        var ac_form_i_have = +$("input#agent_car_i_have").val(),
-            ac_form_credit_pay = +$("input#agent_car_credit_pay").val(),
-            ac_form_credit_time = +$("select#agent_car_credit_time").val(),
-            ac_form_car_cost = +$("input#agent_car_my_car_cost").val(),
-            mark = $("select#agent_car_mark").val();
-            // ac_return = '<div class="agent_car_return"></div>';
-        const params = {
-            ac_form_i_have, ac_form_credit_pay,
-            ac_form_credit_time, ac_form_car_cost, mark
+        var params = {
+            ac_form_i_have,
+            ac_form_credit_pay: $('[name=agent_car_credit]').is(':checked') ? ac_form_i_have : 0,
+            ac_form_credit_time: $('[name=agent_car_credit]').is(':checked') ? ac_form_credit_time : 0,
+            ac_form_car_cost: $('[name=agent_car_trade_in]').is(':checked') ? ac_form_car_cost : 0,
+            model, mark: 'KIA'
         };
 
-        filterByParams(params, result => {
-             $('.agent_car_return').empty();
-             result.forEach(result => {
-                 $('.agent_car_return').append('<li>' + result.mark +' '+ result.model +' '+
-                                                     result.equipment +' '+ result.color +'</li>');
-             });
-        });
+        filterByParams(params, showSearchResults);
 
-        // switch(true) {
-        // 	case (ac_form_cash >= 470000 && ac_form_cash <= 530000): {
-        // 		ac_return = '<div class="agent_car_return"><h3>Мы нашли для вас</h3><div class="agent_car_return_"><img src="http://'+ ACurl +'/img/picanto1.jpg" width="250"/></div></div>';
-        // 		break;
-        // 	}
-        // 	case (ac_form_cash > 530000 && ac_form_cash <= 610000): {
-        // 		ac_return = '<div class="agent_car_return"><h3>Мы нашли для вас</h3><div class="agent_car_return_"><img src="http://'+ ACurl +'/img/picanto2.jpg" width="250"/></div></div>';
-        // 		break;
-        // 	}
-        // 	default: {
-        // 		ac_return = '<div class="ac_return"><h3>Сегодня мы не нашли для Вас автомобиль :( но, мы сообщим Вам сразу, когда он появится! '+ ac_form_cash +'</h3></div>';
-        // 		break;
-        // 	}
-        // }
-
+        e.preventDefault();
 		return false;
     });
+}
 
+$(document).ready(function() {
+    $('body').append(ac_maket);
+    $('.agent_car_body').append(ac_result);
+    initMaket();
+    availableMarksModels(result => {
+        var kiaModels = _.chain(result).filter(car => car.mark == 'KIA').map('model').value();
+        DEBUG && console.log('KIA models: ', kiaModels);
+        $('select[name=agent_car_mark]').empty();
+        kiaModels.forEach(model => {
+            $('select[name=agent_car_mark]').append(`<option value="${model}">${model}</option>`);
+        });
+    });
+    initSearchResults();
 });

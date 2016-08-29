@@ -7,7 +7,7 @@ export default class About extends React.Component {
         script.src = '/agentcar.js';
         script.async = true;
         Object.assign(script, { type: 'text/javascript', charset: 'UTF-8' });
-        script.setAttribute('data-userid', 'kZD2WwvnheG9RCwwD');
+        script.setAttribute('data-id', 'kZD2WwvnheG9RCwwD');
 
         document.body.appendChild(script);
     }

@@ -4,7 +4,9 @@ var webpack = require('webpack'),
 module.exports = {
     entry: "./agentcar.js",
     output: {
-        filename: "../../../public/agentcar.js"
+        filename: "../../../public/agentcar.js",
+        publicPath: "http://debian359.tk/"
+        // publicPath: "http://localhost:3000/"
     },
     module: {
         loaders: [
@@ -15,7 +17,9 @@ module.exports = {
 		        query: {
 			        presets: ['es2015', 'stage-2']
 		        }
-            }
+            },
+            { test: /\.(png|jpg)$/, loader: "file-loader?name=[path][name].[ext]" },
+            { test: /\.css$/, loader: "style-loader!css-loader" }
         ]
     },
     resolve: {
@@ -27,6 +31,7 @@ module.exports = {
             jQuery: "jquery",
             "window.jQuery": "jquery",
             DDP: path.resolve(__dirname, './lib/ddp'),
+            _: 'lodash',
             Q: 'q'
         }),
         new webpack.optimize.UglifyJsPlugin({ minimize: true, compress: { warnings: false } })
