@@ -62,10 +62,11 @@
   background: #404041;
   border-radius: 20px 0px;
   border: solid 5px #fff;
+  padding-left: 7px;
 }
 .agent_car_widget .agent_car_body .agent_car_form {
-  margin-left: 5px;
-  margin-bottom: 13px;
+  /*	margin-left: 5px;
+			margin-bottom: 13px; */
 }
 .agent_car_widget .agent_car_body .agent_car_group {
   width: 350px;
@@ -97,4 +98,41 @@
 }
 .agent_car_widget .agent_car_body .agent_car_search:hover {
   background-color: #ac1c29;
+}
+.agent_car_widget .agent_car_body .agent_car_return {
+  color: white;
+}
+.agent_car_widget .agent_car_body .agent_car_return h3 {
+  padding: 0px 10px 3px 10px;
+}
+.agent_car_widget .agent_car_body .agent_car_result_link {
+  text-align: center;
+}
+.agent_car_widget .agent_car_body .agent_car_result_link a {
+  padding: 2px 2px;
+  text-decoration: none;
+  font-size: 14px;
+}
+.agent_car_widget .agent_car_body .agent_car_result_link a:hover,
+.agent_car_widget .agent_car_body .agent_car_result_link .ac_link_active {
+  text-decoration: underline;
+}
+.agent_car_widget .agent_car_body .agent_car_result {
+  display: table;
+  color: white;
+  width: 300px;
+  padding: 10px 10px;
+  background-color: #000;
+  border: solid 1px #999;
+  border-radius: 15px 0px;
+}
+.agent_car_widget .agent_car_body .agent_car_result .agent_car_equip,
+.agent_car_widget .agent_car_body .agent_car_result .agent_car_mark {
+  display: table-cell;
+  width: 150px;
+  height: 100px;
+}
+.agent_car_widget .agent_car_body .agent_car_result .agent_car_price {
+  font-size: 22px;
+  padding-top: 7px;
 }
