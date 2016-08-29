@@ -1,5 +1,5 @@
 .agent_car_widget {
-  position: absolute;
+  position: fixed;
   right: 10px;
   bottom: 20px;
   font-family: Halvetica, Verdana, Arial;
@@ -16,6 +16,10 @@
 .agent_car_widget a {
   color: #fff;
 }
+.agent_car_widget .agent_car_body,
+.agent_car_widget .agent_car_border {
+  display: none;
+}
 .agent_car_widget .agent_car_border {
   margin-top: 26px;
   border: solid 1px #ccc;
@@ -27,7 +31,7 @@
   left: 30px;
   top: 0;
   width: 118px;
-  height: 65px;
+  height: 115px;
   background: #BE1E2D;
   box-sizing: border-box;
   padding: 1em;
@@ -82,7 +86,8 @@
   width: 160px;
   text-align: right;
 }
-.agent_car_widget .agent_car_body input[type="text"] {
+.agent_car_widget .agent_car_body input[type="text"],
+.agent_car_widget .agent_car_body input[type="number"] {
   width: 70px;
   padding-left: 3px;
 }
