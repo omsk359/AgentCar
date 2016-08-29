@@ -28,7 +28,7 @@
 }
 .agent_car_widget .agent_car_logo {
   position: absolute;
-  left: 30px;
+  right: 30px;
   top: 0;
   width: 118px;
   height: 115px;
