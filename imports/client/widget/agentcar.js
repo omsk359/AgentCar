@@ -83,6 +83,11 @@ function showSearchResults(results) {
     $('.agent_car_result').empty();
     $('.agent_car_result_link').empty();
 
+    const formatPrice = (price, sep = ' ') =>
+        _.chain(price).split('').reverse().chunk(3)
+                      .map(arr => arr.reverse().join(''))
+                      .reverse().join(sep).value();
+
     const onSelect_i = i => {
         const result = results[i];
         $('.ac_link_active').removeClass('ac_link_active');
@@ -101,7 +106,7 @@ function showSearchResults(results) {
                     Объем: ${result.engine.capacity};
                     Мощность: ${result.engine.power}
                     <br/>${result.color}<br/>
-                    <div class="agent_car_price">${result.price} Р</div>
+                    <div class="agent_car_price">${formatPrice(result.price)} Р</div>
                 </div>
             </div>`
         );
@@ -148,7 +153,7 @@ function initMaket() {
     };
     var open = () => {
         $('.agent_car_logo').css('height', '65px');
-        $('.agent_car_logo').css('left', '30px');
+        $('.agent_car_logo').css('left', '200px');
         $('.agent_car_body').show();
         $('.agent_car_border').show();
         onWidgetOpen();
