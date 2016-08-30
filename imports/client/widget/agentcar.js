@@ -1,12 +1,14 @@
 import Asteroid from './lib/asteroid.browser';
 
+const DEBUG = typeof localStorage != 'undefined' && !!localStorage.getItem('agentCarDebug')
+const MARK = 'LADA';
+
 // const ACurl = "localhost:3000";
 // const ACurl = "198.211.121.66";
+// const ACurl = DEBUG ? 'localhost:3000' : 'debian359.tk';
 const ACurl = 'debian359.tk';
 
 require('./agentcar.css');
-
-const DEBUG = typeof localStorage != 'undefined' && !!localStorage.getItem('agentCarDebug')
 
 const ac_maket = require('html!./ac_maket.html');
 DEBUG && console.log('maket: ', ac_maket);
@@ -93,7 +95,11 @@ function showSearchResults(results) {
                 </div>
                 <div class="agent_car_equip">
                     <br/>${result.equipment}
-                    <br/>${result.engine}
+                    <br/>${result.carcase}
+                    <br/>
+                    Тип: ${result.engine.type};
+                    Объем: ${result.engine.capacity};
+                    Мощность: ${result.engine.power}
                     <br/>${result.color}<br/>
                     <div class="agent_car_price">${result.price} Р</div>
                 </div>
@@ -134,7 +140,25 @@ function initMaket() {
 		$('[name=agent_car_my_car_cost]').toggle();
 	});
 
-    $('.agent_car_logo').click(onWidgetOpen);
+    var close = () => {
+        $('.agent_car_logo').css('height', '105px');
+        $('.agent_car_logo').css('right', '30px');
+        $('.agent_car_body').hide();
+        $('.agent_car_border').hide();
+    };
+    var open = () => {
+        $('.agent_car_logo').css('height', '65px');
+        $('.agent_car_logo').css('left', '30px');
+        $('.agent_car_body').show();
+        $('.agent_car_border').show();
+        onWidgetOpen();
+    };
+
+    $('.agent_car_logo').click(() => {
+        var isOpen = !$('.agent_car_body').is(':hidden');
+        isOpen ? close() : open();
+    });
+    $('#agent_car_close_x').click(close);
 
 	$('.agent_car_form').submit(function(e) {
         var ac_form_i_have = +$("input[name=agent_car_i_have]").val(),
@@ -148,7 +172,8 @@ function initMaket() {
             ac_form_credit_pay: $('[name=agent_car_credit]').is(':checked') ? ac_form_i_have : 0,
             ac_form_credit_time: $('[name=agent_car_credit]').is(':checked') ? ac_form_credit_time : 0,
             ac_form_car_cost: $('[name=agent_car_trade_in]').is(':checked') ? ac_form_car_cost : 0,
-            model, mark: 'KIA'
+            model : model == '_ANY' ? '' : model,
+            mark: MARK
         };
 
         filterByParams(params, showSearchResults);
@@ -160,13 +185,20 @@ function initMaket() {
 
 $(document).ready(function() {
     $('body').append(ac_maket);
+
+    // replace KIA in the maket
+    var origText = $('.agent_car_group:eq(0) label').text();
+    $('.agent_car_group:eq(0) label').text(`${origText} ${MARK}`);
+    // $('.agent_car_group:eq(0) label').text(origText.replace(/\S+$/, MARK));
+
     $('.agent_car_body').append(ac_result);
     initMaket();
     availableMarksModels(result => {
-        var kiaModels = _.chain(result).filter(car => car.mark == 'KIA').map('model').value();
-        DEBUG && console.log('KIA models: ', kiaModels);
+        var models = _.chain(result).filter(car => car.mark == MARK).map('model').value();
+        DEBUG && console.log(`${MARK} models: `, models);
         $('select[name=agent_car_mark]').empty();
-        kiaModels.forEach(model => {
+        $('select[name=agent_car_mark]').append(`<option value="_ANY">_Любую</option>`);
+        models.forEach(model => {
             $('select[name=agent_car_mark]').append(`<option value="${model}">${model}</option>`);
         });
     });

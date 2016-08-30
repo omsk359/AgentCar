@@ -1,35 +1,44 @@
 import './methods';
 import '/imports/server/collections/cars';
 import '/imports/server/collections/Statistics';
+import _ from 'lodash';
 
 
 // for testing
 
 import Cars from '/imports/common/collections/cars';
+import { getCars } from './cars_xls';
 
-Cars.remove({});
 
-Cars.insert({ mark: 'KIA', model: 'PICANTO', equipment: 'Classic', k: 'хачбек', color: 'красный',
-    engine: 'вид: бензиновый; объем: 1.0; мощность: 66; кпп: 5МТ; ускорение: 14.6; расход бензина: 4.5',
-    price: 489000,
-    photo: 'http://img1.liveinternet.ru/images/attach/c/4/78/871/78871945_kia_picanto.jpg',
-    ownerId: 'kZD2WwvnheG9RCwwD',
-    checked: true
+getCars().then(CarsObjects => {
+    console.log('CarsObjects: ', CarsObjects);
+    console.log('CarsObjects prices: ', _.map(CarsObjects, 'price'));
+    console.log('CarsObjects prices: ', _.map(CarsObjects, 'photo'));
+    Cars.remove({});
+    CarsObjects.forEach(obj => Cars.insert(obj));
 });
-Cars.insert({ mark: 'KIA', model: 'RIO', equipment: 'Comfort', k: 'седан', color: 'синий',
-    engine: 'вид: бензиновый; объем: 1.4; мощность: 107; кпп: 5МТ; ускорение: 11.5; расход бензина: 6',
-    price: 601900,
-    photo: 'http://cache.zr.ru/wpfiles/uploads/2012/03/201203301023_rioh_02.jpg',
-    ownerId: 'kZD2WwvnheG9RCwwD',
-    checked: true
-});
-Cars.insert({ mark: 'KIA', model: 'CEED', equipment: 'Classic', k: 'хачбек', color: 'серый',
-    engine: 'вид: бензиновый; объем: 1.4; мощность: 100; кпп: 6МТ; ускорение: 12.7; расход бензина: 6.2',
-    price: 769900,
-    photo: 'http://cozodoy.ru/images/content/0203147.jpg',
-    ownerId: 'kZD2WwvnheG9RCwwD',
-    checked: true
-});
+
+// Cars.insert({ mark: 'KIA', model: 'PICANTO', equipment: 'Classic', k: 'хачбек', color: 'красный',
+//     engine: 'вид: бензиновый; объем: 1.0; мощность: 66; кпп: 5МТ; ускорение: 14.6; расход бензина: 4.5',
+//     price: 489000,
+//     photo: 'http://img1.liveinternet.ru/images/attach/c/4/78/871/78871945_kia_picanto.jpg',
+//     ownerId: 'kZD2WwvnheG9RCwwD',
+//     checked: true
+// });
+// Cars.insert({ mark: 'KIA', model: 'RIO', equipment: 'Comfort', k: 'седан', color: 'синий',
+//     engine: 'вид: бензиновый; объем: 1.4; мощность: 107; кпп: 5МТ; ускорение: 11.5; расход бензина: 6',
+//     price: 601900,
+//     photo: 'http://cache.zr.ru/wpfiles/uploads/2012/03/201203301023_rioh_02.jpg',
+//     ownerId: 'kZD2WwvnheG9RCwwD',
+//     checked: true
+// });
+// Cars.insert({ mark: 'KIA', model: 'CEED', equipment: 'Classic', k: 'хачбек', color: 'серый',
+//     engine: 'вид: бензиновый; объем: 1.4; мощность: 100; кпп: 6МТ; ускорение: 12.7; расход бензина: 6.2',
+//     price: 769900,
+//     photo: 'http://cozodoy.ru/images/content/0203147.jpg',
+//     ownerId: 'kZD2WwvnheG9RCwwD',
+//     checked: true
+// });
 
 
 /*

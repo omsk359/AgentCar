@@ -93,10 +93,14 @@ Meteor.methods({
 		// console.log(`gte: ${ac_gte_cash}; lte: ${ac_lte_cash}`);
 		// console.log(`Cars: ${Cars.find({ mark, price: { $gte: ac_gte_cash, $lte: ac_lte_cash } }).count()}`);
 
-		var foundCars =  Cars.find({
+		var params = {
 			ownerId, mark, model, checked: true,
 			price: { $gte: ac_gte_cash, $lte: ac_lte_cash }
-		}).fetch();
+		};
+		if (!model)
+			delete params.model;
+			
+		var foundCars = Cars.find(params).fetch();
 		console.log('Found cars: ', foundCars);
 
 		QueriesHistory.insert({ ownerId,
