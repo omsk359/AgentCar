@@ -16,6 +16,10 @@
 .agent_car_widget a {
   color: #fff;
 }
+.agent_car_widget .agent_car_body,
+.agent_car_widget .agent_car_border {
+  display: none;
+}
 .agent_car_widget .agent_car_border {
   margin-top: 26px;
   border: solid 1px #ccc;
@@ -24,7 +28,7 @@
 }
 .agent_car_widget .agent_car_logo {
   position: absolute;
-  right: 200px;
+  right: 30px;
   top: 0;
   width: 118px;
   height: 115px;
