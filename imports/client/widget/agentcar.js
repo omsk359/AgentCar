@@ -146,7 +146,7 @@ function initMaket() {
 	});
 
     var close = () => {
-        $('.agent_car_logo').css('height', '105px');
+        $('.agent_car_logo').css('height', '115px');
         $('.agent_car_logo').css('right', '30px');
         $('.agent_car_body').hide();
         $('.agent_car_border').hide();
