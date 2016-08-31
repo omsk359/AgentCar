@@ -1,9 +1,10 @@
 import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
-import { check } from 'meteor/check';
+import { check, Match } from 'meteor/check';
 import Cars from '/imports/common/collections/cars';
 import Statistics from '/imports/common/collections/Statistics';
 import QueriesHistory from '/imports/common/collections/QueriesHistory';
+import ReserveCars from '/imports/common/collections/ReserveCars';
 import _ from 'lodash';
 
 const delta = 50000;
@@ -99,7 +100,7 @@ Meteor.methods({
 		};
 		if (!model)
 			delete params.model;
-			
+
 		var foundCars = Cars.find(params).fetch();
 		console.log('Found cars: ', foundCars);
 
@@ -112,5 +113,23 @@ Meteor.methods({
 		Statistics.update({ ownerId }, { $inc: { queries: 1 } }, { upsert: true });
 
 		return foundCars;
+	},
+
+	reserveCar(ownerId, carId, contactInfo) {
+		console.log('reserveCar params: ', arguments);
+		check(ownerId, String);
+		check(carId, String);
+		check(contactInfo, {
+			name: String,
+			phone: String,
+			email: Match.Maybe(String)
+		});
+
+		var car = Cars.findOne({ _id: carId });
+		console.log('Found car: ', car);
+		if (!car)
+			throw new Error('Wrong carId');
+
+		return ReserveCars.insert({ ownerId, car, contactInfo });
 	}
 });

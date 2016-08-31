@@ -10,13 +10,13 @@ import Cars from '/imports/common/collections/cars';
 import { getCars } from './cars_xls';
 
 
-getCars().then(CarsObjects => {
-    console.log('CarsObjects: ', CarsObjects);
-    console.log('CarsObjects prices: ', _.map(CarsObjects, 'price'));
-    console.log('CarsObjects prices: ', _.map(CarsObjects, 'photo'));
-    Cars.remove({});
-    CarsObjects.forEach(obj => Cars.insert(obj));
-});
+// getCars().then(CarsObjects => {
+//     console.log('CarsObjects: ', CarsObjects);
+//     console.log('CarsObjects prices: ', _.map(CarsObjects, 'price'));
+//     console.log('CarsObjects prices: ', _.map(CarsObjects, 'photo'));
+//     Cars.remove({});
+//     CarsObjects.forEach(obj => Cars.insert(obj));
+// });
 
 // Cars.insert({ mark: 'KIA', model: 'PICANTO', equipment: 'Classic', k: 'хачбек', color: 'красный',
 //     engine: 'вид: бензиновый; объем: 1.0; мощность: 66; кпп: 5МТ; ускорение: 14.6; расход бензина: 4.5',

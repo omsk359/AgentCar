@@ -3,10 +3,10 @@ import Asteroid from './lib/asteroid.browser';
 const DEBUG = typeof localStorage != 'undefined' && !!localStorage.getItem('agentCarDebug')
 const MARK = 'LADA';
 
-// const ACurl = "localhost:3000";
+const ACurl = "localhost:3000";
 // const ACurl = "198.211.121.66";
 // const ACurl = DEBUG ? 'localhost:3000' : 'debian359.tk';
-const ACurl = 'debian359.tk';
+// const ACurl = 'debian359.tk';
 
 require('./agentcar.css');
 
@@ -15,6 +15,9 @@ DEBUG && console.log('maket: ', ac_maket);
 
 const ac_result = require('html!./ac_result.html');
 DEBUG && console.log('ac_result: ', ac_result);
+
+const ac_reserve = require('html!./ac_reserve.html');
+DEBUG && console.log('ac_reserve: ', ac_reserve);
 
 const ownerId = $(document.currentScript).data('id');
 const asteroid = new Asteroid(ACurl);
@@ -64,6 +67,15 @@ function filterByParams(params, cb) {
     });
 }
 
+function reserveCar(carId, contactInfo) {
+    DEBUG && console.log('Params: ', { ownerId, carId, contactInfo });
+    return asteroid.call('reserveCar', ownerId, carId, contactInfo).result
+        .then(result => {
+            DEBUG && console.log("carsByParams Success: ", result);
+            return result;
+        });
+}
+
 function onWidgetOpen() {
     asteroid.call("onWidgetOpen", ownerId).result
     .then(result => {
@@ -93,7 +105,7 @@ function showSearchResults(results) {
         $('.ac_link_active').removeClass('ac_link_active');
         $(`.agent_car_result_link a:eq(${i})`).addClass('ac_link_active');
         $('.agent_car_result').replaceWith(
-            `<div class="agent_car_result">
+            `<div data-id="${result._id}" class="agent_car_result">
                 <div class="agent_car_mark">
                     <strong>${result.mark} ${result.model}</strong><br/>
                     <img src="${result.photo}" width="130"/>
@@ -127,6 +139,32 @@ function initSearchResults() {
     $('.agent_car_search').click(() => {
         $('.agent_car_form').show();
         $('.agent_car_result_block').hide();
+        $('[name=agent_car_reserve]').show();
+        $('.agent_car_reserve_block').hide();
+    });
+    $('[name=agent_car_reserve]').click(() => {
+        $('.agent_car_reserve_block').show();
+        $('[name=agent_car_reserve]').hide();
+    });
+}
+function initReserve() {
+    $('.agent_car_reserve_block').hide();
+    $('[name=agent_car_reserve_send]').click(() => {
+        var name = $('[name=agent_car_reserve_name]').val();
+        var phone = $('[name=agent_car_reserve_phone]').val();
+        var email = $('[name=agent_car_reserve_email]').val();
+        var carId = $('.agent_car_result').data('id');
+        var info = { name, phone };
+        if (/\S/.test(email))
+            info.email = email;
+        reserveCar(carId, info).then(reserveId => {
+            alert(`Успешно забронировали! ID заявки: ${reserveId}`);
+            $('.agent_car_reserve_block').hide();
+        }).catch(err => {
+            alert(`Ошибка! ${err.message}`);
+            console.log("reserveCar Error");
+            console.error(err);
+        });
     });
 }
 function initMaket() {
@@ -153,7 +191,7 @@ function initMaket() {
     };
     var open = () => {
         $('.agent_car_logo').css('height', '65px');
-        $('.agent_car_logo').css('left', '200px');
+        $('.agent_car_logo').css('right', '200px');
         $('.agent_car_body').show();
         $('.agent_car_border').show();
         onWidgetOpen();
@@ -196,7 +234,10 @@ $(document).ready(function() {
     $('.agent_car_group:eq(0) label').text(`${origText} ${MARK}`);
     // $('.agent_car_group:eq(0) label').text(origText.replace(/\S+$/, MARK));
 
-    $('.agent_car_body').append(ac_result);
+    // $('.agent_car_body').append(ac_result);
+    $('.agent_car_result_block').replaceWith(ac_result);
+    $('.agent_car_reserve_block').replaceWith(ac_reserve);
+
     initMaket();
     availableMarksModels(result => {
         var models = _.chain(result).filter(car => car.mark == MARK).map('model').value();
@@ -208,4 +249,5 @@ $(document).ready(function() {
         });
     });
     initSearchResults();
+    initReserve();
 });
