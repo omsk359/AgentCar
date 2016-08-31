@@ -19,7 +19,8 @@ async function getCars() {
     return cars;
 }
 
-export { getCars }
+// export { getCars }
+export default carsFromStr(getTable2_1Str())
 
 
 async function getImage(url) {
@@ -88,6 +89,29 @@ Rapid 	Rapid	Rapid 	Octavia 	Rapid 	Yeti 	 Octavia 	 Octavia 	Yeti
 function getTable2Str() {
     return `
 http://www.lada-dealer.ru/ru/avtomobili/modelnyi-rjad/vesta/	http://www.lada-dealer.ru/ru/avtomobili/modelnyi-rjad/xray/krossover/	http://www.lada-dealer.ru/ru/avtomobili/modelnyi-rjad/granta/sedean/	http://www.lada-dealer.ru/ru/avtomobili/modelnyi-rjad/kalina2/hetchbek/	http://www.lada-dealer.ru/ru/avtomobili/modelnyi-rjad/4x4/3-dvernaja/	http://www.lada-dealer.ru/ru/avtomobili/modelnyi-rjad/largus/larguscross/
+LADA VESTA	LADA XRAY 	LADA Granta	LADA KALINA Сross	LADA 4х4, 3 - х дверная	LADA Largus
+
+LADA	LADA	LADA	LADA	LADA	LADA
+VESTA	 XRAY 	Сranta	KALINA Cross	4х4, 3 -х дверная	LARGUS
+Сlassice
+седан	кроссовер	седан 	хетчбек		универсал
+серебристый 	серо-бежевый	белый	оранжевый перламутровый	темно-зеленый	красный
+0	0	0	0	0	0
+
+
+бензиновый	бензиновый	бензиновый	бензиновый	бензиновый	бензиновый
+1,6, 16 кл.	1,8 16 кл.	1,6, 8 кл.	1,6, 16. кл.	1,7, 8 кл.	1,6, 16. кл.
+106 л.с.	122 л.с.	87 л.с.	106 л.с.	83 л.с.	105 л.с.
+5 МТ	5 АМТ	5МТ	5 АМТ	5 МТ	МКПП
+
+
+539,000	752,000	393,000	552,000	446,700	582,200
+`.trim();
+}
+
+function getTable2_1Str() {
+    return `
+https://img-fotki.yandex.ru/get/31286/2648717.4/0_a9461_39c7c2d2_S	https://img-fotki.yandex.ru/get/51134/2648717.4/0_a946a_386347ff_S	https://img-fotki.yandex.ru/get/98971/2648717.2/0_a9402_56717717_S	https://img-fotki.yandex.ru/get/28561/2648717.3/0_a9419_b66a856b_S	https://img-fotki.yandex.ru/get/53078/2648717.1/0_a93e1_409851df_S	https://img-fotki.yandex.ru/get/118251/2648717.3/0_a9448_caa34e43_S
 LADA VESTA	LADA XRAY 	LADA Granta	LADA KALINA Сross	LADA 4х4, 3 - х дверная	LADA Largus
 
 LADA	LADA	LADA	LADA	LADA	LADA
