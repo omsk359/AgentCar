@@ -3,10 +3,10 @@ import Asteroid from './lib/asteroid.browser';
 const DEBUG = typeof localStorage != 'undefined' && !!localStorage.getItem('agentCarDebug')
 const MARK = 'LADA';
 
-const ACurl = "localhost:3000";
+// const ACurl = "localhost:3000";
 // const ACurl = "198.211.121.66";
 // const ACurl = DEBUG ? 'localhost:3000' : 'debian359.tk';
-// const ACurl = 'debian359.tk';
+const ACurl = 'debian359.tk';
 
 require('./agentcar.css');
 
@@ -211,15 +211,17 @@ function initMaket() {
             ac_form_credit_pay = +$("input[name=agent_car_credit_pay]").val().replace(/\s/g, ''),
             ac_form_credit_time = +$("select[name=agent_car_credit_time]").val().replace(/\s/g, ''),
             ac_form_car_cost = +$("input[name=agent_car_my_car_cost]").val().replace(/\s/g, ''),
-            model = $("select[name=agent_car_mark]").val();
+            model = $("select[name=agent_car_mark]").val(),
+            ac_form_secondhand = $('#agent_car_secondhand').is(':checked');
 
         var params = {
             ac_form_i_have,
-            ac_form_credit_pay: $('[name=agent_car_credit]').is(':checked') ? ac_form_i_have : 0,
+            ac_form_credit_pay: $('[name=agent_car_credit]').is(':checked') ? ac_form_credit_pay : 0,
             ac_form_credit_time: $('[name=agent_car_credit]').is(':checked') ? ac_form_credit_time : 0,
             ac_form_car_cost: $('[name=agent_car_trade_in]').is(':checked') ? ac_form_car_cost : 0,
             model : model == '_ANY' ? '' : model,
-            mark: MARK
+            mark: MARK,
+            ac_form_secondhand
         };
 
         filterByParams(params, showSearchResults);

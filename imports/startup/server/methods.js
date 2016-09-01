@@ -6,8 +6,8 @@ import Statistics from '/imports/common/collections/Statistics';
 import QueriesHistory from '/imports/common/collections/QueriesHistory';
 import ReserveCars from '/imports/common/collections/ReserveCars';
 import _ from 'lodash';
-import nodemailer from 'nodemailer';
-import mg from 'nodemailer-mailgun-transport';
+// import nodemailer from 'nodemailer';
+// import mg from 'nodemailer-mailgun-transport';
 
 const delta = 70000;
 
@@ -17,39 +17,45 @@ const auth = {
     auth: {
         api_key: 'key-a55c1f851d6bb68169862a6b0274bff0',
         // domain: 'one of your domain names listed at your https://mailgun.com/app/domains'
-        domain: 'sandbox4c8cbd02f4504c4db6c913b745de81e5.mailgun.org'
+        domain: 'debian359.tk'
     }
 };
 
-const nodemailerMailgun = nodemailer.createTransport(mg(auth));
+// const nodemailerMailgun = nodemailer.createTransport(mg(auth));
 
 function sendMail(ownerId, car, contactInfo) {
     switch (ownerId) {
-        case 'kZD2WwvnheG9RCwwD':
-            var email = 'omsk359@protonmail.com';
-            break;
+		case 'kZD2WwvnheG9RCwwD':
+			var email = ['omsk359@protonmail.com', 'victory.ch123@yandex.ru', 'buzillo@ya.ru'];
+			break;
+		case 'kZD2WwvnheG9RCkeK': // LADA
+			email = ['omsk359@protonmail.com', 'victory.ch123@yandex.ru', 'buzillo@ya.ru'];
+			break;
         default:
             throw Error('Wrong dealer ID');
     }
-    nodemailerMailgun.sendMail({
-        from: 'tmpmail@protonmail.com',
-        to: email, // An array if you have multiple recipients.
-        // cc:'second@domain.com',
-        // bcc:'secretagent@company.gov',
-        subject: 'Hey you, awesome!',
-        // 'h:Reply-To': 'reply2this@company.com',
-        //You can use "html:" to send HTML email content. It's magic!
-        html: `<b>Car ${car.mark} - ${car.model} requested by ${contactInfo.name} (phone: ${contactInfo.phone})</b>`,
-        //You can use "text:" to send plain-text content. It's oldschool!
-        // text: 'Mailgun rocks, pow pow!'
-    }, function (err, info) {
-        if (err) {
-            console.log('Mailgun Error: ' + err);
-        }
-        else {
-            console.log('Mailgun Response: ' + info);
-        }
-    });}
+//     nodemailerMailgun.sendMail({
+// 		// from: 'tmpmail@protonmail.com',
+// 		from: 'test@debian359.tk',
+//         to: email, // An array if you have multiple recipients.
+//         // cc:'second@domain.com',
+//         // bcc:'secretagent@company.gov',
+//         subject: `Бронирование машины`,
+//         // 'h:Reply-To': 'reply2this@company.com',
+//         //You can use "html:" to send HTML email content. It's magic!
+//         html: `<b>Машина ${car.mark} - ${car.model} забронирована
+// "${contactInfo.name}" (тел: ${contactInfo.phone}${contactInfo.email ? '; email: ' + contactInfo.email : ''})</b>`,
+//         //You can use "text:" to send plain-text content. It's oldschool!
+//         // text: 'Mailgun rocks, pow pow!'
+//     }, function (err, info) {
+//         if (err) {
+//             console.log('Mailgun Error: ', err);
+//         }
+//         else {
+//             console.log('Mailgun Response: ', info);
+//         }
+//     });
+}
 
 Meteor.methods({
 	'cars.insert'(mark, model, equipment, year, engine, color, price, photo) {
@@ -119,7 +125,7 @@ Meteor.methods({
 		Statistics.update({ ownerId }, { $inc: { widgetLoaded: 1 } }, { upsert: true });
 	},
 
-	carsByParams({ ownerId, mark, model, ac_form_i_have, ac_form_credit_pay = 0,
+	carsByParams({ ownerId, mark, model, ac_form_i_have, ac_form_credit_pay = 0, ac_form_secondhand = false,
 						  				 ac_form_credit_time = 0, ac_form_car_cost = 0 }) {
 		console.log('Params: ', arguments);
 		check(ownerId, String);
@@ -129,6 +135,7 @@ Meteor.methods({
 		check(ac_form_credit_pay, Number);
 		check(ac_form_credit_time, Number);
 		check(ac_form_car_cost, Number);
+		check(ac_form_secondhand, Boolean);
 
 		var ac_form_cash = ac_form_i_have + ac_form_credit_pay * ac_form_credit_time + ac_form_car_cost;
 		var ac_gte_cash = ac_form_cash - delta;
@@ -137,20 +144,22 @@ Meteor.methods({
 		// console.log(`Cars: ${Cars.find({ mark, price: { $gte: ac_gte_cash, $lte: ac_lte_cash } }).count()}`);
 
 		var params = {
-			ownerId, mark, model, checked: true,
+			ownerId, mark, checked: true,
             price: { $gte: 0, $lte: ac_lte_cash }
             // price: { $gte: ac_gte_cash, $lte: ac_lte_cash }
 		};
 		console.log('Params2: ', params);
-		if (!model)
-			delete params.model;
+		if (model)
+			params.model = model;
+		if (!ac_form_secondhand)
+			params.mileage = 0;
 
-		var foundCars = Cars.find(params, { sort: { price: -1 } }).fetch();
+		var foundCars = Cars.find(params, { sort: { price: -1 }, limit: 5 }).fetch();
 		console.log('Found cars: ', foundCars);
 
 		QueriesHistory.insert({ ownerId,
 			query: {
-				mark, model, ac_form_i_have, ac_form_credit_pay, ac_form_credit_time, ac_form_car_cost
+				mark, model, ac_form_i_have, ac_form_credit_pay, ac_form_credit_time, ac_form_car_cost, ac_form_secondhand
 			},
 			result: foundCars //_.map(foundCars, '_id')
 		});
