@@ -3,10 +3,10 @@ import Asteroid from './lib/asteroid.browser';
 const DEBUG = typeof localStorage != 'undefined' && !!localStorage.getItem('agentCarDebug')
 const MARK = 'LADA';
 
-// const ACurl = "localhost:3000";
+const ACurl = "localhost:3000";
 // const ACurl = "198.211.121.66";
 // const ACurl = DEBUG ? 'localhost:3000' : 'debian359.tk';
-const ACurl = 'debian359.tk';
+// const ACurl = 'debian359.tk';
 
 require('./agentcar.css');
 
@@ -131,8 +131,11 @@ function showSearchResults(results) {
     if (results.length) {
         $('.agent_car_return h3').text('Мы нашли для Вас');
         onSelect_i(0);
-    } else
+        $('[name=agent_car_reserve]').show();
+    } else {
         $('.agent_car_return h3').text('Мы ничего для Вас не нашли');
+        $('[name=agent_car_reserve]').hide();
+    }
 }
 
 function initSearchResults() {
@@ -204,10 +207,10 @@ function initMaket() {
     $('#agent_car_close_x').click(close);
 
 	$('.agent_car_form').submit(function(e) {
-        var ac_form_i_have = +$("input[name=agent_car_i_have]").val(),
-            ac_form_credit_pay = +$("input[name=agent_car_credit_pay]").val(),
-            ac_form_credit_time = +$("select[name=agent_car_credit_time]").val(),
-            ac_form_car_cost = +$("input[name=agent_car_my_car_cost]").val(),
+        var ac_form_i_have = +$("input[name=agent_car_i_have]").val().replace(/\s/g, ''),
+            ac_form_credit_pay = +$("input[name=agent_car_credit_pay]").val().replace(/\s/g, ''),
+            ac_form_credit_time = +$("select[name=agent_car_credit_time]").val().replace(/\s/g, ''),
+            ac_form_car_cost = +$("input[name=agent_car_my_car_cost]").val().replace(/\s/g, ''),
             model = $("select[name=agent_car_mark]").val();
 
         var params = {

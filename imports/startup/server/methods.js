@@ -98,6 +98,7 @@ Meteor.methods({
 			ownerId, mark, model, checked: true,
 			price: { $gte: ac_gte_cash, $lte: ac_lte_cash }
 		};
+		console.log('Params2: ', params);
 		if (!model)
 			delete params.model;
 
