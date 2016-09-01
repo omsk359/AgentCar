@@ -1,12 +1,11 @@
 .agent_car_widget {
   position: fixed;
-  right: 10px;
-  bottom: 20px;
+  bottom: 30px;
   font-family: Halvetica, Verdana, Arial;
   font-size: 12px;
   display: block;
-  width: 350px;
-  min-height: 300px;
+  width: 180px;
+  min-height: 120px;
   color: #A7A9AB;
 }
 .agent_car_widget * {
@@ -141,4 +140,8 @@
 .agent_car_widget .agent_car_body .agent_car_result .agent_car_price {
   font-size: 22px;
   padding-top: 7px;
+}
+.agent_car_open {
+  width: 350px;
+  min-height: 300px;
 }
