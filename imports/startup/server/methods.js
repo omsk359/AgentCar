@@ -6,8 +6,50 @@ import Statistics from '/imports/common/collections/Statistics';
 import QueriesHistory from '/imports/common/collections/QueriesHistory';
 import ReserveCars from '/imports/common/collections/ReserveCars';
 import _ from 'lodash';
+import nodemailer from 'nodemailer';
+import mg from 'nodemailer-mailgun-transport';
 
 const delta = 70000;
+
+
+// This is your API key that you retrieve from www.mailgun.com/cp (free up to 10K monthly emails)
+const auth = {
+    auth: {
+        api_key: 'key-a55c1f851d6bb68169862a6b0274bff0',
+        // domain: 'one of your domain names listed at your https://mailgun.com/app/domains'
+        domain: 'sandbox4c8cbd02f4504c4db6c913b745de81e5.mailgun.org'
+    }
+};
+
+const nodemailerMailgun = nodemailer.createTransport(mg(auth));
+
+function sendMail(ownerId, car, contactInfo) {
+    switch (ownerId) {
+        case 'kZD2WwvnheG9RCwwD':
+            var email = 'omsk359@protonmail.com';
+            break;
+        default:
+            throw Error('Wrong dealer ID');
+    }
+    nodemailerMailgun.sendMail({
+        from: 'tmpmail@protonmail.com',
+        to: email, // An array if you have multiple recipients.
+        // cc:'second@domain.com',
+        // bcc:'secretagent@company.gov',
+        subject: 'Hey you, awesome!',
+        // 'h:Reply-To': 'reply2this@company.com',
+        //You can use "html:" to send HTML email content. It's magic!
+        html: `<b>Car ${car.mark} - ${car.model} requested by ${contactInfo.name} (phone: ${contactInfo.phone})</b>`,
+        //You can use "text:" to send plain-text content. It's oldschool!
+        // text: 'Mailgun rocks, pow pow!'
+    }, function (err, info) {
+        if (err) {
+            console.log('Mailgun Error: ' + err);
+        }
+        else {
+            console.log('Mailgun Response: ' + info);
+        }
+    });}
 
 Meteor.methods({
 	'cars.insert'(mark, model, equipment, year, engine, color, price, photo) {
@@ -131,6 +173,8 @@ Meteor.methods({
 		console.log('Found car: ', car);
 		if (!car)
 			throw new Error('Wrong carId');
+
+        sendMail(ownerId, car, contactInfo);
 
 		return ReserveCars.insert({ ownerId, car, contactInfo });
 	}
