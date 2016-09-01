@@ -6,8 +6,8 @@ import Statistics from '/imports/common/collections/Statistics';
 import QueriesHistory from '/imports/common/collections/QueriesHistory';
 import ReserveCars from '/imports/common/collections/ReserveCars';
 import _ from 'lodash';
-// import nodemailer from 'nodemailer';
-// import mg from 'nodemailer-mailgun-transport';
+import nodemailer from 'nodemailer';
+import mg from 'nodemailer-mailgun-transport';
 
 const delta = 70000;
 
@@ -21,40 +21,47 @@ const auth = {
     }
 };
 
-// const nodemailerMailgun = nodemailer.createTransport(mg(auth));
+const nodemailerMailgun = nodemailer.createTransport(mg(auth));
 
 function sendMail(ownerId, car, contactInfo) {
     switch (ownerId) {
 		case 'kZD2WwvnheG9RCwwD':
-			var email = ['omsk359@protonmail.com', 'victory.ch123@yandex.ru', 'buzillo@ya.ru'];
+			var emails = ['omsk359@protonmail.com', 'victory.ch123@yandex.ru', 'buzillo@ya.ru'];
 			break;
 		case 'kZD2WwvnheG9RCkeK': // LADA
-			email = ['omsk359@protonmail.com', 'victory.ch123@yandex.ru', 'buzillo@ya.ru'];
+			emails = ['omsk359@protonmail.com', 'victory.ch123@yandex.ru', 'buzillo@ya.ru'];
 			break;
         default:
             throw Error('Wrong dealer ID');
     }
-//     nodemailerMailgun.sendMail({
-// 		// from: 'tmpmail@protonmail.com',
-// 		from: 'test@debian359.tk',
-//         to: email, // An array if you have multiple recipients.
-//         // cc:'second@domain.com',
-//         // bcc:'secretagent@company.gov',
-//         subject: `Бронирование машины`,
-//         // 'h:Reply-To': 'reply2this@company.com',
-//         //You can use "html:" to send HTML email content. It's magic!
-//         html: `<b>Машина ${car.mark} - ${car.model} забронирована
-// "${contactInfo.name}" (тел: ${contactInfo.phone}${contactInfo.email ? '; email: ' + contactInfo.email : ''})</b>`,
-//         //You can use "text:" to send plain-text content. It's oldschool!
-//         // text: 'Mailgun rocks, pow pow!'
-//     }, function (err, info) {
-//         if (err) {
-//             console.log('Mailgun Error: ', err);
-//         }
-//         else {
-//             console.log('Mailgun Response: ', info);
-//         }
-//     });
+    let emailStr = contactInfo.email ? `E-mail - <b>${contactInfo.email}</b>` : '';
+    nodemailerMailgun.sendMail({
+		// from: 'tmpmail@protonmail.com',
+		from: 'test@debian359.tk',
+        to: emails, // An array if you have multiple recipients.
+        // cc:'second@domain.com',
+        // bcc:'secretagent@company.gov',
+        subject: `Бронирование машины`,
+        // 'h:Reply-To': 'reply2this@company.com',
+        //You can use "html:" to send HTML email content. It's magic!
+		html:
+`Друзья, сообщаем, что у Вас появился новый  клиент на покупку автомобиля.
+Его контактные данные:
+Имя - <b>${contactInfo.name}</b>
+Телефон - <b>${contactInfo.phone}</b>
+${emailStr}
+Автомобиль: ${car.mark} - ${car.model}, цена: ${car.price}
+Удачных продаж)
+<i>Ваш 
+AgentCar.</i>`
+    }, function (err, info) {
+        if (err) {
+            console.log('Mailgun Error: ', err);
+        }
+        else {
+            console.log('Mailgun Response: ', info);
+        }
+    });
 }
 
 Meteor.methods({

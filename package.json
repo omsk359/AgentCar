@@ -2,7 +2,8 @@
   "name": "AgentCar",
   "private": true,
   "scripts": {
-    "start": "meteor run"
+    "start": "meteor run",
+    "workarounds": ".workarounds/fix.sh"
   },
   "dependencies": {
     "bcrypt": "^0.8.7",
@@ -10,6 +11,7 @@
     "lodash": "^4.15.0",
     "meteor-node-stubs": "~0.2.0",
     "nodemailer": "^2.5.0",
+    "nodemailer-mailgun-transport": "^1.2.2",
     "react": "^15.3.1",
     "react-addons-pure-render-mixin": "^15.3.1",
     "react-dom": "^15.3.1",
