@@ -131,3 +131,26 @@ VESTA	 XRAY 	Сranta	KALINA Cross	4х4, 3 -х дверная	LARGUS
 539,000	752,000	393,000	552,000	446,700	582,200
 `.trim();
 }
+
+function getTableLadaStr() {
+    return `
+https://img-fotki.yandex.ru/get/31286/2648717.4/0_a9461_39c7c2d2_S	https://img-fotki.yandex.ru/get/31286/2648717.4/0_a9461_39c7c2d2_S	https://img-fotki.yandex.ru/get/51134/2648717.4/0_a946a_386347ff_S	https://img-fotki.yandex.ru/get/118251/2648717.4/0_a946c_472a6e2b_S	https://img-fotki.yandex.ru/get/51134/2648717.2/0_a9403_23cbb4c0_S	https://img-fotki.yandex.ru/get/98971/2648717.2/0_a9402_56717717_S	https://img-fotki.yandex.ru/get/108497/2648717.2/0_a9400_8c8fa3c_S	https://img-fotki.yandex.ru/get/28561/2648717.3/0_a9419_b66a856b_S	https://img-fotki.yandex.ru/get/27612/2648717.3/0_a941b_3c36ff53_S	https://img-fotki.yandex.ru/get/53078/2648717.1/0_a93e1_409851df_S	https://img-fotki.yandex.ru/get/53145/2648717.2/0_a93f2_3b1e4067_S	https://img-fotki.yandex.ru/get/30602/2648717.3/0_a9439_7b83fb62_S	https://img-fotki.yandex.ru/get/149948/2648717.3/0_a9441_babcf9e6_S
+LADA VESTA	LADA VESTA	LADA XRAY 	LADA XRAY 	LADA Granta	LADA Granta	LADA Granta лифтбек	LADA KALINA Сross	LADA KALINA 	LADA 4х4, 3 - х дверная	LADA 4х4, 5-ти дверная	LADA Largus, 5 мест	LADA Largus, 7 мест
+
+LADA	LADA	LADA	LADA	LADA	LADA	LADA	LADA	LADA	LADA	LADA	LADA	LADA
+VESTA	VESTA	 XRAY 	 XRAY 	Сranta	Сranta	Сranta	KALINA Cross	KALINA 	4х4, 3 -х дверная	4х4, 5-ти дверная	LARGUS	LARGUS
+Сlassice	Comfort	Optima	TOP	Cтандарт	Норма	Стандарт	Норма	стандарт	стандарт	стандарт	стандарт	норма
+седан	седан 	хетчбек	хетчбек	седан 	седан 	лифтбек	универсал	хетчбек	универсал	универсал	универсал 	универсал
+серебристый 	серебристый	cеребристый	cеребристый	серебристый	серебристый	серебристый	серебристый	серебристый	синий	зеленый	серый	серый
+0	0	0	0	0	0	0	0	0	0	0
+
+
+бензиновый	бензиновый	бензиновый	бензиновый	бензиновый	бензиновый	бензиновый	бензиновый	бензиновый	бензиновый	бензиновый	бензиновый	бензиновый
+1,6, 16 кл.	1,6, 16 кл.	1,6 16 кл.	1,6 16 кл.	1,6, 8 кл.	1,6, 8 кл.	1,6, 8 кл.	1,6, 16. кл.	1,6, 8 кл.	1,7, 8 кл.	1,7, 8 кл.	1,6, 8 кл.	1,6, 8 кл.
+106 л.с.	106 л.с.	122 л.c.	122 л.c.	87 л.с.	87 л.с.	87 л.с.	106 л.с.	87 л.с.	83 л.с.	83 л.с.	87 л.с.	87 л.с.
+5 МТ	5 МТ	5 АМТ	5 АМТ	5МТ	5МТ	5МТ	5 АМТ	5 АМТ	МКПП	МКПП	5МТ	5МТ
+
+
+554,000	582,000	669,000	710,000	383,900	419,600	404,200	512,100	435,500	462,700	506,700	524,500	590 00
+`.trim();
+}
