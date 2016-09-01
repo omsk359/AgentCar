@@ -20,8 +20,11 @@ async function getCars() {
 }
 
 // export { getCars }
-export default carsFromStr(getTable2_1Str())
+// export default carsFromStr(getTable2_1Str())
+var LavaCars = carsFromStr(getTableLadaStr());
+LadaCars.forEach(car => car.ownerId = 'kZD2WwvnheG9RCkeK');
 
+export default LadaCars;
 
 async function getImage(url) {
     let res = await request.get(url).timeout(5000);
