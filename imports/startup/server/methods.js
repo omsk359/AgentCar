@@ -7,7 +7,7 @@ import QueriesHistory from '/imports/common/collections/QueriesHistory';
 import ReserveCars from '/imports/common/collections/ReserveCars';
 import _ from 'lodash';
 
-const delta = 50000;
+const delta = 70000;
 
 Meteor.methods({
 	'cars.insert'(mark, model, equipment, year, engine, color, price, photo) {
@@ -96,13 +96,14 @@ Meteor.methods({
 
 		var params = {
 			ownerId, mark, model, checked: true,
-			price: { $gte: ac_gte_cash, $lte: ac_lte_cash }
+            price: { $gte: 0, $lte: ac_lte_cash }
+            // price: { $gte: ac_gte_cash, $lte: ac_lte_cash }
 		};
 		console.log('Params2: ', params);
 		if (!model)
 			delete params.model;
 
-		var foundCars = Cars.find(params).fetch();
+		var foundCars = Cars.find(params, { sort: { price: -1 } }).fetch();
 		console.log('Found cars: ', foundCars);
 
 		QueriesHistory.insert({ ownerId,
