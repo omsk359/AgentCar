@@ -191,12 +191,14 @@ function initMaket() {
         $('.agent_car_logo').css('right', '30px');
         $('.agent_car_body').hide();
         $('.agent_car_border').hide();
+        $('.agent_car_widget').removeClass('agent_car_open');
     };
     var open = () => {
         $('.agent_car_logo').css('height', '65px');
         $('.agent_car_logo').css('right', '200px');
         $('.agent_car_body').show();
         $('.agent_car_border').show();
+        $('.agent_car_widget').addClass('agent_car_open');
         onWidgetOpen();
     };
 

@@ -6,12 +6,13 @@
     "workarounds": ".workarounds/fix.sh"
   },
   "dependencies": {
+    "async-series": "0.0.1",
     "bcrypt": "^0.8.7",
     "cheerio": "^0.22.0",
     "lodash": "^4.15.0",
+    "mailgun-js": "^0.7.12",
     "meteor-node-stubs": "~0.2.0",
     "nodemailer": "^2.5.0",
-    "nodemailer-mailgun-transport": "^1.2.2",
     "react": "^15.3.1",
     "react-addons-pure-render-mixin": "^15.3.1",
     "react-dom": "^15.3.1",

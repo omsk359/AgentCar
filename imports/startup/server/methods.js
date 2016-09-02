@@ -7,7 +7,8 @@ import QueriesHistory from '/imports/common/collections/QueriesHistory';
 import ReserveCars from '/imports/common/collections/ReserveCars';
 import _ from 'lodash';
 import nodemailer from 'nodemailer';
-import mg from 'nodemailer-mailgun-transport';
+// import mg from 'nodemailer-mailgun-transport';
+import mg from './nodemailer-mailgun-transport';
 
 const delta = 70000;
 
@@ -26,15 +27,15 @@ const nodemailerMailgun = nodemailer.createTransport(mg(auth));
 function sendMail(ownerId, car, contactInfo) {
     switch (ownerId) {
 		case 'kZD2WwvnheG9RCwwD':
-			var emails = ['omsk359@protonmail.com', 'victory.ch123@yandex.ru', 'buzillo@ya.ru'];
+			var emails = ['omsk359@protonmail.com', 'victory.ch123@yandex.ru', 'buzillo@ya.ru', 'petemic@yandex.ru'];
 			break;
 		case 'kZD2WwvnheG9RCkeK': // LADA
-			emails = ['omsk359@protonmail.com', 'victory.ch123@yandex.ru', 'buzillo@ya.ru'];
+			emails = ['omsk359@protonmail.com', 'victory.ch123@yandex.ru', 'buzillo@ya.ru', 'petemic@yandex.ru'];
 			break;
         default:
             throw Error('Wrong dealer ID');
     }
-    let emailStr = contactInfo.email ? `E-mail - <b>${contactInfo.email}</b>` : '';
+    let emailStr = contactInfo.email ? `E-mail - <b>${contactInfo.email}</b><br>` : '';
     nodemailerMailgun.sendMail({
 		// from: 'tmpmail@protonmail.com',
 		from: 'test@debian359.tk',
@@ -45,14 +46,14 @@ function sendMail(ownerId, car, contactInfo) {
         // 'h:Reply-To': 'reply2this@company.com',
         //You can use "html:" to send HTML email content. It's magic!
 		html:
-`Друзья, сообщаем, что у Вас появился новый  клиент на покупку автомобиля.
-Его контактные данные:
-Имя - <b>${contactInfo.name}</b>
-Телефон - <b>${contactInfo.phone}</b>
+`Друзья, сообщаем, что у Вас появился новый  клиент на покупку автомобиля.<br>
+Его контактные данные:<br>
+Имя - <b>${contactInfo.name}</b><br>
+Телефон - <b>${contactInfo.phone}</b><br>
 ${emailStr}
-Автомобиль: ${car.mark} - ${car.model}, цена: ${car.price}
-Удачных продаж)
-<i>Ваш 
+Автомобиль: <b>${car.mark} - ${car.model}</b>, цена: <b>${car.price}</b><br>
+Удачных продаж)<br>
+<i>Ваш <br>
 AgentCar.</i>`
     }, function (err, info) {
         if (err) {
@@ -118,7 +119,10 @@ Meteor.methods({
 
 		Meteor.call('onWidgetLoaded', ownerId);
 
-		return Cars.find({ ownerId, checked: true }, { fields: { mark: 1, model: 1 } }).fetch();
+		let marksModels = Cars.find({ ownerId, checked: true }, { fields: { mark: 1, model: 1, _id: 0 } }).fetch();
+        marksModels = _.uniqWith(marksModels, _.isEqual);
+
+        return marksModels;
 	},
 
 	onWidgetOpen(ownerId) {
