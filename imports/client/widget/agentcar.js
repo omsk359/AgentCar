@@ -3,10 +3,10 @@ import Asteroid from './lib/asteroid.browser';
 const DEBUG = typeof localStorage != 'undefined' && !!localStorage.getItem('agentCarDebug')
 const MARK = 'LADA';
 
-// const ACurl = "localhost:3000";
+const ACurl = "localhost:3000";
 // const ACurl = "198.211.121.66";
 // const ACurl = DEBUG ? 'localhost:3000' : 'debian359.tk';
-const ACurl = 'debian359.tk';
+// const ACurl = 'debian359.tk';
 
 require('./agentcar.css');
 

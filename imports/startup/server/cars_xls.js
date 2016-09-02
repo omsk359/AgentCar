@@ -23,9 +23,11 @@ async function getCars() {
 // export default carsFromStr(getTable2_1Str())
 const LadaCars = carsFromStr(getTableLadaStr());
 const LadaCarsProduction = LadaCars.map(car => ({ ...car, ownerId: 'kZD2WwvnheG9RCkeK' }));
+const LadaTest1 = LadaCars.map(car => ({ ...car, ownerId: 'kZD2WwvnheGtest1' }));
+const LadaTest2 = LadaCars.map(car => ({ ...car, ownerId: 'kZD2WwvnheGtest2' }));
 // LadaCars.forEach(car => car.ownerId = 'kZD2WwvnheG9RCkeK');
 
-export default [ ...LadaCars, ...LadaCarsProduction ];
+export default [ ...LadaCars, ...LadaCarsProduction, ...LadaTest1, ...LadaTest2 ];
 
 async function getImage(url) {
     let res = await request.get(url).timeout(5000);

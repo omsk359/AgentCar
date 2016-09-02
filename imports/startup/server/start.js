@@ -1,6 +1,7 @@
 import './methods';
 import '/imports/server/collections/cars';
 import '/imports/server/collections/Statistics';
+import '/imports/server/collections/ReserveCars';
 import _ from 'lodash';
 
 

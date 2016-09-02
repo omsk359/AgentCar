@@ -5,6 +5,7 @@ import About from './About';
 import Header from './Header';
 import CarsTable from './CarsTable';
 import WidgetCode from './WidgetCode';
+import TestWidgetPage from './TestWidgetPage';
 
 const requireAuth = (nextState, replace) => {
     if (!Meteor.userId())
@@ -21,6 +22,7 @@ export class Routes extends React.Component {
                     <Route path="signup" component={ Accounts.ui.LoginForm } formState={ STATES.SIGN_UP } />
                     <Route path="cars" component={CarsPage} onEnter={requireAuth} />
                     <Route path="about" component={About} />
+                    <Route path="test-widget/:dealerId" component={TestWidgetPage} />
                 </Route>
             </Router>
         )
