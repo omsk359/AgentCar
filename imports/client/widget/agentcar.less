@@ -1,0 +1,252 @@
+// @font-face {
+//     font-family: CoreSansLight;
+//     src: url(/fonts/CoreSansA25ExtraLight.otf);
+// }
+
+@hover_color: #ac1c29;
+
+.agent_car_widget {
+	
+	* {
+	  margin: 0;
+	  padding: 0;
+	}
+	
+	position: fixed;
+	// right: 10px;
+	bottom: 30px;
+    font-family: Halvetica, Verdana, Arial;
+    font-size: 12px;
+	display: block;
+	width: 180px;
+	min-height: 120px;
+	color: #A7A9AB;
+	
+	a {
+		color: #fff;
+	}
+
+	.agent_car_body, .agent_car_border {
+		display: none;
+	}
+	
+	.agent_car_border {
+		margin-top: 26px;
+		border: solid 1px #ccc;
+		border-radius: 20px 0px;
+		box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+	}
+	
+	.agent_car_logo {
+		position: absolute;
+		right: 30px;
+		top: 0;
+		width: 118px;
+		height: 115px;
+//		background: #BE1E2D url('/images/agentcar.png') no-repeat 50% 50%;
+		background-color: #BE1E2D;
+		box-sizing: border-box;
+//		padding: 12px;
+		border-radius: 15px 0px;
+		box-shadow: 0 0 10px rgba(0, 0, 0 , 0.5);
+		overflow: hidden;
+		color: #fff;
+		
+		&:hover {
+			cursor: pointer;			
+		}
+		
+		.agent_car_ag, .agent_car_ent, .agent_car_car {
+			display: block;
+			position: absolute;
+			font-family: Gorgia;
+			font-size: 31px;
+		}
+		
+		.agent_car_ag {
+			top: 8px;
+			left: 17px;
+			font-weight: 800;
+		}
+		
+		.agent_car_ent{
+			top: 8px;
+			left: 55px;
+		}
+		
+		.agent_car_car {
+			top: 28px;
+			left: 55px;
+		}
+		
+		.agent_car_tagline {
+			position: absolute;
+			width: 118px;
+			top: 70px;
+			text-align: center;
+			font-weight: bold;
+			font-size: 11px;
+			line-height: 1;
+		}
+		
+	}
+	
+	.agent_car_animate {
+		-webkit-animation: ACanimation 0.7s infinite ease;
+		-moz-animation: ACanimation 0.7s infinite ease;
+		-o-animation: ACanimation 0.7s infinite ease;		
+	}
+	
+	@-webkit-keyframes ACanimation {
+	from { -webkit-transform: rotate(0deg) scale(0.832) skew(1deg) translate(-8px); }
+	to { -webkit-transform: rotate(0deg) scale(1) skew(1deg) translate(-2px); }
+	}
+	@-moz-keyframes ACanimation {
+	from { -moz-transform: rotate(0deg) scale(0.832) skew(1deg) translate(-8px); }
+	to { -moz-transform: rotate(0deg) scale(1) skew(1deg) translate(-2px); }
+	}
+	@-o-keyframes ACanimation {
+	from { -o-transform: rotate(0deg) scale(0.832) skew(1deg) translate(-8px); }
+	to { -o-transform: rotate(0deg) scale(1) skew(1deg) translate(-2px); }
+	}
+	
+	.agent_car_close {
+		position: absolute;
+		top: 20px;
+		right: 20px;
+		height: 20px;
+		width: 20px;
+		background: #BE1E2D;
+		box-sizing: border-box;
+		border-radius: 0px 4px;
+		
+		a, span {
+			display: block;
+			padding: 3px 2px 2px 5px;
+			color: #fff;
+			text-decoration: none;
+			&:hover {
+				background-color: @hover_color;
+				border-radius: 0px 4px;
+				cursor: pointer;
+			}
+		}
+		
+	}
+
+	.agent_car_body {
+		
+		// display: block;
+		box-sizing: border-box;
+		min-height: 250px;
+		margin-top: 0px;
+		padding-top: 40px;
+		padding-bottom: 15px;
+		background: #404041;
+		border-radius: 20px 0px;
+		border: solid 5px #fff;
+		padding-left: 7px;
+		
+		.agent_car_form {
+			// margin-left: 5px;
+			// margin-bottom: 13px;
+		}
+				
+		.agent_car_group {
+			width: 350px;
+			display: table;
+			
+		}
+		
+		.agent_car_cell {
+			display: table-cell;
+			width: 80px;	
+			padding: 4px 1px 4px 5px;
+		}
+		
+		label {
+			display: table-cell;
+			width: 160px;	
+			// padding: 3px 8px 3px 0;
+			text-align: right;
+		}
+		
+		input[type="text"], input[type="number"] {
+			width: 70px;
+			padding-left: 3px;
+		}
+						
+		.agent_car_search {
+			width: 300px;
+			height: 25px;
+			margin-top: 5px;
+			margin-left: 15px;
+			background: #BE1E2D;
+			color: #fff;
+			border: 0;
+			box-shadow: 0 0 10px rgba(0, 0, 0 , 0.5);
+			
+			&:hover {
+				background-color: @hover_color;				
+				
+			}			
+		}
+		
+		.agent_car_green {
+			// background: #38B449 url('/images/agentcar_green.png') no-repeat 50% 50%;
+			background-color: #38B449;
+		}
+		
+		.agent_car_return {
+			color: white;
+			h3 {
+				// font-style: italic;
+				padding: 0px 10px 3px 10px;
+			}
+			
+		}
+		.agent_car_result_link {
+			text-align: center;
+			
+			a, span {
+				padding: 2px 2px;
+				text-decoration: none;
+				font-size: 14px;
+				
+				&:hover {
+					text-decoration: underline;
+					cursor: pointer;
+				}
+			}
+			
+			.ac_link_active {
+				text-decoration: underline;
+			}
+		}
+		
+		.agent_car_result {
+			display: table;
+			color: white;
+			width: 300px;
+			padding: 10px 10px;
+			background-color: #000;
+			border: solid 1px #999;
+			border-radius: 15px 0px;
+			.agent_car_equip, .agent_car_mark {
+				display: table-cell;
+				width: 150px;
+				height: 100px;
+			}
+			.agent_car_price {
+				font-size: 22px;
+				padding-top: 7px;
+			}
+		}			
+	}
+	
+}
+
+.agent_car_open {
+	width: 350px;
+	min-height: 300px;
+}

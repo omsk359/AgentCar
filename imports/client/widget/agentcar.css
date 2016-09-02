@@ -31,15 +31,74 @@
   top: 0;
   width: 118px;
   height: 115px;
-  background: #BE1E2D;
+  background-color: #BE1E2D;
   box-sizing: border-box;
-  padding: 1em;
   border-radius: 15px 0px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
   overflow: hidden;
+  color: #fff;
 }
-.agent_car_widget .agent_car_logo:hover, .agent_car_result_link_n:hover {
+.agent_car_widget .agent_car_logo:hover {
   cursor: pointer;
+}
+.agent_car_widget .agent_car_logo .agent_car_ag,
+.agent_car_widget .agent_car_logo .agent_car_ent,
+.agent_car_widget .agent_car_logo .agent_car_car {
+  display: block;
+  position: absolute;
+  font-family: Gorgia;
+  font-size: 31px;
+}
+.agent_car_widget .agent_car_logo .agent_car_ag {
+  top: 8px;
+  left: 17px;
+  font-weight: 800;
+}
+.agent_car_widget .agent_car_logo .agent_car_ent {
+  top: 8px;
+  left: 55px;
+}
+.agent_car_widget .agent_car_logo .agent_car_car {
+  top: 28px;
+  left: 55px;
+}
+.agent_car_widget .agent_car_logo .agent_car_tagline {
+  position: absolute;
+  width: 118px;
+  top: 70px;
+  text-align: center;
+  font-weight: bold;
+  font-size: 11px;
+  line-height: 1;
+}
+.agent_car_widget .agent_car_animate {
+  -webkit-animation: ACanimation 0.7s infinite ease;
+  -moz-animation: ACanimation 0.7s infinite ease;
+  -o-animation: ACanimation 0.7s infinite ease;
+}
+@-webkit-keyframes ACanimation {
+  from {
+    -webkit-transform: rotate(0deg) scale(0.832) skew(1deg) translate(-8px);
+  }
+  to {
+    -webkit-transform: rotate(0deg) scale(1) skew(1deg) translate(-2px);
+  }
+}
+@-moz-keyframes ACanimation {
+  from {
+    -moz-transform: rotate(0deg) scale(0.832) skew(1deg) translate(-8px);
+  }
+  to {
+    -moz-transform: rotate(0deg) scale(1) skew(1deg) translate(-2px);
+  }
+}
+@-o-keyframes ACanimation {
+  from {
+    -o-transform: rotate(0deg) scale(0.832) skew(1deg) translate(-8px);
+  }
+  to {
+    -o-transform: rotate(0deg) scale(1) skew(1deg) translate(-2px);
+  }
 }
 .agent_car_widget .agent_car_close {
   position: absolute;
@@ -51,11 +110,14 @@
   box-sizing: border-box;
   border-radius: 0px 4px;
 }
+.agent_car_widget .agent_car_close a,
 .agent_car_widget .agent_car_close span {
   display: block;
   padding: 3px 2px 2px 5px;
+  color: #fff;
   text-decoration: none;
 }
+.agent_car_widget .agent_car_close a:hover,
 .agent_car_widget .agent_car_close span:hover {
   background-color: #ac1c29;
   border-radius: 0px 4px;
@@ -71,10 +133,6 @@
   border-radius: 20px 0px;
   border: solid 5px #fff;
   padding-left: 7px;
-}
-.agent_car_widget .agent_car_body .agent_car_form {
-  /*	margin-left: 5px;
-			margin-bottom: 13px; */
 }
 .agent_car_widget .agent_car_body .agent_car_group {
   width: 350px;
@@ -108,6 +166,9 @@
 .agent_car_widget .agent_car_body .agent_car_search:hover {
   background-color: #ac1c29;
 }
+.agent_car_widget .agent_car_body .agent_car_green {
+  background-color: #38B449;
+}
 .agent_car_widget .agent_car_body .agent_car_return {
   color: white;
 }
@@ -117,12 +178,17 @@
 .agent_car_widget .agent_car_body .agent_car_result_link {
   text-align: center;
 }
+.agent_car_widget .agent_car_body .agent_car_result_link a,
 .agent_car_widget .agent_car_body .agent_car_result_link span {
   padding: 2px 2px;
   text-decoration: none;
   font-size: 14px;
 }
-.agent_car_widget .agent_car_body .agent_car_result_link span:hover,
+.agent_car_widget .agent_car_body .agent_car_result_link a:hover,
+.agent_car_widget .agent_car_body .agent_car_result_link span:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
 .agent_car_widget .agent_car_body .agent_car_result_link .ac_link_active {
   text-decoration: underline;
 }
