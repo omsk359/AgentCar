@@ -96,7 +96,7 @@ http://www.lada-dealer.ru/ru/avtomobili/modelnyi-rjad/vesta/	http://www.lada-dea
 LADA VESTA	LADA XRAY 	LADA Granta	LADA KALINA Сross	LADA 4х4, 3 - х дверная	LADA Largus
 
 LADA	LADA	LADA	LADA	LADA	LADA
-VESTA	 XRAY 	Сranta	KALINA Cross	4х4, 3 -х дверная	LARGUS
+VESTA	 XRAY 	Granta	KALINA Cross	4х4, 3 -х дверная	LARGUS
 Сlassice
 седан	кроссовер	седан 	хетчбек		универсал
 серебристый 	серо-бежевый	белый	оранжевый перламутровый	темно-зеленый	красный
@@ -119,7 +119,7 @@ https://img-fotki.yandex.ru/get/31286/2648717.4/0_a9461_39c7c2d2_S	https://img-f
 LADA VESTA	LADA XRAY 	LADA Granta	LADA KALINA Сross	LADA 4х4, 3 - х дверная	LADA Largus
 
 LADA	LADA	LADA	LADA	LADA	LADA
-VESTA	 XRAY 	Сranta	KALINA Cross	4х4, 3 -х дверная	LARGUS
+VESTA	 XRAY 	Granta	KALINA Cross	4х4, 3 -х дверная	LARGUS
 Сlassice
 седан	кроссовер	седан 	хетчбек		универсал
 серебристый 	серо-бежевый	белый	оранжевый перламутровый	темно-зеленый	красный
@@ -142,7 +142,7 @@ https://img-fotki.yandex.ru/get/31286/2648717.4/0_a9461_39c7c2d2_S	https://img-f
 LADA VESTA	LADA VESTA	LADA XRAY 	LADA XRAY 	LADA Granta	LADA Granta	LADA Granta лифтбек	LADA KALINA Сross	LADA KALINA 	LADA 4х4, 3 - х дверная	LADA 4х4, 5-ти дверная	LADA Largus, 5 мест	LADA Largus, 7 мест
 
 LADA	LADA	LADA	LADA	LADA	LADA	LADA	LADA	LADA	LADA	LADA	LADA	LADA
-VESTA	VESTA	 XRAY 	 XRAY 	Сranta	Сranta	Сranta	KALINA Cross	KALINA 	4х4, 3 -х дверная	4х4, 5-ти дверная	LARGUS	LARGUS
+VESTA	VESTA	 XRAY 	 XRAY 	Granta	Granta	Granta	KALINA Cross	KALINA 	4х4, 3 -х дверная	4х4, 5-ти дверная	LARGUS	LARGUS
 Сlassice	Comfort	Optima	TOP	Cтандарт	Норма	Стандарт	Норма	стандарт	стандарт	стандарт	стандарт	норма
 седан	седан 	хетчбек	хетчбек	седан 	седан 	лифтбек	универсал	хетчбек	универсал	универсал	универсал 	универсал
 серебристый 	серебристый	cеребристый	cеребристый	серебристый	серебристый	серебристый	серебристый	серебристый	синий	зеленый	серый	серый
@@ -166,7 +166,7 @@ https://resize.yandex.net/0_a9461_39c7c2d2_M?url=https%3A%2F%2Fimg-fotki.yandex.
 LADA VESTA	LADA VESTA	LADA XRAY 	LADA XRAY 	LADA Granta	LADA Granta	LADA Granta лифтбек	LADA KALINA Сross	LADA KALINA 	LADA 4х4, 3 - х дверная	LADA 4х4, 5-ти дверная	LADA Largus, 5 мест	LADA Largus, 7 мест
 
 LADA	LADA	LADA	LADA	LADA	LADA	LADA	LADA	LADA	LADA	LADA	LADA	LADA
-VESTA	VESTA	 XRAY 	 XRAY 	Сranta	Сranta	Сranta	KALINA Cross	KALINA 	4х4, 3 -х дверная	4х4, 5-ти дверная	LARGUS	LARGUS
+VESTA	VESTA	 XRAY 	 XRAY 	Granta	Granta	Granta	KALINA Cross	KALINA 	4х4, 3 -х дверная	4х4, 5-ти дверная	LARGUS	LARGUS
 Сlassice	Comfort	Optima	TOP	Cтандарт	Норма	Стандарт	Норма	стандарт	стандарт	стандарт	стандарт	норма
 седан	седан 	хетчбек	хетчбек	седан 	седан 	лифтбек	универсал	хетчбек	универсал	универсал	универсал 	универсал
 серебристый 	серебристый	cеребристый	cеребристый	серебристый	серебристый	серебристый	серебристый	серебристый	синий	зеленый	серый	серый
