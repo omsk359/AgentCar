@@ -3,10 +3,12 @@ import Asteroid from './lib/asteroid.browser';
 const DEBUG = typeof localStorage != 'undefined' && !!localStorage.getItem('agentCarDebug');
 var MARK = '';
 
-const ACurl = "localhost:3000";
+// const ACurl = "localhost:3000";
 // const ACurl = "198.211.121.66";
 // const ACurl = DEBUG ? 'localhost:3000' : 'debian359.tk';
 // const ACurl = 'debian359.tk';
+let scriptUrl = $(document.currentScript).attr('src');
+const ACurl = new URL(scriptUrl).host;
 
 require('./agentcar.css');
 
@@ -31,12 +33,12 @@ if (DEBUG) {
 
     rq.on('change', function() {
         DEBUG && console.log('CHANGE! ', rq.result);
-        const [{ queries, widgetLoaded, widgetOpen }] = rq.result;
+        const [{ queries, widgetLoaded, widgetOpen, reserve }] = rq.result;
         $('#agent_car_widget_stat').remove();
         $('.agent_car_body').append(
             `<div id="agent_car_widget_stat">
                 Открытий/загрузок виджета: ${widgetOpen||0}/${widgetLoaded||0};
-                Отправлено форм: ${queries||0}
+                Отправлено форм: ${queries||0}; Заявок: ${reserve||0}
             </div>`
         );
     });

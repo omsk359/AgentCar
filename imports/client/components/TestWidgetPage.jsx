@@ -10,7 +10,7 @@ export default class TestWidgetPageDumb extends React.Component {
     componentWillMount() {
         const script = document.createElement('script');
 
-        script.src = '/agentcar.js';
+        script.src = window.location.origin + '/agentcar.js';
         script.async = true;
         Object.assign(script, { type: 'text/javascript', charset: 'UTF-8' });
         script.setAttribute('data-id', this.props.ownerId);
@@ -22,17 +22,20 @@ export default class TestWidgetPageDumb extends React.Component {
         if (loadingStats || loadingSettings)
             return <div>Loading...</div>;
 
-        const { widgetOpen, widgetLoaded, queries } = stats || {};
+        const { widgetOpen, widgetLoaded, queries, reserve } = stats || {};
+        let { emails } = settings || {};
+        emails = emails ? emails.join(', ') : 'Отсутствует';
         return (
             <div>
                 <h3>Дилер {settings.mark} (id - {ownerId})</h3>
-				Email: {settings.emails||'Отсутствует'}<br />
+				Emails: {emails}<br />
 				CustomCSS: <br /><i>{settings.customCSS}</i><br />
-                <h4>Статистика дилера {settings.mark} (id - {ownerId})</h4>
+                <h4>Статистика</h4>
                 Открытий/загрузок виджета: <b>{widgetOpen||0}/{widgetLoaded||0}</b><br />
-                Отправлено поисковых форм: <b>{queries||0}</b>
+				Отправлено поисковых форм: <b>{queries||0}</b><br />
+				Всего заказов: <b>{reserve||0}</b><br />
 
-                <h4>Заказы:</h4>
+                <h4>Заказы ({reserveCars.length})</h4>
                 <table><tbody>
                     <tr><th>Имя</th><th>Тел.</th><th>Email</th><th>Машина</th></tr>
                 {reserveCars.map(({ contactInfo, car }, i) => (

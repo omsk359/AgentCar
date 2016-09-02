@@ -141,12 +141,20 @@ Meteor.methods({
 	onWidgetOpen(ownerId) {
 		check(ownerId, String);
 
-		Statistics.update({ ownerId }, { $inc: { widgetOpen: 1 } }, { upsert: true });
+		Statistics.update({ ownerId }, { $inc: { widgetOpen: 1 } }, { upsert: true }, (err) => {
+			// async this, don't wait for response
+			if (err)
+				console.error('Statistics.update widgetOpen err: ', err);
+		});
 	},
 	onWidgetLoaded(ownerId) {
 		check(ownerId, String);
 
-		Statistics.update({ ownerId }, { $inc: { widgetLoaded: 1 } }, { upsert: true });
+		Statistics.update({ ownerId }, { $inc: { widgetLoaded: 1 } }, { upsert: true }, (err) => {
+			// async this, don't wait for response
+			if (err)
+				console.error('Statistics.update widgetLoaded err: ', err);
+		});
 	},
 
 	carsByParams({ ownerId, mark, model, ac_form_i_have, ac_form_credit_pay = 0, ac_form_secondhand = false,
@@ -186,8 +194,16 @@ Meteor.methods({
 				mark, model, ac_form_i_have, ac_form_credit_pay, ac_form_credit_time, ac_form_car_cost, ac_form_secondhand
 			},
 			result: foundCars //_.map(foundCars, '_id')
+		}, (err) => {
+			// async this, don't wait for response
+			if (err)
+				console.error('QueriesHistory.insert err: ', err);
 		});
-		Statistics.update({ ownerId }, { $inc: { queries: 1 } }, { upsert: true });
+		Statistics.update({ ownerId }, { $inc: { queries: 1 } }, { upsert: true }, (err) => {
+			// async this, don't wait for response
+			if (err)
+				console.error('Statistics.update err: ', err);
+		});
 
 		return foundCars;
 	},
@@ -208,6 +224,12 @@ Meteor.methods({
 			throw new Error('Wrong carId');
 
         sendMail(ownerId, car, contactInfo);
+
+		Statistics.update({ ownerId }, { $inc: { reserve: 1 } }, { upsert: true }, (err) => {
+			// async this, don't wait for response
+			if (err)
+				console.error('Stat update err: ', err);
+		});
 
 		return ReserveCars.insert({ ownerId, car, contactInfo });
 	}

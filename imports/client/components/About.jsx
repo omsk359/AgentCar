@@ -4,7 +4,7 @@ export default class About extends React.Component {
     componentWillMount() {
         const script = document.createElement("script");
 
-        script.src = '/agentcar.js';
+        script.src = window.location.origin + '/agentcar.js';
         script.async = true;
         Object.assign(script, { type: 'text/javascript', charset: 'UTF-8' });
         script.setAttribute('data-id', 'kZD2WwvnheG9RCwwD');
