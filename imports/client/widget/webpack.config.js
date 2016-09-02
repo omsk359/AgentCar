@@ -18,7 +18,9 @@ module.exports = {
 			        presets: ['es2015', 'stage-2']
 		        }
             },
-            { test: /\.(png|jpg)$/, loader: "file-loader?name=[path][name].[ext]" },
+            // { test: /\.(png|jpg)$/, loader: "file-loader?name=[path][name].[ext]" },
+            // => DataUrl if "file.png" is smaller that 10kb
+            { test: /\.(png|jpg)$/, loader: "url?limit=10000&name=[path][name].[ext]" },
             { test: /\.css$/, loader: "style-loader!css-loader" }
         ]
     },
