@@ -22,12 +22,13 @@ async function getCars() {
 // export { getCars }
 // export default carsFromStr(getTable2_1Str())
 const LadaCars = carsFromStr(getTableLadaStr());
+const SkodaCars = carsFromStr(getTableSkodaStr());
 const LadaCarsProduction = LadaCars.map(car => ({ ...car, ownerId: 'kZD2WwvnheG9RCkeK' }));
 const LadaTest1 = LadaCars.map(car => ({ ...car, ownerId: 'kZD2WwvnheGtest1' }));
-const LadaTest2 = LadaCars.map(car => ({ ...car, ownerId: 'kZD2WwvnheGtest2' }));
+const SkodaTest2 = SkodaCars.map(car => ({ ...car, ownerId: 'kZD2WwvnheGtest2' }));
 // LadaCars.forEach(car => car.ownerId = 'kZD2WwvnheG9RCkeK');
 
-export default [ ...LadaCars, ...LadaCarsProduction, ...LadaTest1, ...LadaTest2 ];
+export default [ ...LadaCars, ...LadaCarsProduction, ...LadaTest1, ...SkodaTest2 ];
 
 async function getImage(url) {
     let res = await request.get(url).timeout(5000);
@@ -80,7 +81,8 @@ Rapid 	Rapid	Rapid 	Octavia 	Rapid 	Yeti 	 Octavia 	 Octavia 	Yeti
 
 седан	седан 	седан 	седан	седан	седан	седан	седан	седан
 белый 	коричневый металлик	черный перламутр 	белый	красный металлик	черный перламутр 	белый 	синий металлик	серый металлик
-100,000	0	0	0	0	0	0	0	0
+100000	0	0	0	0	0	0	0	0
+2015	2016	2016	2016	2016	2016	2016	2016	2016
 
 
 бензиновый	бензиновый	бензиновый	бензиновый	бензиновый	бензиновый	бензиновый	бензиновый	бензиновый
@@ -183,5 +185,29 @@ VESTA	VESTA	 XRAY 	 XRAY 	Granta	Granta	Granta	KALINA Cross	KALINA 	4х4, 3 -�
 
 
 554,000	582,000	669,000	710,000	383,900	419,600	404,200	512,100	435,500	462,700	506,700	524,500	590,000
+`.trim();
+}
+
+function getTableSkodaStr() {
+    return `
+http://sigma-service.ru/upload/dws/available_cars/full/rapid/rapid_active/0Q0Q.png	http://sigma-service.ru/upload/dws/available_cars/full/rapid/rapid_active/0Q0Q.png	http://sigma-service.ru/upload/dws/available_cars/full/rapid/rapid_style/2T2T.png	http://sigma-service.ru/upload/dws/available_cars/full/octavia/octavia_active/0Q0Q.png	http://sigma-service.ru/upload/dws/available_cars/full/rapid/rapid_ambition/2K2K.png	http://sigma-service.ru/upload/dws/available_cars/full/yeti_outdoor/yeti_outdoor_active/0Q0Q.png	http://sigma-service.ru/upload/dws/available_cars/full/octavia/octavia_ambition/2T2T.png	http://sigma-service.ru/upload/dws/available_cars/full/octavia/octavia_ambition/8D8D.png	http://sigma-service.ru/upload/dws/available_cars/full/yeti_outdoor/yeti_outdoor_ambition/2R2R.png
+Skoda Rapid Active	Skoda Rapid Ambition	Skoda Rapid Style	Skoda Octavia Active	Skoda Rapid Ambition	Skoda Yeti Outdoor Active	Skoda Octavia Ambition	Skoda Octavia Ambition	Skoda Yeti Outdoor Ambition
+
+Skoda	Skoda	Skoda	Skoda	Skoda	Skoda	Skoda	Skoda	Skoda
+Rapid 	Rapid	Rapid 	Octavia 	Rapid 	Yeti 	 Octavia 	 Octavia 	Yeti
+Аctive	Ambition	Style	Active	Ambition	Outdoor Active	Ambition	Ambition	Outdoor Ambition
+
+седан	седан 	седан 	седан	седан	седан	седан	седан	седан
+белый 	коричневый металлик	черный перламутр 	белый	красный металлик	черный перламутр 	белый 	синий металлик	серый металлик
+100000	0	0	0	0	0	0	0	0
+2015	2016	2016	2016	2016	2016	2016	2016	2016
+
+
+бензиновый	бензиновый	бензиновый	бензиновый	бензиновый	бензиновый	бензиновый	бензиновый	бензиновый
+1.6	1,8	1,6	1,8	1,4	1,6	1,6	1,8	1,8
+110	180	110	180	125	110	110	180	152
+МКПП	DSG	АКПП	МКПП	DSG	АКПП	МКПП	DSG	DSG
+
+720,201	862,925	885,937	923,200	932,728	1,052,915	1,085,000	1,257,150	1,361,515
 `.trim();
 }

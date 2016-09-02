@@ -2,6 +2,9 @@ import React from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
 import Statistics from '/imports/common/collections/Statistics';
 import ReserveCars from '/imports/common/collections/ReserveCars';
+import DealerSettings from '/imports/common/collections/DealerSettings';
+
+import '../css/test.css';
 
 export default class TestWidgetPageDumb extends React.Component {
     componentWillMount() {
@@ -15,22 +18,25 @@ export default class TestWidgetPageDumb extends React.Component {
         document.body.appendChild(script);
     }
     render() {
-        const { loadingStats, loadingReserve, stats, reserveCars, ownerId } = this.props;
-        if (loadingStats)
+        const { loadingStats, loadingReserve, loadingSettings, stats, reserveCars, settings, ownerId } = this.props;
+        if (loadingStats || loadingSettings)
             return <div>Loading...</div>;
 
         const { widgetOpen, widgetLoaded, queries } = stats || {};
         return (
             <div>
-                <h3>Статистика дилера (id - {ownerId})</h3><br />
-                Открытий/загрузок виджета: {widgetOpen||0}/{widgetLoaded||0}<br />
-                Отправлено форм: {queries||0}<br /><br />
+                <h3>Дилер {settings.mark} (id - {ownerId})</h3>
+				Email: {settings.emails||'Отсутствует'}<br />
+				CustomCSS: <br /><i>{settings.customCSS}</i><br />
+                <h4>Статистика дилера {settings.mark} (id - {ownerId})</h4>
+                Открытий/загрузок виджета: <b>{widgetOpen||0}/{widgetLoaded||0}</b><br />
+                Отправлено поисковых форм: <b>{queries||0}</b>
 
-                <h3>Заказы:</h3>
+                <h4>Заказы:</h4>
                 <table><tbody>
                     <tr><th>Имя</th><th>Тел.</th><th>Email</th><th>Машина</th></tr>
-                {reserveCars.map(({ contactInfo, car }) => (
-                    <tr>
+                {reserveCars.map(({ contactInfo, car }, i) => (
+                    <tr key={i}>
                         <td>{contactInfo.name}</td>
                         <td>{contactInfo.phone}</td>
                         <td>{contactInfo.email}</td>
@@ -51,12 +57,15 @@ const TestWidgetPage = createContainer(props => {
     const { dealerId } = props.params;
     const statisticsHandle = Meteor.subscribe('statistics', dealerId);
     const reserveCarsHandle = Meteor.subscribe('ReserveCars', dealerId);
+    const dealerSettingsHandle = Meteor.subscribe('DealerSettings', dealerId);
 
     return {
         loadingStats: !statisticsHandle.ready(),
         loadingReserve: !reserveCarsHandle.ready(),
-        stats: Statistics.findOne({ _id: dealerId }),
-        reserveCars: ReserveCars.find({ _id: dealerId }).fetch(),
+        loadingSettings: !dealerSettingsHandle.ready(),
+        stats: Statistics.findOne({ ownerId: dealerId }),
+        settings: DealerSettings.findOne({ ownerId: dealerId }),
+        reserveCars: ReserveCars.find({ ownerId: dealerId }).fetch(),
         ownerId: dealerId
     };
 }, TestWidgetPageDumb);
