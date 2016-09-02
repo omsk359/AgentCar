@@ -125,8 +125,8 @@ function showSearchResults(results) {
     };
     if (results.length > 1)
         results.forEach((result, i) => {
-            $('.agent_car_result_link').append(`<a href="#">${i+1}</a>`);
-            $('.agent_car_result_link a:last').click(onSelect_i.bind(null, i));
+            $('.agent_car_result_link').append(`<span class="agent_car_result_link_n">${i+1}</span>`);
+            $('.agent_car_result_link span:last').click(onSelect_i.bind(null, i));
          });
     if (results.length) {
         $('.agent_car_return h3').text('Мы нашли для Вас');

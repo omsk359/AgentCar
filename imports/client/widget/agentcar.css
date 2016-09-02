@@ -38,7 +38,7 @@
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
   overflow: hidden;
 }
-.agent_car_widget .agent_car_logo:hover {
+.agent_car_widget .agent_car_logo:hover, .agent_car_result_link_n:hover {
   cursor: pointer;
 }
 .agent_car_widget .agent_car_close {
@@ -117,12 +117,12 @@
 .agent_car_widget .agent_car_body .agent_car_result_link {
   text-align: center;
 }
-.agent_car_widget .agent_car_body .agent_car_result_link a {
+.agent_car_widget .agent_car_body .agent_car_result_link span {
   padding: 2px 2px;
   text-decoration: none;
   font-size: 14px;
 }
-.agent_car_widget .agent_car_body .agent_car_result_link a:hover,
+.agent_car_widget .agent_car_body .agent_car_result_link span:hover,
 .agent_car_widget .agent_car_body .agent_car_result_link .ac_link_active {
   text-decoration: underline;
 }
