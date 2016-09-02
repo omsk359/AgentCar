@@ -38,6 +38,9 @@
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
   overflow: hidden;
 }
+.agent_car_widget .agent_car_logo:hover {
+  cursor: pointer;
+}
 .agent_car_widget .agent_car_close {
   position: absolute;
   top: 20px;
@@ -56,6 +59,7 @@
 .agent_car_widget .agent_car_close span:hover {
   background-color: #ac1c29;
   border-radius: 0px 4px;
+  cursor: pointer;
 }
 .agent_car_widget .agent_car_body {
   box-sizing: border-box;
