@@ -104,6 +104,10 @@ function showSearchResults(results) {
         const result = results[i];
         $('.ac_link_active').removeClass('ac_link_active');
         $(`.agent_car_result_link a:eq(${i})`).addClass('ac_link_active');
+        if (result.mileage)
+            var mileage = `Б/у. Пробег: ${result.mileage}; Год выпуска: ${result.year}`;
+        else
+            mileage = 'Новая';
         $('.agent_car_result').replaceWith(
             `<div data-id="${result._id}" class="agent_car_result">
                 <div class="agent_car_mark">
@@ -118,6 +122,7 @@ function showSearchResults(results) {
                     Объем: ${result.engine.capacity};
                     Мощность: ${result.engine.power}
                     <br/>${result.color}<br/>
+                    ${mileage}
                     <div class="agent_car_price">${formatPrice(result.price)} Р</div>
                 </div>
             </div>`
