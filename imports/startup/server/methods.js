@@ -1,12 +1,69 @@
 import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
-import { check } from 'meteor/check';
+import { check, Match } from 'meteor/check';
 import Cars from '/imports/common/collections/cars';
 import Statistics from '/imports/common/collections/Statistics';
 import QueriesHistory from '/imports/common/collections/QueriesHistory';
+import ReserveCars from '/imports/common/collections/ReserveCars';
 import _ from 'lodash';
+import nodemailer from 'nodemailer';
+// import mg from 'nodemailer-mailgun-transport';
+import mg from './nodemailer-mailgun-transport';
 
-const delta = 50000;
+const delta = 70000;
+
+
+// This is your API key that you retrieve from www.mailgun.com/cp (free up to 10K monthly emails)
+const auth = {
+    auth: {
+        api_key: 'key-a55c1f851d6bb68169862a6b0274bff0',
+        // domain: 'one of your domain names listed at your https://mailgun.com/app/domains'
+        domain: 'debian359.tk'
+    }
+};
+
+const nodemailerMailgun = nodemailer.createTransport(mg(auth));
+
+function sendMail(ownerId, car, contactInfo) {
+    switch (ownerId) {
+		case 'kZD2WwvnheG9RCwwD':
+			var emails = ['omsk359@protonmail.com', 'victory.ch123@yandex.ru', 'buzillo@ya.ru', 'petemic@yandex.ru'];
+			break;
+		case 'kZD2WwvnheG9RCkeK': // LADA
+			emails = ['omsk359@protonmail.com', 'victory.ch123@yandex.ru', 'buzillo@ya.ru', 'petemic@yandex.ru'];
+			break;
+        default:
+            throw Error('Wrong dealer ID');
+    }
+    let emailStr = contactInfo.email ? `E-mail - <b>${contactInfo.email}</b><br>` : '';
+    nodemailerMailgun.sendMail({
+		// from: 'tmpmail@protonmail.com',
+		from: 'test@debian359.tk',
+        to: emails, // An array if you have multiple recipients.
+        // cc:'second@domain.com',
+        // bcc:'secretagent@company.gov',
+        subject: `Бронирование машины`,
+        // 'h:Reply-To': 'reply2this@company.com',
+        //You can use "html:" to send HTML email content. It's magic!
+		html:
+`Друзья, сообщаем, что у Вас появился новый  клиент на покупку автомобиля.<br>
+Его контактные данные:<br>
+Имя - <b>${contactInfo.name}</b><br>
+Телефон - <b>${contactInfo.phone}</b><br>
+${emailStr}
+Автомобиль: <b>${car.mark} - ${car.model}</b>, цена: <b>${car.price}</b><br>
+Удачных продаж)<br>
+<i>Ваш <br>
+AgentCar.</i>`
+    }, function (err, info) {
+        if (err) {
+            console.log('Mailgun Error: ', err);
+        }
+        else {
+            console.log('Mailgun Response: ', info);
+        }
+    });
+}
 
 Meteor.methods({
 	'cars.insert'(mark, model, equipment, year, engine, color, price, photo) {
@@ -62,7 +119,10 @@ Meteor.methods({
 
 		Meteor.call('onWidgetLoaded', ownerId);
 
-		return Cars.find({ ownerId, checked: true }, { fields: { mark: 1, model: 1 } }).fetch();
+		let marksModels = Cars.find({ ownerId, checked: true }, { fields: { mark: 1, model: 1, _id: 0 } }).fetch();
+        marksModels = _.uniqWith(marksModels, _.isEqual);
+
+        return marksModels;
 	},
 
 	onWidgetOpen(ownerId) {
@@ -76,7 +136,7 @@ Meteor.methods({
 		Statistics.update({ ownerId }, { $inc: { widgetLoaded: 1 } }, { upsert: true });
 	},
 
-	carsByParams({ ownerId, mark, model, ac_form_i_have, ac_form_credit_pay = 0,
+	carsByParams({ ownerId, mark, model, ac_form_i_have, ac_form_credit_pay = 0, ac_form_secondhand = false,
 						  				 ac_form_credit_time = 0, ac_form_car_cost = 0 }) {
 		console.log('Params: ', arguments);
 		check(ownerId, String);
@@ -86,6 +146,7 @@ Meteor.methods({
 		check(ac_form_credit_pay, Number);
 		check(ac_form_credit_time, Number);
 		check(ac_form_car_cost, Number);
+		check(ac_form_secondhand, Boolean);
 
 		var ac_form_cash = ac_form_i_have + ac_form_credit_pay * ac_form_credit_time + ac_form_car_cost;
 		var ac_gte_cash = ac_form_cash - delta;
@@ -93,20 +154,48 @@ Meteor.methods({
 		// console.log(`gte: ${ac_gte_cash}; lte: ${ac_lte_cash}`);
 		// console.log(`Cars: ${Cars.find({ mark, price: { $gte: ac_gte_cash, $lte: ac_lte_cash } }).count()}`);
 
-		var foundCars =  Cars.find({
-			ownerId, mark, model, checked: true,
-			price: { $gte: ac_gte_cash, $lte: ac_lte_cash }
-		}).fetch();
+		var params = {
+			ownerId, mark, checked: true,
+            price: { $gte: 0, $lte: ac_lte_cash }
+            // price: { $gte: ac_gte_cash, $lte: ac_lte_cash }
+		};
+		console.log('Params2: ', params);
+		if (model)
+			params.model = model;
+		if (!ac_form_secondhand)
+			params.mileage = 0;
+
+		var foundCars = Cars.find(params, { sort: { price: -1 }, limit: 5 }).fetch();
 		console.log('Found cars: ', foundCars);
 
 		QueriesHistory.insert({ ownerId,
 			query: {
-				mark, model, ac_form_i_have, ac_form_credit_pay, ac_form_credit_time, ac_form_car_cost
+				mark, model, ac_form_i_have, ac_form_credit_pay, ac_form_credit_time, ac_form_car_cost, ac_form_secondhand
 			},
 			result: foundCars //_.map(foundCars, '_id')
 		});
 		Statistics.update({ ownerId }, { $inc: { queries: 1 } }, { upsert: true });
 
 		return foundCars;
+	},
+
+	reserveCar(ownerId, carId, contactInfo) {
+		console.log('reserveCar params: ', arguments);
+		check(ownerId, String);
+		check(carId, String);
+		check(contactInfo, {
+			name: String,
+			phone: String,
+			email: Match.Maybe(String)
+		});
+
+		var car = Cars.findOne({ _id: carId });
+		console.log('Found car: ', car);
+		if (!car)
+			throw new Error('Wrong carId');
+
+        sendMail(ownerId, car, contactInfo);
+
+		return ReserveCars.insert({ ownerId, car, contactInfo });
 	}
 });

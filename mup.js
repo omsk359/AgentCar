@@ -1,10 +1,10 @@
 module.exports = {
   servers: {
     one: {
-      host: 'debian359.tk',
+      host: '45.62.240.62',
+//      host: 'debian359.tk',
       username: 'root',
       // pem:
-      // password:
       // or leave blank for authenticate from ssh-agent
       opts: {
           port: 22,
