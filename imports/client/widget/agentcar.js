@@ -10,7 +10,8 @@ var MARK = '';
 let scriptUrl = $(document.currentScript).attr('src');
 const ACurl = new URL(scriptUrl).host;
 
-require('./agentcar.css');
+// require('./agentcar.css');
+require("!style!css!less!./agentcar.less");
 
 const ac_maket = require('html!./ac_maket.html');
 DEBUG && console.log('maket: ', ac_maket);
