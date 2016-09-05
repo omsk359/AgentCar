@@ -1,14 +1,17 @@
 import Asteroid from './lib/asteroid.browser';
 
-const DEBUG = typeof localStorage != 'undefined' && !!localStorage.getItem('agentCarDebug')
-const MARK = 'LADA';
+const DEBUG = typeof localStorage != 'undefined' && !!localStorage.getItem('agentCarDebug');
+var MARK = '';
 
 // const ACurl = "localhost:3000";
 // const ACurl = "198.211.121.66";
 // const ACurl = DEBUG ? 'localhost:3000' : 'debian359.tk';
-const ACurl = 'debian359.tk';
+// const ACurl = 'debian359.tk';
+let scriptUrl = $(document.currentScript).attr('src');
+const ACurl = new URL(scriptUrl).host;
 
-require('./agentcar.css');
+// require('./agentcar.css');
+require("!style!css!less!./agentcar.less");
 
 const ac_maket = require('html!./ac_maket.html');
 DEBUG && console.log('maket: ', ac_maket);
@@ -31,29 +34,37 @@ if (DEBUG) {
 
     rq.on('change', function() {
         DEBUG && console.log('CHANGE! ', rq.result);
-        const [{ queries, widgetLoaded, widgetOpen }] = rq.result;
+        const [{ queries, widgetLoaded, widgetOpen, reserve }] = rq.result;
         $('#agent_car_widget_stat').remove();
         $('.agent_car_body').append(
             `<div id="agent_car_widget_stat">
                 Открытий/загрузок виджета: ${widgetOpen||0}/${widgetLoaded||0};
-                Отправлено форм: ${queries||0}
+                Отправлено форм: ${queries||0}; Заявок: ${reserve||0}
             </div>`
         );
     });
 }
 
-function availableMarksModels(cb) {
-    asteroid.call('availableMarksModels', ownerId).result
-        .then(result => {
-            DEBUG && console.log("availableMarksModels Success");
-            DEBUG && console.log(result);
-            cb(result);
-        })
-        .catch(error => {
-            console.log("availableMarkNames Error");
-            console.error(error);
-        });
+function getInitWidgetData() {
+	return asteroid.call('getInitWidgetData', ownerId).result
+		.then(result => {
+			DEBUG && console.log("getInitWidgetData Success");
+			DEBUG && console.log(result);
+			return result;
+		});
 }
+// function availableMarksModels(cb) {
+// 	asteroid.call('availableMarksModels', ownerId).result
+// 		.then(result => {
+// 			DEBUG && console.log("availableMarksModels Success");
+// 			DEBUG && console.log(result);
+// 			cb(result);
+// 		})
+// 		.catch(error => {
+// 			console.log("availableMarkNames Error");
+// 			console.error(error);
+// 		});
+// }
 
 function filterByParams(params, cb) {
     DEBUG && console.log('Params: ', { ...params, ownerId });
@@ -238,28 +249,43 @@ function initMaket() {
     });
 }
 
+function applySettings({ mark, customCSS }) {
+	// replace KIA in the maket
+	MARK = mark;
+	var origText = $('.agent_car_group:eq(0) label').text();
+	$('.agent_car_group:eq(0) label').text(`${origText} ${MARK}`);
+	// $('.agent_car_group:eq(0) label').text(origText.replace(/\S+$/, MARK));
+
+	if (customCSS)
+		$('head').append(`<style>${customCSS}</style>`);
+}
+
+function updateMarksModels(marksModels) {
+	var models = _.chain(marksModels).filter(car => car.mark == MARK).map('model').value();
+	DEBUG && console.log(`${MARK} models: `, models);
+	$('select[name=agent_car_mark]').empty();
+	$('select[name=agent_car_mark]').append(`<option value="_ANY">_Любую</option>`);
+	models.forEach(model => {
+		$('select[name=agent_car_mark]').append(`<option value="${model}">${model}</option>`);
+	});
+}
+
 $(document).ready(function() {
     $('body').append(ac_maket);
 
-    // replace KIA in the maket
-    var origText = $('.agent_car_group:eq(0) label').text();
-    $('.agent_car_group:eq(0) label').text(`${origText} ${MARK}`);
-    // $('.agent_car_group:eq(0) label').text(origText.replace(/\S+$/, MARK));
-
-    // $('.agent_car_body').append(ac_result);
     $('.agent_car_result_block').replaceWith(ac_result);
     $('.agent_car_reserve_block').replaceWith(ac_reserve);
 
     initMaket();
-    availableMarksModels(result => {
-        var models = _.chain(result).filter(car => car.mark == MARK).map('model').value();
-        DEBUG && console.log(`${MARK} models: `, models);
-        $('select[name=agent_car_mark]').empty();
-        $('select[name=agent_car_mark]').append(`<option value="_ANY">_Любую</option>`);
-        models.forEach(model => {
-            $('select[name=agent_car_mark]').append(`<option value="${model}">${model}</option>`);
-        });
-    });
+	getInitWidgetData().then(({ marksModels, settings }) => {
+		applySettings(settings);
+		updateMarksModels(marksModels);
+    }).catch(err => {
+		console.log("getInitWidgetData Error");
+		console.error(err);
+		$('.agent_car_body').html(`Ошибка загрузки виджета: ${err.message}`);
+	});
+	;
     initSearchResults();
     initReserve();
 });

@@ -5,6 +5,7 @@ import Cars from '/imports/common/collections/cars';
 import Statistics from '/imports/common/collections/Statistics';
 import QueriesHistory from '/imports/common/collections/QueriesHistory';
 import ReserveCars from '/imports/common/collections/ReserveCars';
+import DealerSettings from '/imports/common/collections/DealerSettings';
 import _ from 'lodash';
 import nodemailer from 'nodemailer';
 // import mg from 'nodemailer-mailgun-transport';
@@ -25,21 +26,25 @@ const auth = {
 const nodemailerMailgun = nodemailer.createTransport(mg(auth));
 
 function sendMail(ownerId, car, contactInfo) {
-    switch (ownerId) {
-		case 'kZD2WwvnheG9RCwwD':
-			var emails = ['omsk359@protonmail.com', 'victory.ch123@yandex.ru', 'buzillo@ya.ru', 'petemic@yandex.ru'];
-			break;
-		case 'kZD2WwvnheG9RCkeK': // LADA
-			emails = ['omsk359@protonmail.com', 'victory.ch123@yandex.ru', 'buzillo@ya.ru', 'petemic@yandex.ru'];
-			break;
-        default:
-            throw Error('Wrong dealer ID');
-    }
+	let settings = DealerSettings.findOne({ ownerId });
+	if (!settings || !settings.emails)
+		return;
+    // switch (ownerId) {
+		// case 'kZD2WwvnheG9RCwwD':
+		// 	var emails = ['omsk359@protonmail.com', 'victory.ch123@yandex.ru', 'buzillo@ya.ru', 'petemic@yandex.ru'];
+		// 	break;
+		// case 'kZD2WwvnheG9RCkeK': // LADA
+		// 	emails = ['omsk359@protonmail.com', 'victory.ch123@yandex.ru', 'buzillo@ya.ru', 'petemic@yandex.ru'];
+		// 	break;
+    //     default:
+    //     	emails = settings.email;
+    //         throw Error('Wrong dealer ID');
+    // }
     let emailStr = contactInfo.email ? `E-mail - <b>${contactInfo.email}</b><br>` : '';
     nodemailerMailgun.sendMail({
 		// from: 'tmpmail@protonmail.com',
 		from: 'test@debian359.tk',
-        to: emails, // An array if you have multiple recipients.
+        to: settings.emails, // An array if you have multiple recipients.
         // cc:'second@domain.com',
         // bcc:'secretagent@company.gov',
         subject: `Бронирование машины`,
@@ -117,23 +122,39 @@ Meteor.methods({
 	availableMarksModels(ownerId) {
 		check(ownerId, String);
 
+		let marksModels = Cars.find({ ownerId, checked: true }, { fields: { mark: 1, model: 1, _id: 0 } }).fetch();
+		marksModels = _.uniqWith(marksModels, _.isEqual);
+
+		return marksModels;
+	},
+	getInitWidgetData(ownerId) {
+		check(ownerId, String);
+
 		Meteor.call('onWidgetLoaded', ownerId);
 
-		let marksModels = Cars.find({ ownerId, checked: true }, { fields: { mark: 1, model: 1, _id: 0 } }).fetch();
-        marksModels = _.uniqWith(marksModels, _.isEqual);
+		let marksModels = Meteor.call('availableMarksModels', ownerId);
+		let settings = DealerSettings.findOne({ ownerId });
 
-        return marksModels;
+		return { marksModels, settings };
 	},
 
 	onWidgetOpen(ownerId) {
 		check(ownerId, String);
 
-		Statistics.update({ ownerId }, { $inc: { widgetOpen: 1 } }, { upsert: true });
+		Statistics.update({ ownerId }, { $inc: { widgetOpen: 1 } }, { upsert: true }, (err) => {
+			// async this, don't wait for response
+			if (err)
+				console.error('Statistics.update widgetOpen err: ', err);
+		});
 	},
 	onWidgetLoaded(ownerId) {
 		check(ownerId, String);
 
-		Statistics.update({ ownerId }, { $inc: { widgetLoaded: 1 } }, { upsert: true });
+		Statistics.update({ ownerId }, { $inc: { widgetLoaded: 1 } }, { upsert: true }, (err) => {
+			// async this, don't wait for response
+			if (err)
+				console.error('Statistics.update widgetLoaded err: ', err);
+		});
 	},
 
 	carsByParams({ ownerId, mark, model, ac_form_i_have, ac_form_credit_pay = 0, ac_form_secondhand = false,
@@ -173,8 +194,16 @@ Meteor.methods({
 				mark, model, ac_form_i_have, ac_form_credit_pay, ac_form_credit_time, ac_form_car_cost, ac_form_secondhand
 			},
 			result: foundCars //_.map(foundCars, '_id')
+		}, (err) => {
+			// async this, don't wait for response
+			if (err)
+				console.error('QueriesHistory.insert err: ', err);
 		});
-		Statistics.update({ ownerId }, { $inc: { queries: 1 } }, { upsert: true });
+		Statistics.update({ ownerId }, { $inc: { queries: 1 } }, { upsert: true }, (err) => {
+			// async this, don't wait for response
+			if (err)
+				console.error('Statistics.update err: ', err);
+		});
 
 		return foundCars;
 	},
@@ -195,6 +224,12 @@ Meteor.methods({
 			throw new Error('Wrong carId');
 
         sendMail(ownerId, car, contactInfo);
+
+		Statistics.update({ ownerId }, { $inc: { reserve: 1 } }, { upsert: true }, (err) => {
+			// async this, don't wait for response
+			if (err)
+				console.error('Stat update err: ', err);
+		});
 
 		return ReserveCars.insert({ ownerId, car, contactInfo });
 	}
