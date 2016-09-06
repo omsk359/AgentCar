@@ -50,16 +50,16 @@
   font-size: 31px;
 }
 .agent_car_widget .agent_car_logo .agent_car_ag {
-  top: 8px;
+  top: 6px;
   left: 17px;
   font-weight: 800;
 }
 .agent_car_widget .agent_car_logo .agent_car_ent {
-  top: 8px;
+  top: 6px;
   left: 55px;
 }
 .agent_car_widget .agent_car_logo .agent_car_car {
-  top: 28px;
+  top: 26px;
   left: 55px;
 }
 .agent_car_widget .agent_car_logo .agent_car_tagline {
@@ -119,9 +119,14 @@
 }
 .agent_car_widget .agent_car_close a:hover,
 .agent_car_widget .agent_car_close span:hover {
-  background-color: #ac1c29;
   border-radius: 0px 4px;
   cursor: pointer;
+}
+.agent_car_widget .agent_car_green {
+  background-color: #38B449;
+}
+.agent_car_widget .agent_car_opacity {
+  opacity: 0.8;
 }
 .agent_car_widget .agent_car_body {
   box-sizing: border-box;
@@ -133,6 +138,13 @@
   border-radius: 20px 0px;
   border: solid 5px #fff;
   padding-left: 7px;
+}
+.agent_car_widget .agent_car_body p {
+  color: #fff;
+  padding: 10px 15px;
+}
+.agent_car_widget .agent_car_body h3 {
+  color: #fff;
 }
 .agent_car_widget .agent_car_body .agent_car_group {
   width: 350px;
@@ -148,12 +160,30 @@
   width: 160px;
   text-align: right;
 }
-.agent_car_widget .agent_car_body input[type="text"],
-.agent_car_widget .agent_car_body input[type="number"] {
+.agent_car_widget .agent_car_body .agent_car_form input[type="text"],
+.agent_car_widget .agent_car_body .agent_car_form input[type="number"] {
   width: 70px;
   padding-left: 3px;
 }
-.agent_car_widget .agent_car_body .agent_car_search {
+.agent_car_widget .agent_car_body .agent_car_reserve_form label {
+  width: 85px;
+}
+.agent_car_widget .agent_car_body .agent_car_reserve_form input[type="text"],
+.agent_car_widget .agent_car_body .agent_car_reserve_form input[type="number"] {
+  width: 200px;
+  padding-left: 3px;
+}
+.agent_car_widget .agent_car_body .agent_car_reserve_form .agent_car_cell {
+  display: table-cell;
+  width: 200px;
+  padding: 4px 1px 4px 5px;
+}
+.agent_car_widget .agent_car_body .agent_car_reserve_field {
+  padding-left: 3px;
+  width: 160px;
+}
+.agent_car_widget .agent_car_body .agent_car_search,
+.agent_car_widget .agent_car_body .agent_car_reserve {
   width: 300px;
   height: 25px;
   margin-top: 5px;
@@ -163,7 +193,8 @@
   border: 0;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
-.agent_car_widget .agent_car_body .agent_car_search:hover {
+.agent_car_widget .agent_car_body .agent_car_search:hover,
+.agent_car_widget .agent_car_body .agent_car_reserve:hover {
   background-color: #ac1c29;
 }
 .agent_car_widget .agent_car_body .agent_car_green {
@@ -214,4 +245,7 @@
 .agent_car_open {
   width: 350px;
   min-height: 300px;
+}
+.agent_car_right {
+  right: 10px;
 }

@@ -55,7 +55,7 @@
 		&:hover {
 			cursor: pointer;			
 		}
-		
+				
 		.agent_car_ag, .agent_car_ent, .agent_car_car {
 			display: block;
 			position: absolute;
@@ -64,18 +64,18 @@
 		}
 		
 		.agent_car_ag {
-			top: 8px;
+			top: 6px;
 			left: 17px;
 			font-weight: 800;
 		}
 		
 		.agent_car_ent{
-			top: 8px;
+			top: 6px;
 			left: 55px;
 		}
 		
 		.agent_car_car {
-			top: 28px;
+			top: 26px;
 			left: 55px;
 		}
 		
@@ -98,16 +98,28 @@
 	}
 	
 	@-webkit-keyframes ACanimation {
-	from { -webkit-transform: rotate(0deg) scale(0.832) skew(1deg) translate(-8px); }
-	to { -webkit-transform: rotate(0deg) scale(1) skew(1deg) translate(-2px); }
+		from {
+			-webkit-transform: rotate(0deg) scale(0.832) skew(1deg) translate(-8px);
+		}
+		to {
+			-webkit-transform: rotate(0deg) scale(1) skew(1deg) translate(-2px);
+		}
 	}
 	@-moz-keyframes ACanimation {
-	from { -moz-transform: rotate(0deg) scale(0.832) skew(1deg) translate(-8px); }
-	to { -moz-transform: rotate(0deg) scale(1) skew(1deg) translate(-2px); }
+		from {
+			-moz-transform: rotate(0deg) scale(0.832) skew(1deg) translate(-8px);
+		}
+		to {
+			-moz-transform: rotate(0deg) scale(1) skew(1deg) translate(-2px);
+		}
 	}
 	@-o-keyframes ACanimation {
-	from { -o-transform: rotate(0deg) scale(0.832) skew(1deg) translate(-8px); }
-	to { -o-transform: rotate(0deg) scale(1) skew(1deg) translate(-2px); }
+		from {
+			-o-transform: rotate(0deg) scale(0.832) skew(1deg) translate(-8px);
+		}
+		to {
+			-o-transform: rotate(0deg) scale(1) skew(1deg) translate(-2px);
+		}
 	}
 	
 	.agent_car_close {
@@ -126,12 +138,21 @@
 			color: #fff;
 			text-decoration: none;
 			&:hover {
-				background-color: @hover_color;
+//				background-color: #ac1c29;
 				border-radius: 0px 4px;
 				cursor: pointer;
 			}
 		}
 		
+	}
+	
+	.agent_car_green {
+		// background: #38B449 url('/images/agentcar_green.png') no-repeat 50% 50%;
+		background-color: #38B449;
+	}
+	
+	.agent_car_opacity {
+		opacity: 0.8;
 	}
 
 	.agent_car_body {
@@ -147,11 +168,15 @@
 		border: solid 5px #fff;
 		padding-left: 7px;
 		
-		.agent_car_form {
-			// margin-left: 5px;
-			// margin-bottom: 13px;
+		p {
+			color: #fff;
+			padding: 10px 15px;
 		}
-				
+		
+		h3 {
+			color: #fff;
+		}
+
 		.agent_car_group {
 			width: 350px;
 			display: table;
@@ -171,12 +196,36 @@
 			text-align: right;
 		}
 		
-		input[type="text"], input[type="number"] {
-			width: 70px;
-			padding-left: 3px;
+		.agent_car_form {
+			// margin-left: 5px;
+			// margin-bottom: 13px;
+			input[type="text"], input[type="number"] {
+				width: 70px;
+				padding-left: 3px;
+			}			
+		}
+		
+		.agent_car_reserve_form {
+			label {
+				width: 85px;
+			}
+			input[type="text"], input[type="number"] {
+				width: 200px;
+				padding-left: 3px;
+			}
+			.agent_car_cell {
+				display: table-cell;
+				width: 200px;	
+				padding: 4px 1px 4px 5px;
+			}
 		}
 						
-		.agent_car_search {
+		.agent_car_reserve_field {
+			padding-left: 3px;
+			width: 160px;
+		}		
+						
+		.agent_car_search, .agent_car_reserve {
 			width: 300px;
 			height: 25px;
 			margin-top: 5px;
@@ -249,4 +298,8 @@
 .agent_car_open {
 	width: 350px;
 	min-height: 300px;
+}
+
+.agent_car_right {
+	right: 10px;
 }

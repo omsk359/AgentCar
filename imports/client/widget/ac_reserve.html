@@ -1,7 +1,30 @@
 <div class="agent_car_reserve_block">
-    Вы:
-    <input name="agent_car_reserve_name" type="text" placeholder="Иванов Алексей Петрович" />
-    <input name="agent_car_reserve_phone" type="text" placeholder="8 (960) 345-76-76" />
-    <input name="agent_car_reserve_email" type="email" placeholder="ivanovAlex@mail.ru" />
-    <input name="agent_car_reserve_send" type="button" value="Забронировать!" />
+	<form class="agent_car_reserve_form" action="">
+		<div class="agent_car_group">
+			<label></label>
+			<div class="agent_car_cell">
+				<strong>Вы</strong>
+			</div>
+		</div>
+		<div class="agent_car_group">
+			<label for="agent_car_reserve_name">Ваше имя*</label>
+			<div class="agent_car_cell">
+				<input name="agent_car_reserve_name" id="agent_car_reserve_name" type="text"/>
+			</div>
+		</div>
+		<div class="agent_car_group">
+			<label for="agent_car_reserve_phone">Телефон*</label>
+			<div class="agent_car_cell">
+				<input name="agent_car_reserve_phone" id="agent_car_reserve_phone" type="text" value=""/>
+			</div>
+		</div>
+		<div class="agent_car_group">
+			<label for="agent_car_reserve_email">E-mail</label>
+			<div class="agent_car_cell">
+				<input name="agent_car_reserve_email" id="agent_car_reserve_email" type="text" value=""/>
+			</div>
+		</div>
+		<p>Чтобы забронировать автомобиль, мы должны Вам позвонить, чтобы подтвердить заказ. Заполните, пожалуйста, поле “Телефон”.</p>
+		<input type="submit" name="agent_car_reserve_send" class="agent_car_reserve" value="Забронировать"/>
+	</form>
 </div>
