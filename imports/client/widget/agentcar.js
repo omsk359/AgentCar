@@ -1,14 +1,12 @@
 import Asteroid from './lib/asteroid.browser';
 
 const DEBUG = typeof localStorage != 'undefined' && !!localStorage.getItem('agentCarDebug');
-var /*MARK = '', */dealerSettings = {};
+var dealerSettings = {};
 
-// const ACurl = "localhost:3000";
-// const ACurl = "198.211.121.66";
-// const ACurl = DEBUG ? 'localhost:3000' : 'debian359.tk';
-// const ACurl = 'debian359.tk';
 let scriptUrl = $(document.currentScript).attr('src');
-const ACurl = new URL(scriptUrl).host;
+let urlParser = document.createElement('a');
+urlParser.href = scriptUrl;
+const ACurl = urlParser.host; //new URL(scriptUrl).host;
 
 // require('./agentcar.css');
 require("!style!css!less!./agentcar.less");
