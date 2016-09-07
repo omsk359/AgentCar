@@ -175,6 +175,7 @@
 		
 		h3 {
 			color: #fff;
+			padding: 0 15px 0px 15px;
 		}
 
 		.agent_car_group {
@@ -199,17 +200,17 @@
 		.agent_car_form {
 			// margin-left: 5px;
 			// margin-bottom: 13px;
-			input[type="text"], input[type="number"] {
+			input[type="text"], input[type="number"], input[type="email"] {
 				width: 70px;
 				padding-left: 3px;
 			}			
 		}
 		
-		.agent_car_reserve_form {
+		.agent_car_reserve_form, .agent_car_negative_form {
 			label {
 				width: 85px;
 			}
-			input[type="text"], input[type="number"] {
+			input[type="text"], input[type="number"], input[type="email"] {
 				width: 200px;
 				padding-left: 3px;
 			}
@@ -225,7 +226,7 @@
 			width: 160px;
 		}		
 						
-		.agent_car_search, .agent_car_reserve {
+		.agent_car_search, .agent_car_reserve, .agent_car_negative {
 			width: 300px;
 			height: 25px;
 			margin-top: 5px;
@@ -234,11 +235,12 @@
 			color: #fff;
 			border: 0;
 			box-shadow: 0 0 10px rgba(0, 0, 0 , 0.5);
+			-webkit-appearance: none;
 			
-			&:hover {
-				background-color: @hover_color;				
-				
-			}			
+			// &:hover {
+			// 	background-color: @hover_color;
+			//
+			// }
 		}
 		
 		.agent_car_green {
