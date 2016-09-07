@@ -21,7 +21,7 @@ const ac_reserve = require('html!./ac_reserve.html');
 DEBUG && console.log('ac_reserve: ', ac_reserve);
 
 const ownerId = $(document.currentScript).data('id');
-const asteroid = new Asteroid(ACurl);
+const asteroid = new Asteroid(ACurl, location.protocol == 'https:');
 
 if (DEBUG) {
     window.$ = $; // make jq available for debug

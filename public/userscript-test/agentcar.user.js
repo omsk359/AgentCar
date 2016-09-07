@@ -37,5 +37,5 @@ document.body.appendChild(script);
 console.log('AgentCar added');
 
 
-if (typeof localStorage != 'undefined')
-	localStorage.setItem('agentCarDebug', 1);
+// if (typeof localStorage != 'undefined')
+// 	localStorage.setItem('agentCarDebug', 1);
