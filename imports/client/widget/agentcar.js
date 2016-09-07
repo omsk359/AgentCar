@@ -1,7 +1,7 @@
 import Asteroid from './lib/asteroid.browser';
 
 const DEBUG = typeof localStorage != 'undefined' && !!localStorage.getItem('agentCarDebug');
-var MARK = '';
+var /*MARK = '', */dealerSettings = {};
 
 // const ACurl = "localhost:3000";
 // const ACurl = "198.211.121.66";
@@ -208,6 +208,11 @@ function initMaket() {
         $('.agent_car_body').hide();
         $('.agent_car_border').hide();
         $('.agent_car_widget').removeClass('agent_car_open');
+
+        if (dealerSettings.opacity)
+            $('.agent_car_logo').addClass('agent_car_opacity');
+        if (dealerSettings.animate)
+            $('.agent_car_logo').addClass('agent_car_animate');
     };
     var open = () => {
         $('.agent_car_logo').css('height', '65px');
@@ -215,6 +220,7 @@ function initMaket() {
         $('.agent_car_body').show();
         $('.agent_car_border').show();
         $('.agent_car_widget').addClass('agent_car_open');
+        $('.agent_car_logo').removeClass('agent_car_opacity agent_car_animate');
         onWidgetOpen();
     };
 
@@ -238,7 +244,7 @@ function initMaket() {
             ac_form_credit_time: $('[name=agent_car_credit]').is(':checked') ? ac_form_credit_time : 0,
             ac_form_car_cost: $('[name=agent_car_trade_in]').is(':checked') ? ac_form_car_cost : 0,
             model : model == '_ANY' ? '' : model,
-            mark: MARK,
+            mark: dealerSettings.mark,
             ac_form_secondhand
         };
 
@@ -249,20 +255,36 @@ function initMaket() {
     });
 }
 
-function applySettings({ mark, customCSS }) {
+function applySettings({ mark, customCSS, position, color, opacity, animate }) {
 	// replace KIA in the maket
-	MARK = mark;
+	// MARK = mark;
 	var origText = $('.agent_car_group:eq(0) label').text();
-	$('.agent_car_group:eq(0) label').text(`${origText} ${MARK}`);
+	$('.agent_car_group:eq(0) label').text(`${origText} ${mark}`);
 	// $('.agent_car_group:eq(0) label').text(origText.replace(/\S+$/, MARK));
+
+    if (position == 'right')
+        $('.agent_car_widget').addClass('agent_car_right');
+
+    if (color == 'green') {
+        $('.agent_car_logo').addClass('agent_car_green');
+        $('[type=submit]').addClass('agent_car_green');
+        $('.agent_car_close').addClass('agent_car_green');
+    }
+
+    if (opacity)
+        $('.agent_car_logo').addClass('agent_car_opacity');
+
+    if (animate)
+        $('.agent_car_logo').addClass('agent_car_animate');
 
 	if (customCSS)
 		$('head').append(`<style>${customCSS}</style>`);
 }
 
 function updateMarksModels(marksModels) {
-	var models = _.chain(marksModels).filter(car => car.mark == MARK).map('model').value();
-	DEBUG && console.log(`${MARK} models: `, models);
+    var { mark } = dealerSettings;
+	var models = _.chain(marksModels).filter(car => car.mark == mark).map('model').value();
+	DEBUG && console.log(`${mark} models: `, models);
 	$('select[name=agent_car_mark]').empty();
 	$('select[name=agent_car_mark]').append(`<option value="_ANY">_Любую</option>`);
 	models.forEach(model => {
@@ -278,6 +300,7 @@ $(document).ready(function() {
 
     initMaket();
 	getInitWidgetData().then(({ marksModels, settings }) => {
+        dealerSettings = settings;
 		applySettings(settings);
 		updateMarksModels(marksModels);
     }).catch(err => {

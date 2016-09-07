@@ -32,11 +32,13 @@ CarsObjects.forEach(obj => Cars.insert(obj));
 import DealerSettings from '/imports/common/collections/DealerSettings';
 
 DealerSettings.remove({});
-DealerSettings.insert({ ownerId: 'kZD2WwvnheG9RCwwD', mark: 'LADA', customCSS: '', emails: ['omsk359@protonmail.com', 'victory.ch123@yandex.ru', 'buzillo@ya.ru', 'petemic@yandex.ru'] });
+DealerSettings.insert({ ownerId: 'kZD2WwvnheG9RCwwD', mark: 'LADA', emails: ['omsk359@protonmail.com', 'victory.ch123@yandex.ru', 'buzillo@ya.ru', 'petemic@yandex.ru'] });
 // sparz2
-DealerSettings.insert({ ownerId: 'kZD2WwvnheG9RCkeK', mark: 'LADA', customCSS: '', emails: ['omsk359@protonmail.com', 'victory.ch123@yandex.ru', 'buzillo@ya.ru', 'petemic@yandex.ru'] });
-DealerSettings.insert({ ownerId: 'kZD2WwvnheGtest1', mark: 'LADA', customCSS: '.agent_car_logo { right: 45px !important; }', emails: false });
-DealerSettings.insert({ ownerId: 'kZD2WwvnheGtest2', mark: 'SKODA', customCSS: '.agent_car_widget { right: 55px !important; } .agent_car_logo { left: 100px !important; }', emails: false });
+DealerSettings.insert({ ownerId: 'kZD2WwvnheG9RCkeK', mark: 'LADA', emails: ['omsk359@protonmail.com', 'victory.ch123@yandex.ru', 'buzillo@ya.ru', 'petemic@yandex.ru'] });
+DealerSettings.insert({ ownerId: 'kZD2WwvnheGtest1', mark: 'LADA', emails: false });
+DealerSettings.insert({ ownerId: 'kZD2WwvnheGtest2', mark: 'SKODA', position: 'right', color: 'green', opacity: 80, animate: true, emails: false });
+// DealerSettings.insert({ ownerId: 'kZD2WwvnheGtest1', mark: 'LADA', position: 'left', customCSS: '.agent_car_logo { right: 45px !important; }', emails: false });
+// DealerSettings.insert({ ownerId: 'kZD2WwvnheGtest2', mark: 'SKODA', customCSS: '.agent_car_widget { right: 55px !important; } .agent_car_logo { left: 100px !important; }', emails: false });
 
 // Cars.insert({ mark: 'KIA', model: 'PICANTO', equipment: 'Classic', k: 'хачбек', color: 'красный',
 //     engine: 'вид: бензиновый; объем: 1.0; мощность: 66; кпп: 5МТ; ускорение: 14.6; расход бензина: 4.5',
