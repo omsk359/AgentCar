@@ -15,10 +15,6 @@
 .agent_car_widget a {
   color: #fff;
 }
-.agent_car_widget .agent_car_body,
-.agent_car_widget .agent_car_border {
-  display: none;
-}
 .agent_car_widget .agent_car_border {
   margin-top: 26px;
   border: solid 1px #ccc;
@@ -247,6 +243,10 @@
 .agent_car_widget .agent_car_body .agent_car_result .agent_car_price {
   font-size: 22px;
   padding-top: 7px;
+}
+.agent_car_mark strong {
+  display: block;
+  margin-bottom: 5px;
 }
 .agent_car_open {
   width: 350px;
