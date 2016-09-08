@@ -120,7 +120,8 @@ function showSearchResults(results) {
         $('.agent_car_result').replaceWith(
             `<div data-id="${result._id}" class="agent_car_result">
                 <div class="agent_car_mark">
-                    <strong>${result.mark} ${result.model}</strong><br/>
+                    <strong>${result.mark} ${result.model}</strong>
+                    <br/><br/>
                     <img src="${result.photo}" width="130"/>
                 </div>
                 <div class="agent_car_equip">
