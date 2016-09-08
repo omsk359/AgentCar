@@ -6,6 +6,7 @@ import Statistics from '/imports/common/collections/Statistics';
 import QueriesHistory from '/imports/common/collections/QueriesHistory';
 import ReserveCars from '/imports/common/collections/ReserveCars';
 import DealerSettings from '/imports/common/collections/DealerSettings';
+import NegativeSubscribe from '/imports/common/collections/NegativeSubscribe';
 import _ from 'lodash';
 import nodemailer from 'nodemailer';
 // import mg from 'nodemailer-mailgun-transport';
@@ -223,7 +224,7 @@ Meteor.methods({
 		if (!car)
 			throw new Error('Wrong carId');
 
-        sendMail(ownerId, car, contactInfo);
+		sendMail(ownerId, car, contactInfo);
 
 		Statistics.update({ ownerId }, { $inc: { reserve: 1 } }, { upsert: true }, (err) => {
 			// async this, don't wait for response
@@ -232,5 +233,32 @@ Meteor.methods({
 		});
 
 		return ReserveCars.insert({ ownerId, car, contactInfo });
+	},
+
+	negativeSubscribe({ ownerId, contactInfo, searchParams }) {
+		console.log('reserveCar params: ', arguments);
+		check(ownerId, String);
+		check(contactInfo, {
+			name: String,
+			email: String,
+			phone: Match.Maybe(String)
+		});
+		check(searchParams, {
+			mark: String,
+			model: String,
+			ac_form_i_have: Number,
+			ac_form_credit_pay: Number,
+			ac_form_secondhand: Boolean,
+			ac_form_credit_time: Number,
+			ac_form_car_cost: Number
+		});
+
+		Statistics.update({ ownerId }, { $inc: { subscribe: 1 } }, { upsert: true }, (err) => {
+			// async this, don't wait for response
+			if (err)
+				console.error('Stat update err: ', err);
+		});
+
+		return NegativeSubscribe.insert({ ownerId, contactInfo, searchParams });
 	}
 });

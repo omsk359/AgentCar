@@ -6,7 +6,7 @@ var dealerSettings = {};
 let scriptUrl = $(document.currentScript).attr('src');
 let urlParser = document.createElement('a');
 urlParser.href = scriptUrl;
-const ACurl = urlParser.host; //new URL(scriptUrl).host;
+const ACurl = urlParser.host;
 
 // require('./agentcar.css');
 require("!style!css!less!./agentcar.less");
@@ -20,6 +20,9 @@ DEBUG && console.log('ac_result: ', ac_result);
 const ac_reserve = require('html!./ac_reserve.html');
 DEBUG && console.log('ac_reserve: ', ac_reserve);
 
+const ac_negative = require('html!./ac_negative.html');
+DEBUG && console.log('ac_negative: ', ac_negative);
+
 const ownerId = $(document.currentScript).data('id');
 const asteroid = new Asteroid(ACurl, location.protocol == 'https:');
 
@@ -32,12 +35,12 @@ if (DEBUG) {
 
     rq.on('change', function() {
         DEBUG && console.log('CHANGE! ', rq.result);
-        const [{ queries, widgetLoaded, widgetOpen, reserve }] = rq.result;
+        const [{ queries, widgetLoaded, widgetOpen, reserve, subscribe }] = rq.result;
         $('#agent_car_widget_stat').remove();
         $('.agent_car_body').append(
             `<div id="agent_car_widget_stat">
                 Открытий/загрузок виджета: ${widgetOpen||0}/${widgetLoaded||0};
-                Отправлено форм: ${queries||0}; Заявок: ${reserve||0}
+                Отправлено форм: ${queries||0}; Заявок/подписок: ${reserve||0}/${subscribe||0}
             </div>`
         );
     });
@@ -80,7 +83,16 @@ function reserveCar(carId, contactInfo) {
     DEBUG && console.log('Params: ', { ownerId, carId, contactInfo });
     return asteroid.call('reserveCar', ownerId, carId, contactInfo).result
         .then(result => {
-            DEBUG && console.log("carsByParams Success: ", result);
+            DEBUG && console.log("reserveCar Success: ", result);
+            return result;
+        });
+}
+
+function negativeSubscribe(contactInfo, searchParams) {
+    DEBUG && console.log('Params: ', { ownerId, contactInfo, searchParams });
+    return asteroid.call('negativeSubscribe', { ownerId, contactInfo, searchParams }).result
+        .then(result => {
+            DEBUG && console.log("negativeSubscribe Success: ", result);
             return result;
         });
 }
@@ -99,7 +111,9 @@ function showSearchResults(results) {
     DEBUG && console.log('Total results: ', results.length);
 
     $('.agent_car_form').hide();
-    $('.agent_car_result_block').show();
+    $('.agent_car_result_block').hide();
+    $('.agent_car_negative_block').hide();
+    $('[name=agent_car_reserve]').hide();
 
     $('.agent_car_result').empty();
     $('.agent_car_result_link').empty();
@@ -144,12 +158,13 @@ function showSearchResults(results) {
             $('.agent_car_result_link span:last').click(onSelect_i.bind(null, i));
          });
     if (results.length) {
-        $('.agent_car_return h3').text('Мы нашли для Вас');
+        $('.agent_car_result_block').show();
+        // $('.agent_car_return h3').text('Мы нашли для Вас');
         onSelect_i(0);
         $('[name=agent_car_reserve]').show();
     } else {
-        $('.agent_car_return h3').text('Мы ничего для Вас не нашли');
-        $('[name=agent_car_reserve]').hide();
+        $('.agent_car_negative_block').show();
+        // $('.agent_car_return h3').text('Мы ничего для Вас не нашли');
     }
 }
 
@@ -188,6 +203,26 @@ function initReserve() {
         });
     });
 }
+function initNegative() {
+    $('.agent_car_negative_block').hide();
+    $('[name=agent_car_negative_send]').click(e => {
+        e.preventDefault();
+        var name = $('[name=agent_car_negative_name]').val();
+        var phone = $('[name=agent_car_negative_phone]').val();
+        var email = $('[name=agent_car_negative_email]').val();
+        var info = { name, phone, email };
+        var searchParams = getSearchParams();
+        negativeSubscribe(info, searchParams).then(subscribeId => {
+            alert(`Успешно подписались! ID: ${subscribeId}`);
+            $('.agent_car_search').click();
+        }).catch(err => {
+            alert(`Ошибка! ${err.message}`);
+            console.log("negativeSubscribe Error");
+            console.error(err);
+        });
+    });
+}
+
 function initMaket() {
     $('.agent_car_result_block').hide();
 
@@ -233,28 +268,30 @@ function initMaket() {
     $('#agent_car_close_x').click(close);
 
 	$('.agent_car_form').submit(function(e) {
-        var ac_form_i_have = +$("input[name=agent_car_i_have]").val().replace(/\s/g, ''),
-            ac_form_credit_pay = +$("input[name=agent_car_credit_pay]").val().replace(/\s/g, ''),
-            ac_form_credit_time = +$("select[name=agent_car_credit_time]").val().replace(/\s/g, ''),
-            ac_form_car_cost = +$("input[name=agent_car_my_car_cost]").val().replace(/\s/g, ''),
-            model = $("select[name=agent_car_mark]").val(),
-            ac_form_secondhand = $('#agent_car_secondhand').is(':checked');
-
-        var params = {
-            ac_form_i_have,
-            ac_form_credit_pay: $('[name=agent_car_credit]').is(':checked') ? ac_form_credit_pay : 0,
-            ac_form_credit_time: $('[name=agent_car_credit]').is(':checked') ? ac_form_credit_time : 0,
-            ac_form_car_cost: $('[name=agent_car_trade_in]').is(':checked') ? ac_form_car_cost : 0,
-            model : model == '_ANY' ? '' : model,
-            mark: dealerSettings.mark,
-            ac_form_secondhand
-        };
+	    var params = getSearchParams();
 
         filterByParams(params, showSearchResults);
 
         e.preventDefault();
 		return false;
     });
+}
+function getSearchParams() {
+    var ac_form_i_have = +$("input[name=agent_car_i_have]").val().replace(/\s/g, ''),
+        ac_form_credit_pay = +$("input[name=agent_car_credit_pay]").val().replace(/\s/g, ''),
+        ac_form_credit_time = +$("select[name=agent_car_credit_time]").val().replace(/\s/g, ''),
+        ac_form_car_cost = +$("input[name=agent_car_my_car_cost]").val().replace(/\s/g, ''),
+        model = $("select[name=agent_car_mark]").val(),
+        ac_form_secondhand = $('#agent_car_secondhand').is(':checked');
+    return {
+        ac_form_i_have,
+        ac_form_credit_pay: $('[name=agent_car_credit]').is(':checked') ? ac_form_credit_pay : 0,
+        ac_form_credit_time: $('[name=agent_car_credit]').is(':checked') ? ac_form_credit_time : 0,
+        ac_form_car_cost: $('[name=agent_car_trade_in]').is(':checked') ? ac_form_car_cost : 0,
+        model : model == '_ANY' ? '' : model,
+        mark: dealerSettings.mark,
+        ac_form_secondhand
+    };
 }
 
 function applySettings({ mark, customCSS, position, color, opacity, animate }) {
@@ -270,6 +307,7 @@ function applySettings({ mark, customCSS, position, color, opacity, animate }) {
     if (color == 'green') {
         $('.agent_car_logo').addClass('agent_car_green');
         $('[type=submit]').addClass('agent_car_green');
+        $('[type=button]').addClass('agent_car_green');
         $('.agent_car_close').addClass('agent_car_green');
     }
 
@@ -299,6 +337,7 @@ $(document).ready(function() {
 
     $('.agent_car_result_block').replaceWith(ac_result);
     $('.agent_car_reserve_block').replaceWith(ac_reserve);
+    $('.agent_car_negative_block').replaceWith(ac_negative);
 
     initMaket();
 	getInitWidgetData().then(({ marksModels, settings }) => {
@@ -313,4 +352,5 @@ $(document).ready(function() {
 
     initSearchResults();
     initReserve();
+    initNegative();
 });

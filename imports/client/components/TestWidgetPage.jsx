@@ -3,6 +3,7 @@ import { createContainer } from 'meteor/react-meteor-data';
 import Statistics from '/imports/common/collections/Statistics';
 import ReserveCars from '/imports/common/collections/ReserveCars';
 import DealerSettings from '/imports/common/collections/DealerSettings';
+import NegativeSubscribe from '/imports/common/collections/NegativeSubscribe';
 
 import '../css/test.css';
 
@@ -18,22 +19,24 @@ export default class TestWidgetPageDumb extends React.Component {
         document.body.appendChild(script);
     }
     render() {
-        const { loadingStats, loadingReserve, loadingSettings, stats, reserveCars, settings, ownerId } = this.props;
-        if (loadingStats || loadingSettings)
+        const { loadingStats, loadingReserve, loadingSettings, loadingNegative,
+                stats, reserveCars, settings, negativeSubscribes, ownerId } = this.props;
+        if (loadingStats || loadingSettings || loadingReserve || loadingNegative)
             return <div>Loading...</div>;
 
-        const { widgetOpen, widgetLoaded, queries, reserve } = stats || {};
+        const { widgetOpen, widgetLoaded, queries, reserve, subscribe } = stats || {};
         let { emails } = settings || {};
         emails = emails ? emails.join(', ') : 'Отсутствует';
         return (
             <div>
                 <h3>Дилер {settings.mark} (id - {ownerId})</h3>
 				Emails: {emails}<br />
+				Цвет: {settings.color}; Расположение: {settings.position}; Прозрачность: {settings.opacity}; Анимация: {settings.animate}<br />
 				CustomCSS: <br /><i>{settings.customCSS}</i><br />
                 <h4>Статистика</h4>
                 Открытий/загрузок виджета: <b>{widgetOpen||0}/{widgetLoaded||0}</b><br />
 				Отправлено поисковых форм: <b>{queries||0}</b><br />
-				Всего заказов: <b>{reserve||0}</b><br />
+				Всего заказов/подписок: <b>{reserve||0}/{subscribe||0}</b><br />
 
                 <h4>Заказы ({reserveCars.length})</h4>
                 <table><tbody>
@@ -44,6 +47,19 @@ export default class TestWidgetPageDumb extends React.Component {
                         <td>{contactInfo.phone}</td>
                         <td>{contactInfo.email}</td>
                         <td>{car.mark} - {car.model} ({car.price} Р)</td>
+                    </tr>
+                ))}
+                </tbody></table>
+
+                <h4>Не нашли, но подписались ({negativeSubscribes.length})</h4>
+                <table><tbody>
+                <tr><th>Имя</th><th>Тел.</th><th>Email</th><th>Параметры поиска</th></tr>
+                {negativeSubscribes.map(({ contactInfo, searchParams }, i) => (
+                    <tr key={i}>
+                        <td>{contactInfo.name}</td>
+                        <td>{contactInfo.phone}</td>
+                        <td>{contactInfo.email}</td>
+                        <td>{JSON.stringify(searchParams)}</td>
                     </tr>
                 ))}
                 </tbody></table>
@@ -61,14 +77,17 @@ const TestWidgetPage = createContainer(props => {
     const statisticsHandle = Meteor.subscribe('statistics', dealerId);
     const reserveCarsHandle = Meteor.subscribe('ReserveCars', dealerId);
     const dealerSettingsHandle = Meteor.subscribe('DealerSettings', dealerId);
+    const negativeSubscribeHandle = Meteor.subscribe('NegativeSubscribe', dealerId);
 
     return {
         loadingStats: !statisticsHandle.ready(),
         loadingReserve: !reserveCarsHandle.ready(),
         loadingSettings: !dealerSettingsHandle.ready(),
+        loadingNegative: !negativeSubscribeHandle.ready(),
         stats: Statistics.findOne({ ownerId: dealerId }),
         settings: DealerSettings.findOne({ ownerId: dealerId }),
         reserveCars: ReserveCars.find({ ownerId: dealerId }).fetch(),
+        negativeSubscribes: NegativeSubscribe.find({ ownerId: dealerId }).fetch(),
         ownerId: dealerId
     };
 }, TestWidgetPageDumb);

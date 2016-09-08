@@ -3,6 +3,7 @@ import '/imports/server/collections/cars';
 import '/imports/server/collections/Statistics';
 import '/imports/server/collections/ReserveCars';
 import '/imports/server/collections/DealerSettings';
+import '/imports/server/collections/NegativeSubscribe';
 import _ from 'lodash';
 
 
@@ -36,7 +37,7 @@ DealerSettings.insert({ ownerId: 'kZD2WwvnheG9RCwwD', mark: 'LADA', emails: ['om
 // sparz2
 DealerSettings.insert({ ownerId: 'kZD2WwvnheG9RCkeK', mark: 'LADA', emails: ['omsk359@protonmail.com', 'victory.ch123@yandex.ru', 'buzillo@ya.ru', 'petemic@yandex.ru'] });
 DealerSettings.insert({ ownerId: 'kZD2WwvnheGtest1', mark: 'LADA', emails: false });
-DealerSettings.insert({ ownerId: 'kZD2WwvnheGtest2', mark: 'SKODA', position: 'right', color: 'green', opacity: 80, animate: true, emails: false });
+DealerSettings.insert({ ownerId: 'kZD2WwvnheGtest2', mark: 'Skoda', position: 'right', color: 'green', opacity: 80, animate: true, emails: false });
 // DealerSettings.insert({ ownerId: 'kZD2WwvnheGtest1', mark: 'LADA', position: 'left', customCSS: '.agent_car_logo { right: 45px !important; }', emails: false });
 // DealerSettings.insert({ ownerId: 'kZD2WwvnheGtest2', mark: 'SKODA', customCSS: '.agent_car_widget { right: 55px !important; } .agent_car_logo { left: 100px !important; }', emails: false });
 
