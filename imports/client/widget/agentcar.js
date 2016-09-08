@@ -284,7 +284,7 @@ function updateMarksModels(marksModels) {
 	var models = _.chain(marksModels).filter(car => car.mark == mark).map('model').value();
 	DEBUG && console.log(`${mark} models: `, models);
 	$('select[name=agent_car_mark]').empty();
-	$('select[name=agent_car_mark]').append(`<option value="_ANY">_Любую</option>`);
+	$('select[name=agent_car_mark]').append(`<option value="_ANY">Любую</option>`);
 	models.forEach(model => {
 		$('select[name=agent_car_mark]').append(`<option value="${model}">${model}</option>`);
 	});
