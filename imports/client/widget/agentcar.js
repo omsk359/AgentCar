@@ -161,6 +161,7 @@ function initSearchResults() {
     });
     $('[name=agent_car_reserve]').click(() => {
         $('.agent_car_reserve_block').show();
+        $('.agent_car_reserve_status').text('');
         $('[name=agent_car_reserve]').hide();
     });
 }
@@ -175,10 +176,12 @@ function initReserve() {
         if (/\S/.test(email))
             info.email = email;
         reserveCar(carId, info).then(reserveId => {
-            alert(`Успешно забронировали! ID заявки: ${reserveId}`);
+            // alert(`Успешно забронировали! ID заявки: ${reserveId}`);
+            $('.agent_car_reserve_status').text(`Поздравляем! Вы успешно забронировали автомобиль! Номер Вашей заявки ${reserveId}. Наш менеджер свяжется с Вами в ближайшее время!`);
             $('.agent_car_reserve_block').hide();
         }).catch(err => {
             alert(`Ошибка! ${err.message}`);
+            $('.agent_car_reserve_status').text(`Ошибка! ${err.message}`);
             console.log("reserveCar Error");
             console.error(err);
         });
@@ -189,7 +192,7 @@ function initMaket() {
 
     $( "[name=agent_car_credit_pay]" ).hide();
 	$( "[name=agent_car_credit_time]" ).hide();
-	$( "[name=agent_car_my_car_cost]" ).hide();
+    $('[name=agent_car_my_car_cost]').closest('.agent_car_group').hide();
 
 	$('[name=agent_car_credit]').click(function() {
 		$('[name=agent_car_credit_pay]').toggle();
@@ -197,7 +200,7 @@ function initMaket() {
 	});
 
 	$('[name=agent_car_trade_in]').click(function() {
-		$('[name=agent_car_my_car_cost]').toggle();
+        $('[name=agent_car_my_car_cost]').closest('.agent_car_group').toggle();
 	});
 
     var close = () => {
@@ -284,7 +287,7 @@ function updateMarksModels(marksModels) {
 	var models = _.chain(marksModels).filter(car => car.mark == mark).map('model').value();
 	DEBUG && console.log(`${mark} models: `, models);
 	$('select[name=agent_car_mark]').empty();
-	$('select[name=agent_car_mark]').append(`<option value="_ANY">_Любую</option>`);
+	$('select[name=agent_car_mark]').append(`<option value="_ANY">Любую</option>`);
 	models.forEach(model => {
 		$('select[name=agent_car_mark]').append(`<option value="${model}">${model}</option>`);
 	});
@@ -306,7 +309,7 @@ $(document).ready(function() {
 		console.error(err);
 		$('.agent_car_body').html(`Ошибка загрузки виджета: ${err.message}`);
 	});
-	;
+
     initSearchResults();
     initReserve();
 });
