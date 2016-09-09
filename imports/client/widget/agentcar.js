@@ -253,13 +253,13 @@ function initNegative() {
 function initMaket() {
     $('.agent_car_result_block').hide();
 
-    $( "[name=agent_car_credit_pay]" ).hide();
-	$( "[name=agent_car_credit_time]" ).hide();
+    $('[name=agent_car_credit_pay]').closest('.agent_car_group').hide();
+	$('[name=agent_car_credit_time]').closest('.agent_car_group').hide();
     $('[name=agent_car_my_car_cost]').closest('.agent_car_group').hide();
 
 	$('[name=agent_car_credit]').click(function() {
-		$('[name=agent_car_credit_pay]').toggle();
-		$('[name=agent_car_credit_time]').toggle();
+		$('[name=agent_car_credit_pay]').closest('.agent_car_group').toggle();
+		$('[name=agent_car_credit_time]').closest('.agent_car_group').toggle();
 	});
 
 	$('[name=agent_car_trade_in]').click(function() {
