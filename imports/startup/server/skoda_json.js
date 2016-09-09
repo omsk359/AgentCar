@@ -187,7 +187,7 @@ export default [
 		"priceold": 731200,
 		"price": 720201
 	},{
-		"photo": "https://2.downloader.disk.yandex.ru/preview/bc3634be97e59c954101964b739cc20e4202732f2cf6f17339898c83d2e20425/inf/PuAlW5aejdHA25NE0Ie--R6mkwbHoggGh1h3FNDbtEh6jztYGh7QrWaYUVAwQ2nhql7I7ZmtPkc2lw1TqdxyHg%3D%3D?uid=2648717&filename=Rapid%201.jpg&disposition=inline&hash=&limit=0&content_type=image%2Fjpeg&tknv=v2&size=222x222",
+		"photo": "http://s018.radikal.ru/i527/1609/31/e932d07202b1.jpg",
 		"mark": "SKODA",
 		"model": "Rapid",
 		"equipment": "Style",

@@ -114,6 +114,7 @@ function showSearchResults(results) {
     $('.agent_car_result_block').hide();
     $('.agent_car_negative_block').hide();
     $('[name=agent_car_reserve]').hide();
+    $('.agent_car_reserve_status').html('');
 
     $('.agent_car_result').empty();
     $('.agent_car_result_link').empty();
@@ -175,10 +176,11 @@ function initSearchResults() {
         $('[name=agent_car_reserve]').show();
         $('.agent_car_reserve_block').hide();
         $('.agent_car_negative_block').hide();
+        $('.agent_car_reserve_status').html('');
     });
     $('[name=agent_car_reserve]').click(() => {
         $('.agent_car_reserve_block').show();
-        $('.agent_car_reserve_status').text('');
+        // $('.agent_car_reserve_status').text('');
         $('[name=agent_car_reserve]').hide();
     });
 }
@@ -221,7 +223,12 @@ function initReserve() {
             info.email = email;
         reserveCar(carId, info).then(reserveId => {
             // alert(`Успешно забронировали! ID заявки: ${reserveId}`);
-            $('.agent_car_reserve_status').text(`Поздравляем! Вы успешно забронировали автомобиль! Номер Вашей заявки ${reserveId}. Наш менеджер свяжется с Вами в ближайшее время!`);
+            $('.agent_car_reserve_status').html(
+                `<h3>Поздравляем!<h3>
+                 <p>Вы успешно забронировали автомобиль! 
+                 Номер Вашей заявки <strong>${reserveId}</strong>. 
+                 Наш менеджер свяжется с Вами в ближайшее время!<p>`
+            );
             $('.agent_car_reserve_block').hide();
         }).catch(err => {
             alert(`Ошибка! ${err.message}`);
