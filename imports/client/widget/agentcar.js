@@ -131,7 +131,7 @@ function showSearchResults(results) {
         if (result.mileage)
             var mileage = `Б/у. Пробег: ${result.mileage}; Год выпуска: ${result.year}`;
         else
-            mileage = 'Новая';
+            mileage = 'Машина новая';
         $('.agent_car_result').replaceWith(
             `<div data-id="${result._id}" class="agent_car_result">
                 <div class="agent_car_mark">
@@ -141,13 +141,14 @@ function showSearchResults(results) {
                 </div>
                 <div class="agent_car_equip">
                     <br/>${result.equipment}
-                    <br/>${result.carcase}
+                    <br/>${result.kpp}
                     <br/>
                     Тип: ${result.engine.type};
                     Объем: ${result.engine.capacity};
                     Мощность: ${result.engine.power}
                     <br/>${result.color}<br/>
-                    ${mileage}
+                    ${mileage}<br />
+                    Старая цена: ${result.priceold}
                     <div class="agent_car_price">${formatPrice(result.price)} Р</div>
                 </div>
             </div>`
