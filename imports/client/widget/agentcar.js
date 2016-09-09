@@ -181,9 +181,36 @@ function initSearchResults() {
         $('[name=agent_car_reserve]').hide();
     });
 }
+
+function checkInput(input) {
+    var check = $(input).data('check');
+    if (!check) return true;
+    var val = $(input).val();
+    var errField = $(input).parent().find('.agent_car_field_error');
+    var required = $(input).attr('required');
+    required = typeof required !== typeof undefined && required !== false;
+    if (!required && val == '') {
+        errField.hide();
+        return true;
+    }
+    var ok = new RegExp(check).test(val);
+    ok ? errField.hide() : errField.show();
+    return ok;
+}
+var checkAllInput = inputs => _.every(inputs.map(input => checkInput(input)));
+
 function initReserve() {
     $('.agent_car_reserve_block').hide();
-    $('[name=agent_car_reserve_send]').click(() => {
+
+    $('[name=agent_car_reserve_name]').blur(e => checkInput(e.target));
+    $('[name=agent_car_reserve_phone]').blur(e => checkInput(e.target));
+    $('[name=agent_car_reserve_email]').blur(e => checkInput(e.target));
+
+    $('[name=agent_car_reserve_send]').click(e => {
+        e.preventDefault();
+        var toCheck = [ '[name=agent_car_reserve_name]', '[name=agent_car_reserve_phone]', '[name=agent_car_reserve_email]' ];
+        if (!checkAllInput(toCheck))
+            return;
         var name = $('[name=agent_car_reserve_name]').val();
         var phone = $('[name=agent_car_reserve_phone]').val();
         var email = $('[name=agent_car_reserve_email]').val();
@@ -298,7 +325,7 @@ function applySettings({ mark, customCSS, position, color, opacity, animate }) {
 	// replace KIA in the maket
 	// MARK = mark;
 	var origText = $('.agent_car_group:eq(0) label').text();
-	$('.agent_car_group:eq(0) label').text(`${origText} ${mark}`);
+	$('.agent_car_group:eq(0) label').text(`${origText} ${mark.toUpperCase()}`);
 	// $('.agent_car_group:eq(0) label').text(origText.replace(/\S+$/, MARK));
 
     if (position == 'right')
@@ -338,6 +365,7 @@ $(document).ready(function() {
     $('.agent_car_result_block').replaceWith(ac_result);
     $('.agent_car_reserve_block').replaceWith(ac_reserve);
     $('.agent_car_negative_block').replaceWith(ac_negative);
+    $('.agent_car_field_error').hide();
 
     initMaket();
 	getInitWidgetData().then(({ marksModels, settings }) => {
