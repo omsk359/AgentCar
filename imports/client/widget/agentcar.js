@@ -177,6 +177,7 @@ function initSearchResults() {
         $('.agent_car_reserve_block').hide();
         $('.agent_car_negative_block').hide();
         $('.agent_car_reserve_status').html('');
+        $('.agent_car_negative_status').html('');
     });
     $('[name=agent_car_reserve]').click(() => {
         $('.agent_car_reserve_block').show();
@@ -256,8 +257,12 @@ function initNegative() {
         var info = { name, phone, email };
         var searchParams = getSearchParams();
         negativeSubscribe(info, searchParams).then(subscribeId => {
-            alert(`Успешно подписались! ID: ${subscribeId}`);
-            $('.agent_car_search').click();
+            // alert(`Успешно подписались! ID: ${subscribeId}`);
+            $('.agent_car_negative_status').html(
+                `<h3>Поздравляем!<h3>
+                 Вы успешно подписались! ID: <strong>${subscribeId}</strong>`
+            );
+            // $('.agent_car_search').click();
         }).catch(err => {
             alert(`Ошибка! ${err.message}`);
             console.log("negativeSubscribe Error");
