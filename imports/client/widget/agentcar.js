@@ -227,7 +227,7 @@ function initReserve() {
         reserveCar(carId, info).then(reserveId => {
             // alert(`Успешно забронировали! ID заявки: ${reserveId}`);
             $('.agent_car_reserve_status').html(
-                `<h3>Поздравляем!<h3>
+                `<h3>Поздравляем!</h3>
                  <p>Вы успешно забронировали автомобиль! 
                  Номер Вашей заявки <strong>${reserveId}</strong>. 
                  Наш менеджер свяжется с Вами в ближайшее время!<p>`
