@@ -174,6 +174,7 @@ function initSearchResults() {
         $('.agent_car_result_block').hide();
         $('[name=agent_car_reserve]').show();
         $('.agent_car_reserve_block').hide();
+        $('.agent_car_negative_block').hide();
     });
     $('[name=agent_car_reserve]').click(() => {
         $('.agent_car_reserve_block').show();
