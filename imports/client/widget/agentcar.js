@@ -240,8 +240,16 @@ function initReserve() {
 }
 function initNegative() {
     $('.agent_car_negative_block').hide();
+
+    $('[name=agent_car_negative_name]').blur(e => checkInput(e.target));
+    $('[name=agent_car_negative_phone]').blur(e => checkInput(e.target));
+    $('[name=agent_car_negative_email]').blur(e => checkInput(e.target));
+
     $('[name=agent_car_negative_send]').click(e => {
         e.preventDefault();
+        var toCheck = [ '[name=agent_car_negative_name]', '[name=agent_car_negative_phone]', '[name=agent_car_negative_email]' ];
+        if (!checkAllInput(toCheck))
+            return;
         var name = $('[name=agent_car_negative_name]').val();
         var phone = $('[name=agent_car_negative_phone]').val();
         var email = $('[name=agent_car_negative_email]').val();

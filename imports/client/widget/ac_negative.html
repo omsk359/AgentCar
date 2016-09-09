@@ -7,19 +7,22 @@
 		<div class="agent_car_group">
 			<label for="agent_car_negative_name">Ваше имя*</label>
 			<div class="agent_car_cell">
-				<input name="agent_car_negative_name" id="agent_car_negative_name" type="text"/>
+				<input name="agent_car_negative_name" id="agent_car_negative_name" type="text" data-check="\S{2}" required />
+				<p class="agent_car_field_error">Не менее двух символов</p>
 			</div>
 		</div>
 		<div class="agent_car_group">
 			<label for="agent_car_negative_email">E-mail*</label>
 			<div class="agent_car_cell">
-				<input name="agent_car_negative_email" id="agent_car_negative_email" type="email" value=""/>
+				<input name="agent_car_negative_email" id="agent_car_negative_email" type="email" value="" data-check="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?" required />
+				<p class="agent_car_field_error">Введите email</p>
 			</div>
 		</div>
 		<div class="agent_car_group">
 			<label for="agent_car_negative_phone">Телефон</label>
 			<div class="agent_car_cell">
-				<input name="agent_car_negative_phone" id="agent_car_negative_phone" type="text" value=""/>
+				<input name="agent_car_negative_phone" id="agent_car_negative_phone" type="text" value="" data-check="[(]{0,1}[0-9]{3}[)]{0,1}[-\s\.]{0,1}[0-9]{3}[-\s\.]{0,1}[0-9]{4}" />
+				<p class="agent_car_field_error">Введите корректный телефон</p>
 			</div>
 		</div>
 		<input type="submit" name="agent_car_negative_send" class="agent_car_negative" value="Отправить"/>
