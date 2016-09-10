@@ -22,7 +22,7 @@ function changeId(newId) {
 }
 
 GM_registerMenuCommand('Lada', changeId.bind(null, 'kZD2WwvnheGtest1'), 'L');
-GM_registerMenuCommand('Skoda', changeId.bind(null, 'kZD2WwvnheGtest2'), 'S');
+GM_registerMenuCommand('Skoda', changeId.bind(null, 'kZD2WwvnheGtest3'), 'S');
 
 
 var script = document.createElement('script');
