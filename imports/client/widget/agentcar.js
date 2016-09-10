@@ -1,4 +1,5 @@
 import Asteroid from './lib/asteroid.browser';
+import './lib/jquery.maskedinput';
 
 const DEBUG = typeof localStorage != 'undefined' && !!localStorage.getItem('agentCarDebug');
 var dealerSettings = {};
@@ -189,8 +190,6 @@ function initSearchResults() {
 }
 
 function checkInput(input) {
-    var check = $(input).data('check');
-    if (!check) return true;
     var val = $(input).val();
     var errField = $(input).parent().find('.agent_car_field_error');
     var required = $(input).attr('required');
@@ -199,7 +198,11 @@ function checkInput(input) {
         errField.hide();
         return true;
     }
-    var ok = new RegExp(check).test(val);
+    var check = $(input).data('check');
+	if (!check)
+		var ok = required ? val : false;
+	else
+		ok = new RegExp(check).test(val);
     ok ? errField.hide() : errField.show();
     return ok;
 }
@@ -389,6 +392,8 @@ $(document).ready(function() {
     $('.agent_car_reserve_block').replaceWith(ac_reserve);
     $('.agent_car_negative_block').replaceWith(ac_negative);
     $('.agent_car_field_error').hide();
+
+    $('#agent_car_reserve_phone, #agent_car_negative_phone').mask('+7 (999) 999-9999');
 
     initMaket();
 	getInitWidgetData().then(({ marksModels, settings }) => {
