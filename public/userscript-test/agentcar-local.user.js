@@ -1,5 +1,5 @@
 ﻿// ==UserScript==
-// @name           AgentCar
+// @name           AgentCar-Local
 // @description    
 // @version        1.0
 // @include        *
@@ -22,12 +22,12 @@ function changeId(newId) {
 }
 
 GM_registerMenuCommand('Lada', changeId.bind(null, 'kZD2WwvnheGtest1'), 'L');
-GM_registerMenuCommand('Skoda', changeId.bind(null, 'kZD2WwvnheGtest3'), 'S');
+GM_registerMenuCommand('Skoda', changeId.bind(null, 'kZD2WwvnheGtest2'), 'S');
 
 
 var script = document.createElement('script');
 
-script.src = '//debian359.tk/agentcar.js';
+script.src = '//localhost:3000/agentcar.js';
 script.charset = 'UTF-8';
 script.type = 'text/javascript';
 script.setAttribute('data-id', id);
@@ -37,5 +37,5 @@ document.body.appendChild(script);
 console.log('AgentCar added');
 
 
-// if (typeof localStorage != 'undefined')
-// 	localStorage.setItem('agentCarDebug', 1);
+if (typeof localStorage != 'undefined')
+	localStorage.setItem('agentCarDebug', 1);
