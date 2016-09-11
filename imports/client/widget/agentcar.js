@@ -36,18 +36,25 @@ if (DEBUG) {
     asteroid.subscribe('statistics', ownerId);
     var statistics = asteroid.getCollection('statistics');
     var rq = statistics.reactiveQuery({});
-
     rq.on('change', function() {
         DEBUG && console.log('CHANGE! ', rq.result);
-        const [{ queries, widgetLoaded, widgetOpen, reserve, subscribe }] = rq.result;
+        const [{ queries, widgetLoaded, widgetOpen, reserve, subscribe, needDetails }] = rq.result;
         $('#agent_car_widget_stat').remove();
         $('.agent_car_body').append(
             `<div id="agent_car_widget_stat">
                 Открытий/загрузок виджета: ${widgetOpen||0}/${widgetLoaded||0};
-                Отправлено форм: ${queries||0}; Заявок/подписок: ${reserve||0}/${subscribe||0}
+                Отправлено форм: ${queries||0}; Заявок/узнать подробнее/подписок: ${reserve||0}/${needDetails||0}/${subscribe||0}
             </div>`
         );
     });
+
+	asteroid.subscribe('DealerSettings', ownerId);
+	var Settings = asteroid.getCollection('DealerSettings');
+	var dealerSettings_rq = Settings.reactiveQuery({});
+	dealerSettings_rq.on('change', function() {
+		DEBUG && console.log('DealerSettings CHANGE! ', dealerSettings_rq.result);
+		applySettings(dealerSettings = dealerSettings_rq.result[0]);
+	});
 }
 
 function getInitWidgetData() {
@@ -396,10 +403,9 @@ function getSearchParams() {
 
 function applySettings({ mark, customCSS, position, color, opacity, animate }) {
 	// replace KIA in the maket
-	// MARK = mark;
 	var origText = $('.agent_car_group:eq(0) label').text();
-	$('.agent_car_group:eq(0) label').text(`${origText} ${mark.toUpperCase()}`);
-	// $('.agent_car_group:eq(0) label').text(origText.replace(/\S+$/, MARK));
+	if (!_.endsWith(origText, mark))
+		$('.agent_car_group:eq(0) label').text(`${origText} ${mark.toUpperCase()}`);
 
     if (position == 'right')
         $('.agent_car_widget').addClass('agent_car_right');
@@ -417,8 +423,9 @@ function applySettings({ mark, customCSS, position, color, opacity, animate }) {
     if (animate)
         $('.agent_car_logo').addClass('agent_car_animate');
 
+	$('#agent_car_customCSS').remove();
 	if (customCSS)
-		$('head').append(`<style>${customCSS}</style>`);
+		$('body').append(`<style id="agent_car_customCSS" type="text/css">${customCSS}</style>`);
 }
 
 function updateMarksModels(marksModels) {

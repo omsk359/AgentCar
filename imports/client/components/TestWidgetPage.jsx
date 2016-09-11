@@ -18,6 +18,11 @@ export default class TestWidgetPageDumb extends React.Component {
 
         document.body.appendChild(script);
     }
+    saveSettings() {
+        var customCSS = this.refs.customCSS.value;
+        Meteor.call('saveSettings', this.props.ownerId, { customCSS });
+    }
+
     render() {
         const { loadingStats, loadingReserve, loadingSettings, loadingNegative,
                 stats, reserveCars, settings, negativeSubscribes, ownerId } = this.props;
@@ -31,8 +36,10 @@ export default class TestWidgetPageDumb extends React.Component {
             <div>
                 <h3>Дилер {settings.mark} (id - {ownerId})</h3>
 				Emails: {emails}<br />
-				Цвет: {settings.color}; Расположение: {settings.position}; Прозрачность: {settings.opacity}; Анимация: {settings.animate}<br />
-				CustomCSS: <br /><i>{settings.customCSS}</i><br />
+				Цвет: {settings.color}; Расположение: {settings.position}; Прозрачность: {settings.opacity}; Анимация: {settings.animate ? 'Да' : 'Нет'}<br />
+                CustomCSS:<br />
+                <textarea ref="customCSS" defaultValue={settings.customCSS} className="customCSS" />
+                <input type="button" value="Сохранить CustomCSS" onClick={this.saveSettings.bind(this)} />
                 <h4>Статистика</h4>
                 Открытий/загрузок виджета: <b>{widgetOpen||0}/{widgetLoaded||0}</b><br />
 				Отправлено поисковых форм: <b>{queries||0}</b><br />

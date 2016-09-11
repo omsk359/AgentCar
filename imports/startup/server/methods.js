@@ -277,5 +277,21 @@ Meteor.methods({
 		});
 
 		return NegativeSubscribe.insert({ ownerId, contactInfo, searchParams });
-	}
+	},
+
+	saveSettings(ownerId, settings) {
+		console.log('saveSettings params: ', arguments);
+		check(ownerId, String);
+		check(settings, {
+			customCSS: String,
+		});
+
+		var settingsDB = DealerSettings.findOne({ ownerId });
+		console.log('Found settingsDB: ', settingsDB);
+		if (!settingsDB)
+			throw new Error('Wrong ownerId');
+
+		_.assign(settingsDB, settings);
+		return DealerSettings.update({ ownerId }, settingsDB);
+	},
 });
