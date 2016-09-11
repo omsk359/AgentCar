@@ -1,5 +1,6 @@
 import Asteroid from './lib/asteroid.browser';
 import './lib/jquery.maskedinput';
+import './lib/zIndex';
 
 const DEBUG = typeof localStorage != 'undefined' && !!localStorage.getItem('agentCarDebug');
 var dealerSettings = {};
@@ -401,7 +402,7 @@ function getSearchParams() {
     };
 }
 
-function applySettings({ mark, customCSS, position, color, opacity, animate }) {
+function applySettings({ mark, customCSS, position, color, opacity, animate, underElements, overElements }) {
 	// replace KIA in the maket
 	var origText = $('.agent_car_group:eq(0) label').text();
 	if (!_.endsWith(origText, mark))
@@ -426,6 +427,28 @@ function applySettings({ mark, customCSS, position, color, opacity, animate }) {
 	$('#agent_car_customCSS').remove();
 	if (customCSS)
 		$('body').append(`<style id="agent_car_customCSS" type="text/css">${customCSS}</style>`);
+
+	window.setInterval(() => update_zIndex(underElements, overElements), 400);
+}
+
+function update_zIndex(underElements, overElements) {
+	var zIndexWidget;
+	if (underElements) {
+		let zIndexUnder = underElements.split(',').map(el => $(el).zIndex());
+		DEBUG && console.log(`zIndexUnder("${underElements}"): `, zIndexUnder);
+		let zIndexUnderMax = _.max(zIndexUnder);
+		DEBUG && console.log('zIndexUnderMax: ', zIndexUnderMax);
+		zIndexWidget = zIndexUnderMax + 1;
+	}
+	if (overElements) {
+		let zIndexOver = overElements.split(',').map(el => $(el).zIndex());
+		let zIndexOverMin = _.min(zIndexOver);
+		DEBUG && console.log('zIndexOverMin: ', zIndexOverMin);
+		if (zIndexWidget && zIndexWidget > zIndexOverMin)
+			zIndexWidget = zIndexOverMin - 1;
+	}
+	if (zIndexWidget)
+		$('.agent_car_widget').zIndex(zIndexWidget);
 }
 
 function updateMarksModels(marksModels) {

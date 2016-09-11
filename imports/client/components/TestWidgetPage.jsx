@@ -20,7 +20,9 @@ export default class TestWidgetPageDumb extends React.Component {
     }
     saveSettings() {
         var customCSS = this.refs.customCSS.value;
-        Meteor.call('saveSettings', this.props.ownerId, { customCSS });
+        var underElements = this.refs.underElements.value;
+        var overElements = this.refs.overElements.value;
+        Meteor.call('saveSettings', this.props.ownerId, { customCSS, underElements, overElements });
     }
 
     render() {
@@ -36,10 +38,15 @@ export default class TestWidgetPageDumb extends React.Component {
             <div>
                 <h3>Дилер {settings.mark} (id - {ownerId})</h3>
 				Emails: {emails}<br />
-				Цвет: {settings.color}; Расположение: {settings.position}; Прозрачность: {settings.opacity}; Анимация: {settings.animate ? 'Да' : 'Нет'}<br />
+				Цвет: {settings.color}; Расположение: {settings.position};
+                Прозрачность: {settings.opacity}; Анимация: {settings.animate ? 'Да' : 'Нет'}<br />
                 CustomCSS:<br />
                 <textarea ref="customCSS" defaultValue={settings.customCSS} className="customCSS" />
-                <input type="button" value="Сохранить CustomCSS" onClick={this.saveSettings.bind(this)} />
+                Виджет над элементами (CSS селекторы через запятую):<br />
+                <textarea ref="underElements" defaultValue={settings.underElements} className="customCSS" />
+                Виджет под элементами (CSS селекторы через запятую):<br />
+                <textarea ref="overElements" defaultValue={settings.overElements} className="customCSS" />
+                <input type="button" value="Сохранить" onClick={this.saveSettings.bind(this)} />
                 <h4>Статистика</h4>
                 Открытий/загрузок виджета: <b>{widgetOpen||0}/{widgetLoaded||0}</b><br />
 				Отправлено поисковых форм: <b>{queries||0}</b><br />
