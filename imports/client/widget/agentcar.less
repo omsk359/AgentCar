@@ -21,13 +21,14 @@
 	width: 180px;
 	min-height: 120px;
 	color: #A7A9AB;
+	z-index: 10001;
 	
 	a {
 		color: #fff;
 	}
 
 	.agent_car_body, .agent_car_border {
-		display: none;
+		// display: none;
 	}
 	
 	.agent_car_border {
@@ -179,14 +180,14 @@
 		}
 
 		.agent_car_group {
-			width: 350px;
+			width: 310px;
 			display: table;
 			
 		}
 		
 		.agent_car_cell {
 			display: table-cell;
-			width: 80px;	
+			width: 60px;	
 			padding: 4px 1px 4px 5px;
 		}
 		
@@ -200,19 +201,23 @@
 		.agent_car_form {
 			// margin-left: 5px;
 			// margin-bottom: 13px;
-			input[type="text"], input[type="number"], input[type="email"] {
-				width: 70px;
-				padding-left: 3px;
-			}			
+			input[type="text"], input[type="number"], input[type="email"], select {
+				width: 100%;
+				padding: 3px 2px;
+				border: 1px solid #ccc;
+				-webkit-appearance: none;
+			}	
 		}
 		
 		.agent_car_reserve_form, .agent_car_negative_form {
 			label {
 				width: 85px;
 			}
-			input[type="text"], input[type="number"], input[type="email"] {
-				width: 200px;
-				padding-left: 3px;
+			input[type="text"], input[type="number"], input[type="email"], select {
+				width: 100%;
+				padding: 3px 2px;
+				border: 1px solid #ccc;
+				-webkit-appearance: none;
 			}
 			.agent_car_cell {
 				display: table-cell;
@@ -304,7 +309,7 @@
 
 .agent_car_open {
 	width: 350px;
-	min-height: 300px;
+	min-height: 200px;
 }
 
 .agent_car_right {
