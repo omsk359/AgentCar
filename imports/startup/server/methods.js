@@ -284,6 +284,8 @@ Meteor.methods({
 		check(ownerId, String);
 		check(settings, {
 			customCSS: String,
+			underElements: String,
+			overElements: String,
 		});
 
 		var settingsDB = DealerSettings.findOne({ ownerId });
