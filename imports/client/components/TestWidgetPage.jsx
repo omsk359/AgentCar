@@ -24,7 +24,7 @@ export default class TestWidgetPageDumb extends React.Component {
         if (loadingStats || loadingSettings || loadingReserve || loadingNegative)
             return <div>Loading...</div>;
 
-        const { widgetOpen, widgetLoaded, queries, reserve, subscribe } = stats || {};
+        const { widgetOpen, widgetLoaded, queries, reserve, subscribe, needDetails } = stats || {};
         let { emails } = settings || {};
         emails = emails ? emails.join(', ') : 'Отсутствует';
         return (
@@ -36,17 +36,18 @@ export default class TestWidgetPageDumb extends React.Component {
                 <h4>Статистика</h4>
                 Открытий/загрузок виджета: <b>{widgetOpen||0}/{widgetLoaded||0}</b><br />
 				Отправлено поисковых форм: <b>{queries||0}</b><br />
-				Всего заказов/подписок: <b>{reserve||0}/{subscribe||0}</b><br />
+				Всего заказов/узнать подробнее/подписок: <b>{reserve||0}/{needDetails||0}/{subscribe||0}</b><br />
 
-                <h4>Заказы ({reserveCars.length})</h4>
+                <h4>Заказы ({_.filter(reserveCars, car => !car.needDetails).length} + {_.filter(reserveCars, car => car.needDetails).length})</h4>
                 <table><tbody>
-                    <tr><th>Имя</th><th>Тел.</th><th>Email</th><th>Машина</th></tr>
-                {reserveCars.map(({ contactInfo, car }, i) => (
+                    <tr><th>Имя</th><th>Тел.</th><th>Email</th><th>Машина</th><th>Заказ/Узнать подробнее</th></tr>
+                {reserveCars.map(({ contactInfo, car, needDetails }, i) => (
                     <tr key={i}>
                         <td>{contactInfo.name}</td>
                         <td>{contactInfo.phone}</td>
                         <td>{contactInfo.email}</td>
                         <td>{car.mark} - {car.model} ({car.price} Р)</td>
+                        <td>{needDetails ? 'Узнать подробнее' : 'Заказ'}</td>
                     </tr>
                 ))}
                 </tbody></table>

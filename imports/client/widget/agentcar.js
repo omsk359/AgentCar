@@ -21,6 +21,9 @@ DEBUG && console.log('ac_result: ', ac_result);
 const ac_reserve = require('html!./ac_reserve.html');
 DEBUG && console.log('ac_reserve: ', ac_reserve);
 
+const ac_need_details = require('html!./ac_need_details.html');
+DEBUG && console.log('ac_need_details: ', ac_need_details);
+
 const ac_negative = require('html!./ac_negative.html');
 DEBUG && console.log('ac_negative: ', ac_negative);
 
@@ -80,9 +83,9 @@ function filterByParams(params, cb) {
     });
 }
 
-function reserveCar(carId, contactInfo) {
-    DEBUG && console.log('Params: ', { ownerId, carId, contactInfo });
-    return asteroid.call('reserveCar', ownerId, carId, contactInfo).result
+function reserveCar(carId, contactInfo, needDetails = false) {
+    DEBUG && console.log('Params: ', { ownerId, carId, contactInfo, needDetails });
+    return asteroid.call('reserveCar', ownerId, carId, contactInfo, needDetails).result
         .then(result => {
             DEBUG && console.log("reserveCar Success: ", result);
             return result;
@@ -164,7 +167,8 @@ function showSearchResults(results) {
         $('.agent_car_result_block').show();
         // $('.agent_car_return h3').text('Мы нашли для Вас');
         onSelect_i(0);
-        $('[name=agent_car_reserve]').show();
+		$('[name=agent_car_reserve]').show();
+		$('[name=agent_car_need_details]').show();
     } else {
         $('.agent_car_negative_block').show();
         $('.agent_car_negative_form').show();
@@ -176,17 +180,26 @@ function initSearchResults() {
     $('.agent_car_search').click(() => {
         $('.agent_car_form').show();
         $('.agent_car_result_block').hide();
-        $('[name=agent_car_reserve]').show();
-        $('.agent_car_reserve_block').hide();
+		$('[name=agent_car_reserve]').show();
+		$('[name=agent_car_need_details]').show();
+		$('.agent_car_reserve_block').hide();
+		$('.agent_car_need_details_block').hide();
         $('.agent_car_negative_block').hide();
         $('.agent_car_reserve_status').html('');
         $('.agent_car_negative_status').html('');
     });
-    $('[name=agent_car_reserve]').click(() => {
-        $('.agent_car_reserve_block').show();
-        // $('.agent_car_reserve_status').text('');
-        $('[name=agent_car_reserve]').hide();
-    });
+	$('[name=agent_car_reserve]').click(() => {
+		$('.agent_car_reserve_block').show();
+		// $('.agent_car_reserve_status').text('');
+		$('[name=agent_car_reserve]').hide();
+		$('[name=agent_car_need_details]').hide();
+	});
+	$('[name=agent_car_need_details]').click(() => {
+		$('.agent_car_need_details_block').show();
+		// $('.agent_car_reserve_status').text('');
+		$('[name=agent_car_reserve]').hide();
+		$('[name=agent_car_need_details]').hide();
+	});
 }
 
 function checkInput(input) {
@@ -244,6 +257,40 @@ function initReserve() {
         });
     });
 }
+function initNeedDetails() {
+	$('.agent_car_need_details_block').hide();
+
+	$('[name=agent_car_need_details_name]').blur(e => checkInput(e.target));
+	$('[name=agent_car_need_details_phone]').blur(e => checkInput(e.target));
+	$('[name=agent_car_need_details_email]').blur(e => checkInput(e.target));
+
+	$('[name=agent_car_need_details_send]').click(e => {
+		e.preventDefault();
+		var toCheck = [ '[name=agent_car_need_details_name]', '[name=agent_car_need_details_phone]', '[name=agent_car_need_details_email]' ];
+		if (!checkAllInput(toCheck))
+			return;
+		var name = $('[name=agent_car_need_details_name]').val();
+		var phone = $('[name=agent_car_need_details_phone]').val();
+		var email = $('[name=agent_car_need_details_email]').val();
+		var carId = $('.agent_car_result').data('id');
+		var info = { name, phone };
+		if (/\S/.test(email))
+			info.email = email;
+		reserveCar(carId, info, true).then(reserveId => {
+			// alert(`Успешно забронировали! ID заявки: ${reserveId}`);
+			$('.agent_car_reserve_status').html(
+				`<h3>Спасибо!</h3>`
+			);
+			$('.agent_car_need_details_block').hide();
+		}).catch(err => {
+			alert(`Ошибка! ${err.message}`);
+			$('.agent_car_reserve_status').text(`Ошибка! ${err.message}`);
+			console.log("need_detailsCar Error");
+			console.error(err);
+		});
+	});
+}
+
 function initNegative() {
     $('.agent_car_negative_block').hide();
 
@@ -390,10 +437,11 @@ $(document).ready(function() {
 
     $('.agent_car_result_block').replaceWith(ac_result);
     $('.agent_car_reserve_block').replaceWith(ac_reserve);
+    $('.agent_car_need_details_block').replaceWith(ac_need_details);
     $('.agent_car_negative_block').replaceWith(ac_negative);
     $('.agent_car_field_error').hide();
 
-    $('#agent_car_reserve_phone, #agent_car_negative_phone').mask('+7 (999) 999-9999');
+    $('#agent_car_reserve_phone, #agent_car_need_details_phone, #agent_car_negative_phone').mask('+7 (999) 999-9999');
 
     initMaket();
 	getInitWidgetData().then(({ marksModels, settings }) => {
@@ -408,5 +456,6 @@ $(document).ready(function() {
 
     initSearchResults();
     initReserve();
+    initNeedDetails();
     initNegative();
 });

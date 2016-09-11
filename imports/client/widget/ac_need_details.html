@@ -1,0 +1,33 @@
+<div class="agent_car_need_details_block">
+	<form class="agent_car_need_details_form" action="">
+		<div class="agent_car_group">
+			<label></label>
+			<div class="agent_car_cell">
+				<strong>Вы</strong>
+			</div>
+		</div>
+		<div class="agent_car_group">
+			<label for="agent_car_need_details_name">Ваше имя*</label>
+			<div class="agent_car_cell">
+				<input name="agent_car_need_details_name" id="agent_car_need_details_name" type="text" data-check="\S{2}" required />
+				<p class="agent_car_field_error">Не менее двух символов</p>
+			</div>
+		</div>
+		<div class="agent_car_group">
+			<label for="agent_car_need_details_phone">Телефон*</label>
+			<div class="agent_car_cell">
+				<input name="agent_car_need_details_phone" id="agent_car_need_details_phone" type="text" value="" required />
+				<p class="agent_car_field_error">Введите телефон</p>
+			</div>
+		</div>
+		<div class="agent_car_group">
+			<label for="agent_car_need_details_email">E-mail</label>
+			<div class="agent_car_cell">
+				<input name="agent_car_need_details_email" id="agent_car_need_details_email" type="text" value="" data-check="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?" />
+				<p class="agent_car_field_error">Введите корректный email</p>
+			</div>
+		</div>
+		<p>Для подтверждения заказа, просим Вас указать контактную информацию.</p>
+		<input type="submit" name="agent_car_need_details_send" class="agent_car_reserve" value="Подробнее"/>
+	</form>
+</div>

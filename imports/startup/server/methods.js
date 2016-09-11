@@ -26,7 +26,7 @@ const auth = {
 
 const nodemailerMailgun = nodemailer.createTransport(mg(auth));
 
-function sendMail(ownerId, car, contactInfo) {
+function sendMail(ownerId, car, contactInfo, needDetails) {
 	let settings = DealerSettings.findOne({ ownerId });
 	if (!settings || !settings.emails)
 		return;
@@ -41,17 +41,11 @@ function sendMail(ownerId, car, contactInfo) {
     //     	emails = settings.email;
     //         throw Error('Wrong dealer ID');
     // }
-    let emailStr = contactInfo.email ? `E-mail - <b>${contactInfo.email}</b><br>` : '';
-    nodemailerMailgun.sendMail({
-		// from: 'tmpmail@protonmail.com',
-		from: 'test@debian359.tk',
-        to: settings.emails, // An array if you have multiple recipients.
-        // cc:'second@domain.com',
-        // bcc:'secretagent@company.gov',
-        subject: `Бронирование машины`,
-        // 'h:Reply-To': 'reply2this@company.com',
-        //You can use "html:" to send HTML email content. It's magic!
-		html:
+	var subject, html;
+	if (needDetails) {
+		subject = 'Узнать подробнее';
+		let emailStr = contactInfo.email ? `E-mail - <b>${contactInfo.email}</b><br>` : '';
+		html =
 `Друзья, сообщаем, что у Вас появился новый  клиент на покупку автомобиля.<br>
 Его контактные данные:<br>
 Имя - <b>${contactInfo.name}</b><br>
@@ -60,7 +54,28 @@ ${emailStr}
 Автомобиль: <b>${car.mark} - ${car.model}</b>, цена: <b>${car.price}</b><br>
 Удачных продаж)<br>
 <i>Ваш <br>
-AgentCar.</i>`
+AgentCar.</i>`;
+	} else {
+		subject = 'Бронирование машины';
+		html =
+`Друзья, сообщаем, что у Вас появился новый  клиент на покупку автомобиля.<br>
+Его контактные данные:<br>
+Имя - <b>${contactInfo.name}</b><br>
+Телефон - <b>${contactInfo.phone}</b><br>
+${emailStr}
+Автомобиль: <b>${car.mark} - ${car.model}</b>, цена: <b>${car.price}</b><br>
+Удачных продаж)<br>
+<i>Ваш <br>
+AgentCar.</i>`;
+	}
+    nodemailerMailgun.sendMail({
+		// from: 'tmpmail@protonmail.com',
+		from: 'test@debian359.tk',
+        to: settings.emails, // An array if you have multiple recipients.
+        // cc:'second@domain.com',
+        // bcc:'secretagent@company.gov',
+        subject,
+		html
     }, function (err, info) {
         if (err) {
             console.log('Mailgun Error: ', err);
@@ -209,7 +224,7 @@ Meteor.methods({
 		return foundCars;
 	},
 
-	reserveCar(ownerId, carId, contactInfo) {
+	reserveCar(ownerId, carId, contactInfo, needDetails = false) {
 		console.log('reserveCar params: ', arguments);
 		check(ownerId, String);
 		check(carId, String);
@@ -218,21 +233,23 @@ Meteor.methods({
 			phone: String,
 			email: Match.Maybe(String)
 		});
+		check(needDetails, Boolean);
 
 		var car = Cars.findOne({ _id: carId });
 		console.log('Found car: ', car);
 		if (!car)
 			throw new Error('Wrong carId');
 
-		sendMail(ownerId, car, contactInfo);
+		sendMail(ownerId, car, contactInfo, needDetails);
 
-		Statistics.update({ ownerId }, { $inc: { reserve: 1 } }, { upsert: true }, (err) => {
+		let incObj = needDetails ? { needDetails: 1 } : { reserve: 1 };
+		Statistics.update({ ownerId }, { $inc: incObj }, { upsert: true }, (err) => {
 			// async this, don't wait for response
 			if (err)
 				console.error('Stat update err: ', err);
 		});
 
-		return ReserveCars.insert({ ownerId, car, contactInfo });
+		return ReserveCars.insert({ ownerId, car, contactInfo, needDetails });
 	},
 
 	negativeSubscribe({ ownerId, contactInfo, searchParams }) {
