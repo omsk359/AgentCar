@@ -432,30 +432,32 @@ function updateMarksModels(marksModels) {
 	});
 }
 
-$(document).ready(function() {
-    $('body').append(ac_maket);
+getInitWidgetData().then(({ marksModels, settings }) => {
+	dealerSettings = settings;
 
-    $('.agent_car_result_block').replaceWith(ac_result);
-    $('.agent_car_reserve_block').replaceWith(ac_reserve);
-    $('.agent_car_need_details_block').replaceWith(ac_need_details);
-    $('.agent_car_negative_block').replaceWith(ac_negative);
-    $('.agent_car_field_error').hide();
+	$(document).ready(function() {
+		$('body').append(ac_maket);
 
-    $('#agent_car_reserve_phone, #agent_car_need_details_phone, #agent_car_negative_phone').mask('+7 (999) 999-9999');
+		$('.agent_car_result_block').replaceWith(ac_result);
+		$('.agent_car_reserve_block').replaceWith(ac_reserve);
+		$('.agent_car_need_details_block').replaceWith(ac_need_details);
+		$('.agent_car_negative_block').replaceWith(ac_negative);
+		$('.agent_car_field_error').hide();
 
-    initMaket();
-	getInitWidgetData().then(({ marksModels, settings }) => {
-        dealerSettings = settings;
+		$('#agent_car_reserve_phone, #agent_car_need_details_phone, #agent_car_negative_phone').mask('+7 (999) 999-9999');
+
+		initMaket();
+
 		applySettings(settings);
 		updateMarksModels(marksModels);
-    }).catch(err => {
-		console.log("getInitWidgetData Error");
-		console.error(err);
-		$('.agent_car_body').html(`Ошибка загрузки виджета: ${err.message}`);
-	});
 
-    initSearchResults();
-    initReserve();
-    initNeedDetails();
-    initNegative();
+		initSearchResults();
+		initReserve();
+		initNeedDetails();
+		initNegative();
+	});
+}).catch(err => {
+	console.log("getInitWidgetData Error");
+	console.error(err);
+	$('.agent_car_body').html(`Ошибка загрузки виджета: ${err.message}`);
 });
