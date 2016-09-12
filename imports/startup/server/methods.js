@@ -44,21 +44,12 @@ function sendMail(ownerId, car, contactInfo, needDetails) {
 	var subject, html;
 	if (needDetails) {
 		subject = 'Узнать подробнее';
-		let emailStr = contactInfo.email ? `E-mail - <b>${contactInfo.email}</b><br>` : '';
-		html =
-`Друзья, сообщаем, что у Вас появился новый  клиент на покупку автомобиля.<br>
-Его контактные данные:<br>
-Имя - <b>${contactInfo.name}</b><br>
-Телефон - <b>${contactInfo.phone}</b><br>
-${emailStr}
-Автомобиль: <b>${car.mark} - ${car.model}</b>, цена: <b>${car.price}</b><br>
-Удачных продаж)<br>
-<i>Ваш <br>
-AgentCar.</i>`;
 	} else {
 		subject = 'Бронирование машины';
-		html =
-`Друзья, сообщаем, что у Вас появился новый  клиент на покупку автомобиля.<br>
+	}
+	let emailStr = contactInfo.email ? `E-mail - <b>${contactInfo.email}</b><br>` : '';
+	html =
+		`Друзья, сообщаем, что у Вас появился новый  клиент на покупку автомобиля.<br>
 Его контактные данные:<br>
 Имя - <b>${contactInfo.name}</b><br>
 Телефон - <b>${contactInfo.phone}</b><br>
@@ -67,7 +58,7 @@ ${emailStr}
 Удачных продаж)<br>
 <i>Ваш <br>
 AgentCar.</i>`;
-	}
+
     nodemailerMailgun.sendMail({
 		// from: 'tmpmail@protonmail.com',
 		from: 'test@debian359.tk',
