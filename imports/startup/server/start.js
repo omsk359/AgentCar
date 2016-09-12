@@ -46,6 +46,15 @@ DealerSettings.insert({ ownerId: 'kZD2WwvnheGtest2', mark: 'Skoda', position: 'r
 
 DealerSettings.insert({ ownerId: 'kZD2WwvnheGtest3', mark: 'SKODA', position: 'left', color: 'green', opacity: 80, animate: true, emails: ['omsk359@protonmail.com', 'victory.ch123@yandex.ru', 'buzillo@ya.ru', 'petemic@yandex.ru'] });
 DealerSettings.insert({ ownerId: 'keK2WwvnheGwvnh', mark: 'SKODA', position: 'left', color: 'green', opacity: 80, animate: true, emails: ['omsk359@protonmail.com', 'victory.ch123@yandex.ru', 'buzillo@ya.ru', 'petemic@yandex.ru'] });
+
+
+// import Statistics from '/imports/common/collections/Statistics';
+// Statistics.remove({ ownerId: 'keK2WwvnheGwvnh' });
+// import ReserveCars from '/imports/common/collections/ReserveCars';
+// ReserveCars.remove({ ownerId: 'keK2WwvnheGwvnh' });
+// import NegativeSubscribe from '/imports/common/collections/NegativeSubscribe';
+// NegativeSubscribe.remove({ ownerId: 'keK2WwvnheGwvnh' });
+
 // DealerSettings.insert({ ownerId: 'kZD2WwvnheGtest1', mark: 'LADA', position: 'left', customCSS: '.agent_car_logo { right: 45px !important; }', emails: false });
 // DealerSettings.insert({ ownerId: 'kZD2WwvnheGtest2', mark: 'SKODA', customCSS: '.agent_car_widget { right: 55px !important; } .agent_car_logo { left: 100px !important; }', emails: false });
 
