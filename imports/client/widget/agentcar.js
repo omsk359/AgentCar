@@ -195,6 +195,7 @@ function initSearchResults() {
         $('.agent_car_negative_block').hide();
         $('.agent_car_reserve_status').html('');
         $('.agent_car_negative_status').html('');
+		$('.agent_car_result_price_only_today').show();
     });
 	$('[name=agent_car_reserve]').click(() => {
 		$('.agent_car_reserve_block').show();
@@ -227,7 +228,7 @@ function checkInput(input) {
     ok ? errField.hide() : errField.show();
     return ok;
 }
-var checkAllInput = inputs => _.every(inputs.map(input => checkInput(input)));
+var checkAllInput = inputs => _.every(inputs.map(checkInput));
 
 function initReserve() {
     $('.agent_car_reserve_block').hide();
@@ -287,8 +288,9 @@ function initNeedDetails() {
 		reserveCar(carId, info, true).then(reserveId => {
 			// alert(`Успешно забронировали! ID заявки: ${reserveId}`);
 			$('.agent_car_reserve_status').html(
-				`<h3>Спасибо!</h3>`
+				'<p>Спасибо, что обратились в нашу компанию. Менеджер свяжется с Вами в самое ближайшее время.</p>'
 			);
+			$('.agent_car_result_price_only_today').hide();
 			$('.agent_car_need_details_block').hide();
 		}).catch(err => {
 			alert(`Ошибка! ${err.message}`);
@@ -333,6 +335,7 @@ function initNegative() {
 
 function initMaket() {
     $('.agent_car_result_block').hide();
+	$('.agent_car_text_last_price').hide();
 
     $('[name=agent_car_credit_pay]').closest('.agent_car_group').hide();
 	$('[name=agent_car_credit_time]').closest('.agent_car_group').hide();
@@ -345,6 +348,7 @@ function initMaket() {
 
 	$('[name=agent_car_trade_in]').click(function() {
         $('[name=agent_car_my_car_cost]').closest('.agent_car_group').toggle();
+		$('.agent_car_text_last_price').toggle();
 	});
 
     var close = () => {
