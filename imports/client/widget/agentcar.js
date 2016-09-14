@@ -2,6 +2,8 @@ import Asteroid from './lib/asteroid.browser';
 import './lib/jquery.maskedinput';
 import './lib/zIndex';
 
+const AUTO_OPEN = 60; // seconds
+
 const DEBUG = typeof localStorage != 'undefined' && !!localStorage.getItem('agentCarDebug');
 var dealerSettings = {};
 
@@ -489,6 +491,9 @@ getInitWidgetData().then(({ marksModels, settings }) => {
 		initReserve();
 		initNeedDetails();
 		initNegative();
+
+		if (AUTO_OPEN)
+			window.setTimeout(() => $('.agent_car_logo').click(), AUTO_OPEN * 1000);
 	});
 }).catch(err => {
 	console.log("getInitWidgetData Error");
