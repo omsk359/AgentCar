@@ -1,6 +1,7 @@
 import Asteroid from './lib/asteroid.browser';
 import './lib/jquery.maskedinput';
 import './lib/zIndex';
+import './lib/autoNumeric';
 
 const AUTO_OPEN = 30; // seconds
 
@@ -490,6 +491,7 @@ if (!isMobile)
 			$('.agent_car_field_error').hide();
 
 			$('#agent_car_reserve_phone, #agent_car_need_details_phone, #agent_car_negative_phone').mask('+7 (999) 999-9999');
+			$('#agent_car_i_have, #agent_car_credit_pay, #agent_car_my_car_cost').autoNumeric('init', { aSep: ' ', vMin: '0', mDec: '0' });
 
 			initMaket();
 
