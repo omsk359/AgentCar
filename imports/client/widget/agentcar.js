@@ -504,7 +504,10 @@ if (!isMobile)
 			initNegative();
 
 			if (AUTO_OPEN)
-				window.setTimeout(() => $('.agent_car_logo').click(), AUTO_OPEN * 1000);
+				window.setTimeout(() => {
+					if ($('.agent_car_body').is(':hidden'))
+						$('.agent_car_logo').click();
+				}, AUTO_OPEN * 1000);
 		});
 	}).catch(err => {
 		console.log("getInitWidgetData Error");
