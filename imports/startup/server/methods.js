@@ -41,14 +41,8 @@ function sendMail(ownerId, car, contactInfo, needDetails) {
     //     	emails = settings.email;
     //         throw Error('Wrong dealer ID');
     // }
-	var subject, html;
-	if (needDetails) {
-		subject = 'Узнать подробнее';
-	} else {
-		subject = 'Бронирование машины';
-	}
 	let emailStr = contactInfo.email ? `E-mail - <b>${contactInfo.email}</b><br>` : '';
-	html =
+	let html =
 		`Друзья, сообщаем, что у Вас появился новый  клиент на покупку автомобиля.<br>
 Его контактные данные:<br>
 Имя - <b>${contactInfo.name}</b><br>
@@ -58,6 +52,12 @@ ${emailStr}
 Удачных продаж)<br>
 <i>Ваш <br>
 AgentCar.</i>`;
+
+	let subject;
+	if (needDetails)
+		subject = 'Agent CAR - узнать подробнее';
+	else
+		subject = 'Agent CAR - бронирование машины';
 
     nodemailerMailgun.sendMail({
 		// from: 'tmpmail@protonmail.com',
@@ -75,6 +75,49 @@ AgentCar.</i>`;
             console.log('Mailgun Response: ', info);
         }
     });
+}
+
+function sendMailSubscribe(ownerId, contactInfo, searchParams) {
+	let settings = DealerSettings.findOne({ ownerId });
+	if (!settings || !settings.emails)
+		return;
+	let { mark, model, ac_form_i_have, ac_form_credit_pay, ac_form_secondhand, ac_form_credit_time, ac_form_car_cost } = searchParams;
+	let { name, email, phone } = contactInfo;
+
+	let credit = ac_form_credit_pay ? `- я собираюсь брать кредит: с  ежемесячным платежом ${ac_form_credit_pay}, сроком на ${ac_form_credit_time}<br />` : '';
+	let tradeIn = ac_form_car_cost ? `- хочу trade - in: моя машина стоит - ${ac_form_car_cost} рублей<br />` : '';
+	let html =
+		`Друзья, сообщаем, что у Вас появился новый клиент на покупку автомобиля.<br /><br />
+Его контактные данные:<br />
+Имя - ${name}<br />
+${ phone ? `Телефон - ${phone}<br />` : ''}
+E-mail - ${email}<br />
+Предпочтения по модели автомобиля: ${mark} ${model} ${ac_form_secondhand ? ' (готов рассмотреть б\у)' : ''}<br />
+Дополнительно:<br />
+       
+        - у меня есть ${ac_form_i_have} рублей 
+        ${credit}
+        ${tradeIn}
+    <br />
+Удачных продаж)`;
+	let subject = 'Agent CAR - подписка на поиск машины';
+
+nodemailerMailgun.sendMail({
+	// from: 'tmpmail@protonmail.com',
+	from: 'test@debian359.tk',
+	to: settings.emails, // An array if you have multiple recipients.
+	// cc:'second@domain.com',
+	// bcc:'secretagent@company.gov',
+	subject,
+	html
+}, function (err, info) {
+	if (err) {
+		console.log('Mailgun Error: ', err);
+	}
+	else {
+		console.log('Mailgun Response: ', info);
+	}
+});
 }
 
 Meteor.methods({
@@ -260,6 +303,8 @@ Meteor.methods({
 			ac_form_credit_time: Number,
 			ac_form_car_cost: Number
 		});
+
+		sendMailSubscribe(ownerId, contactInfo, searchParams);
 
 		Statistics.update({ ownerId }, { $inc: { subscribe: 1 } }, { upsert: true }, (err) => {
 			// async this, don't wait for response

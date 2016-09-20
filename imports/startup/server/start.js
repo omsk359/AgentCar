@@ -30,7 +30,9 @@ console.log('CarsObjects prices: ', _.map(CarsObjects, 'photo'));
 Cars.remove({});
 CarsObjects.forEach(obj => Cars.insert(obj));
 
-import skodaProductionCars from './skoda_json';
+import skodaProductionCars_new from './skoda_json';
+import skodaProductionCars_bu from './sigma_bu_json';
+let skodaProductionCars = [...skodaProductionCars_new, ...skodaProductionCars_bu];
 const SkodaTest = skodaProductionCars.map(car => ({ ...car, ownerId: 'kZD2WwvnheGtest3', checked: true }));
 const SkodaProd = skodaProductionCars.map(car => ({ ...car, ownerId: 'keK2WwvnheGwvnh', checked: true }));
 [...SkodaTest, ...SkodaProd].forEach(obj => Cars.insert(obj));
@@ -46,6 +48,62 @@ DealerSettings.insert({ ownerId: 'kZD2WwvnheGtest2', mark: 'Skoda', position: 'r
 
 DealerSettings.insert({ ownerId: 'kZD2WwvnheGtest3', mark: 'SKODA', position: 'left', color: 'green', opacity: 80, animate: true, emails: ['omsk359@protonmail.com', 'victory.ch123@yandex.ru', 'buzillo@ya.ru', 'petemic@yandex.ru'] });
 DealerSettings.insert({ ownerId: 'keK2WwvnheGwvnh', mark: 'SKODA', position: 'left', color: 'green', opacity: 80, animate: true, emails: ['omsk359@protonmail.com', 'victory.ch123@yandex.ru', 'buzillo@ya.ru', 'petemic@yandex.ru'] });
+
+
+var html = Assets.getText('email_template.html');
+console.log(html);
+
+
+import nodemailer from 'nodemailer';
+// import mg from 'nodemailer-mailgun-transport';
+import mg from './nodemailer-mailgun-transport';
+
+const delta = 70000;
+
+
+// This is your API key that you retrieve from www.mailgun.com/cp (free up to 10K monthly emails)
+const auth = {
+	auth: {
+		api_key: 'key-a55c1f851d6bb68169862a6b0274bff0',
+		// domain: 'one of your domain names listed at your https://mailgun.com/app/domains'
+		domain: 'debian359.tk'
+	}
+};
+
+const nodemailerMailgun = nodemailer.createTransport(mg(auth));
+
+function sendMail(ownerId, car, contactInfo, needDetails) {
+	// switch (ownerId) {
+	// case 'kZD2WwvnheG9RCwwD':
+	// 	var emails = ['omsk359@protonmail.com', 'victory.ch123@yandex.ru', 'buzillo@ya.ru', 'petemic@yandex.ru'];
+	// 	break;
+	// case 'kZD2WwvnheG9RCkeK': // LADA
+	// 	emails = ['omsk359@protonmail.com', 'victory.ch123@yandex.ru', 'buzillo@ya.ru', 'petemic@yandex.ru'];
+	// 	break;
+	//     default:
+	//     	emails = settings.email;
+	//         throw Error('Wrong dealer ID');
+	// }
+	var subject = 'Test';
+
+	nodemailerMailgun.sendMail({
+		// from: 'tmpmail@protonmail.com',
+		from: 'test@debian359.tk',
+		to: ['omsk359@protonmail.com', 'victory.ch123@yandex.ru', 'buzillo@ya.ru', 'petemic@yandex.ru'], // An array if you have multiple recipients.
+		// cc:'second@domain.com',
+		// bcc:'secretagent@company.gov',
+		subject,
+		html
+	}, function (err, info) {
+		if (err) {
+			console.log('Mailgun Error: ', err);
+		}
+		else {
+			console.log('Mailgun Response: ', info);
+		}
+	});
+}
+// sendMail();
 
 
 // import Statistics from '/imports/common/collections/Statistics';
