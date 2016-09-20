@@ -209,6 +209,7 @@ function initSearchResults() {
 		$('.agent_car_result_price_only_today').show();
 
 		$('[name=agent_car_need_details]').hide();
+		$('[name=agent_car_need_details]').click();
     });
 	$('[name=agent_car_reserve]').click(() => {
 		$('.agent_car_reserve_block').show();
