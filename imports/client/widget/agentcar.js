@@ -187,7 +187,8 @@ function showSearchResults(results) {
         // $('.agent_car_return h3').text('Мы нашли для Вас');
         onSelect_i(0);
 		$('[name=agent_car_reserve]').show();
-		$('[name=agent_car_need_details]').show();
+		//$('[name=agent_car_need_details]').show();
+		$('[name=agent_car_need_details]').click();
     } else {
         $('.agent_car_negative_block').show();
         $('.agent_car_negative_form').show();
@@ -200,7 +201,7 @@ function initSearchResults() {
         $('.agent_car_form').show();
         $('.agent_car_result_block').hide();
 		$('[name=agent_car_reserve]').show();
-		$('[name=agent_car_need_details]').show();
+//		$('[name=agent_car_need_details]').show();
 		$('.agent_car_reserve_block').hide();
 		$('.agent_car_need_details_block').hide();
         $('.agent_car_negative_block').hide();
@@ -208,8 +209,8 @@ function initSearchResults() {
         $('.agent_car_negative_status').html('');
 		$('.agent_car_result_price_only_today').show();
 
-		$('[name=agent_car_need_details]').hide();
-		$('[name=agent_car_need_details]').click();
+//		$('[name=agent_car_need_details]').click();
+//		$('[name=agent_car_need_details]').hide();
     });
 	$('[name=agent_car_reserve]').click(() => {
 		$('.agent_car_reserve_block').show();
