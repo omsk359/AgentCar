@@ -30,7 +30,9 @@ console.log('CarsObjects prices: ', _.map(CarsObjects, 'photo'));
 Cars.remove({});
 CarsObjects.forEach(obj => Cars.insert(obj));
 
-import skodaProductionCars from './skoda_json';
+import skodaProductionCars_new from './skoda_json';
+import skodaProductionCars_bu from './sigma_bu_json';
+let skodaProductionCars = [...skodaProductionCars_new, ...skodaProductionCars_bu];
 const SkodaTest = skodaProductionCars.map(car => ({ ...car, ownerId: 'kZD2WwvnheGtest3', checked: true }));
 const SkodaProd = skodaProductionCars.map(car => ({ ...car, ownerId: 'keK2WwvnheGwvnh', checked: true }));
 [...SkodaTest, ...SkodaProd].forEach(obj => Cars.insert(obj));
