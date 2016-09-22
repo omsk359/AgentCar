@@ -174,7 +174,8 @@
 		background: #404041;
 		border-radius: 20px 0px;
 		border: solid 5px #fff;
-		padding-left: 7px;
+		padding-left: 3%;
+		overflow: hidden;
 		
 		p {
 			color: #fff;
@@ -187,22 +188,28 @@
 		}
 
 		.agent_car_group {
-			width: 310px;
+			width: 95%;
+			// width: 310px;
 			display: table;
 			
 		}
 		
 		.agent_car_cell {
 			display: table-cell;
-			width: 60px;	
-			padding: 4px 1px 4px 5px;
+			width: 25%;	
+			padding: 4px 1px 0px 5px;
 		}
 		
-		label {
+		label, .agent_car_col {
 			display: table-cell;
-			width: 160px;	
+			width: 50%;
+			// width: 160px;	
 			// padding: 3px 8px 3px 0;
 			text-align: right;
+		}
+		
+		.agent_car_col {
+			text-align: left;
 		}
 		
 		.agent_car_form {
@@ -212,24 +219,28 @@
 				width: 100%;
 				padding: 3px 2px;
 				border: 1px solid #ccc;
+				margin: 3px 0;
 				// -webkit-appearance: none;
 			}	
 		}
 		
 		.agent_car_reserve_form, .agent_car_negative_form {
-			label {
-				width: 85px;
+			label .agent_car_col {
+				// width: 85px;
+				width: 50%;
 			}
 			input[type="text"], input[type="number"], input[type="email"], select {
 				width: 100%;
 				padding: 3px 2px;
 				border: 1px solid #ccc;
+				margin: 4px 0;
 				// -webkit-appearance: none;
 			}
 			.agent_car_cell {
 				display: table-cell;
-				width: 200px;	
-				padding: 4px 1px 4px 5px;
+				width: 50%;	
+				// width: 200px;
+				// padding: 4px 1px 4px 5px;
 			}
 		}
 						
@@ -239,10 +250,11 @@
 		}		
 						
 		.agent_car_search, .agent_car_reserve, .agent_car_negative {
-			width: 300px;
+//			width: 300px;
+			width: 97%;
 			height: 25px;
-			margin-top: 5px;
-			margin-left: 15px;
+			margin-top: 8px;
+			// margin-left: 15px;
 			background: #BE1E2D;
 			color: #fff;
 			border: 0;
