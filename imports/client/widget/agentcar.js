@@ -171,8 +171,8 @@ function showSearchResults(results) {
                     Мощность: ${result.engine.power}
                     <br/>${result.color}<br/>
                     ${mileage}<br />
-                    Старая цена: ${result.priceold}
-                    <div class="agent_car_price">${formatPrice(result.price)} Р</div>
+                    <s>${formatPrice(result.priceold)}</s>
+                    <div class="agent_car_price">${formatPrice(result.price)} &#8381;</div>
                 </div>
             </div>`
         );
