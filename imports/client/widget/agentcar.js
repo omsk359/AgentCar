@@ -30,10 +30,10 @@ DEBUG && console.log('maket: ', ac_maket);
 const ac_result = require('html!./ac_result.html');
 DEBUG && console.log('ac_result: ', ac_result);
 
-const ac_reserve = require('html!./ac_reserve.html');
+const ac_reserve = require('html!./ac_reserve_2.html');
 DEBUG && console.log('ac_reserve: ', ac_reserve);
 
-const ac_need_details = require('html!./ac_need_details.html');
+const ac_need_details = require('html!./ac_need_details_2.html');
 DEBUG && console.log('ac_need_details: ', ac_need_details);
 
 const ac_negative = require('html!./ac_negative.html');

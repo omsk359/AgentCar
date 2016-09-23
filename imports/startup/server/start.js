@@ -52,7 +52,7 @@ DealerSettings.insert({ ownerId: 'kZD2WwvnheGtest3', mark: 'SKODA', position: 'l
 // DealerSettings.insert({ ownerId: 'kZD2WwvnheGtest3', mark: 'SKODA', position: 'left', color: 'green', opacity: 80, animate: true, emails: ['omsk359@protonmail.com'] });
 DealerSettings.insert({ ownerId: 'keK2WwvnheGwvnh', mark: 'SKODA', position: 'left', color: 'green', opacity: 80, animate: true, emails: ['omsk359@protonmail.com', 'victory.ch123@yandex.ru', 'buzillo@ya.ru', 'petemic@yandex.ru', 'skorospehova.alena@sigma.spb.ru', 'car.sales.skoda@sigma.spb.ru', 'reception-skoda@sigma.spb.ru'] });
 
-
+/*
 var html = Assets.getText('email_template.html');
 console.log(html);
 
@@ -60,8 +60,6 @@ console.log(html);
 import nodemailer from 'nodemailer';
 // import mg from 'nodemailer-mailgun-transport';
 import mg from './nodemailer-mailgun-transport';
-
-const delta = 70000;
 
 
 // This is your API key that you retrieve from www.mailgun.com/cp (free up to 10K monthly emails)
@@ -107,7 +105,7 @@ function sendMail(ownerId, car, contactInfo, needDetails) {
 	});
 }
 // sendMail();
-
+*/
 
 // import Statistics from '/imports/common/collections/Statistics';
 // Statistics.remove({ ownerId: 'keK2WwvnheGwvnh' });
