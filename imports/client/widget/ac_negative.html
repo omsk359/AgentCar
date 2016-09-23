@@ -11,18 +11,18 @@
 				<p class="agent_car_field_error">Не менее двух символов</p>
 			</div>
 		</div>
+        <div class="agent_car_group">
+            <label for="agent_car_negative_phone">Телефон*</label>
+            <div class="agent_car_cell">
+                <input name="agent_car_negative_phone" id="agent_car_negative_phone" type="text" value="" data-check="\S" required />
+                <p class="agent_car_field_error">Введите корректный телефон</p>
+            </div>
+        </div>
 		<div class="agent_car_group">
-			<label for="agent_car_negative_email">E-mail*</label>
+			<label for="agent_car_negative_email">E-mail</label>
 			<div class="agent_car_cell">
-				<input name="agent_car_negative_email" id="agent_car_negative_email" type="email" value="" data-check="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?" required />
+				<input name="agent_car_negative_email" id="agent_car_negative_email" type="email" value="" data-check="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?" />
 				<p class="agent_car_field_error">Введите email</p>
-			</div>
-		</div>
-		<div class="agent_car_group">
-			<label for="agent_car_negative_phone">Телефон</label>
-			<div class="agent_car_cell">
-				<input name="agent_car_negative_phone" id="agent_car_negative_phone" type="text" value="" data-check="\S" />
-				<p class="agent_car_field_error">Введите корректный телефон</p>
 			</div>
 		</div>
 		<input type="submit" name="agent_car_negative_send" class="agent_car_negative" value="Отправить"/>
