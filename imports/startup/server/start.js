@@ -6,6 +6,8 @@ import '/imports/server/collections/DealerSettings';
 import '/imports/server/collections/NegativeSubscribe';
 import _ from 'lodash';
 
+import '/imports/server/collections/GameSubscribers';
+
 
 // for testing
 

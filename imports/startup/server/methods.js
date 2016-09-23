@@ -12,6 +12,8 @@ import nodemailer from 'nodemailer';
 // import mg from 'nodemailer-mailgun-transport';
 import mg from './nodemailer-mailgun-transport';
 
+import GameSubscribers from '/imports/common/collections/GameSubscribers';
+
 const delta = 70000;
 
 
@@ -287,7 +289,7 @@ Meteor.methods({
 	},
 
 	negativeSubscribe({ ownerId, contactInfo, searchParams }) {
-		console.log('reserveCar params: ', arguments);
+		console.log('negativeSubscribe params: ', arguments);
 		check(ownerId, String);
 		check(contactInfo, {
 			name: String,
@@ -332,4 +334,18 @@ Meteor.methods({
 		_.assign(settingsDB, settings);
 		return DealerSettings.update({ ownerId }, settingsDB);
 	},
+
+
+	gameSubscribe(ownerId, resultType, contactInfo) {
+		console.log('gameSubscribe params: ', arguments);
+		check(ownerId, String);
+		check(resultType, Number);
+		check(contactInfo, {
+			name: String,
+			email: String,
+			phone: String
+		});
+
+		return GameSubscribers.insert({ ownerId, contactInfo, resultType });
+	}
 });
