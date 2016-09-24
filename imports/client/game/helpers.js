@@ -1,4 +1,4 @@
-let resultTypes = [ 'Результат 1', 'Результат 2' ];
+let resultTypes = ["дополнительное оборудование на выбор", "скидка на КАСКО 15%", "бесплатное ТО3"];
 
 export function getResult(type) {
     if (type >= 0 && type < resultTypes.length)

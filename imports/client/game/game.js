@@ -37,9 +37,10 @@ function sendSubscribe(result, contactInfo) {
         });
 }
 
+const GAME_DIR = `//${DOMAIN}/gamemy3`;
 
 $(function() {
-    var iframe = $(`<iframe src="//${DOMAIN}/gamemy3/index.html" width="700" height="373" id="ac_game_ifr" frameborder="0" marginwidth="0" marginheight="0" allowfullscreen></iframe>`);
+    var iframe = $(`<iframe src="${GAME_DIR}/index.html" width="700" height="373" id="ac_game_ifr" frameborder="0" marginwidth="0" marginheight="0" allowfullscreen></iframe>`);
     var dialog = $("<div></div>").append(iframe).appendTo("body").dialog({
         autoOpen: true,
         modal: true,
@@ -52,7 +53,24 @@ $(function() {
     });
     // Form: $('#ac_game_ifr').contents().find('#gwd-taparea_2').click()
     $('#ac_game_ifr').on('load', function() {
-        let formFrame = $(this).contents().find('#gwd-iframe_2');
+        let gameFrame = this;
+        let formFrame = $(gameFrame).contents().find('#gwd-iframe_1,#gwd-iframe_2,#gwd-iframe_3,#gwd-iframe_4');
+        let getResultFromP = p => {
+            let result = $(p).text();
+            // DEBUG && console.log(`result0: "${result}"`);
+            result = result.replace(/[\n\r]/g, '').match(/В багажнике:(.*[^!])!?/); // В багажнике: X!
+            result = result[1].trim().replace(/\s+/g, ' ');
+            // DEBUG && console.log(`result: "${result}"`);
+            return result;
+        };
+        if (DEBUG) {
+            let allResults = $(gameFrame).contents().find('p:contains(багажнике)').toArray().map(getResultFromP);
+            DEBUG && console.log(`allResults: `, allResults);
+            allResults.forEach(r => {
+                if (resultTypes.indexOf(r) == -1)
+                    console.error(`"${r}" not in `, resultTypes);
+            });
+        }
         formFrame.on('load', function() {
             let form = formFrame.contents().find('form');
             form.attr('action', '');
@@ -62,7 +80,11 @@ $(function() {
                 let name = e.target.name.value,
                     email = e.target.mail.value,
                     phone = e.target.tel.value;
-                sendSubscribe('Результат 1', { name, email, phone });
+                let result = getResultFromP($(gameFrame).contents().find('p:contains(багажнике):visible'));
+                DEBUG && console.log(`result: "${result}"`);
+
+                sendSubscribe(result, { name, email, phone });
+                $('#ac_game_ifr').attr('src', `${GAME_DIR}/end.html`);
                 return false;
             });
         });
