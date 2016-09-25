@@ -12,6 +12,8 @@ import nodemailer from 'nodemailer';
 // import mg from 'nodemailer-mailgun-transport';
 import mg from './nodemailer-mailgun-transport';
 
+import GameSubscribers from '/imports/common/collections/GameSubscribers';
+
 const delta = 70000;
 
 
@@ -25,6 +27,9 @@ const auth = {
 };
 
 const nodemailerMailgun = nodemailer.createTransport(mg(auth));
+
+const html = Assets.getText('email/index2_css_inline.html');
+
 
 function sendMail(ownerId, car, contactInfo, needDetails) {
 	let settings = DealerSettings.findOne({ ownerId });
@@ -41,17 +46,27 @@ function sendMail(ownerId, car, contactInfo, needDetails) {
     //     	emails = settings.email;
     //         throw Error('Wrong dealer ID');
     // }
-	let emailStr = contactInfo.email ? `E-mail - <b>${contactInfo.email}</b><br>` : '';
-	let html =
-		`Друзья, сообщаем, что у Вас появился новый  клиент на покупку автомобиля.<br>
-Его контактные данные:<br>
-Имя - <b>${contactInfo.name}</b><br>
-Телефон - <b>${contactInfo.phone}</b><br>
-${emailStr}
+	let { name, email, phone } = contactInfo;
+
+// 	let html =
+// 		`Друзья, сообщаем, что у Вас появился новый  клиент на покупку автомобиля.<br>
+// Его контактные данные:<br>
+// Имя - <b>${contactInfo.name}</b><br>
+// Телефон - <b>${contactInfo.phone}</b><br>
+// ${emailStr}
+// Автомобиль: <b>${car.mark} - ${car.model}</b>, цена: <b>${car.price}</b><br>
+// Удачных продаж)<br>
+// <i>Ваш <br>
+// AgentCar.</i>`;
+
+	let data = `
+Имя - ${name}<br>
+${ phone ? `Телефон - ${phone}<br />` : ''}
+${ email ? `E-mail - ${email}<br />` : ''}
 Автомобиль: <b>${car.mark} - ${car.model}</b>, цена: <b>${car.price}</b><br>
-Удачных продаж)<br>
-<i>Ваш <br>
-AgentCar.</i>`;
+`;
+
+	let htmlData = html.replace('REPLACE_DATA', data);
 
 	let subject;
 	if (needDetails)
@@ -66,7 +81,7 @@ AgentCar.</i>`;
         // cc:'second@domain.com',
         // bcc:'secretagent@company.gov',
         subject,
-		html
+		html: htmlData
     }, function (err, info) {
         if (err) {
             console.log('Mailgun Error: ', err);
@@ -86,30 +101,44 @@ function sendMailSubscribe(ownerId, contactInfo, searchParams) {
 
 	let credit = ac_form_credit_pay ? `- я собираюсь брать кредит: с  ежемесячным платежом ${ac_form_credit_pay}, сроком на ${ac_form_credit_time}<br />` : '';
 	let tradeIn = ac_form_car_cost ? `- хочу trade - in: моя машина стоит - ${ac_form_car_cost} рублей<br />` : '';
-	let html =
-		`Друзья, сообщаем, что у Вас появился новый клиент на покупку автомобиля.<br /><br />
-Его контактные данные:<br />
+// 	let html =
+// 		`Друзья, сообщаем, что у Вас появился новый клиент на покупку автомобиля.<br /><br />
+// Его контактные данные:<br />
+// Имя - ${name}<br />
+// ${ phone ? `Телефон - ${phone}<br />` : ''}
+// ${ email ? `E-mail - ${email}<br />` : ''}
+// Предпочтения по модели автомобиля: ${mark} ${model} ${ac_form_secondhand ? ' (готов рассмотреть б\у)' : ''}<br />
+// Дополнительно:<br />
+//
+//         - у меня есть ${ac_form_i_have} рублей
+//         ${credit}
+//         ${tradeIn}
+//     <br />
+// Удачных продаж)<br />
+// Ваш Agent CAR`;
+	let data = `
 Имя - ${name}<br />
 ${ phone ? `Телефон - ${phone}<br />` : ''}
-E-mail - ${email}<br />
-Предпочтения по модели автомобиля: ${mark} ${model} ${ac_form_secondhand ? ' (готов рассмотреть б\у)' : ''}<br />
+${ email ? `E-mail - ${email}<br />` : ''}
+Предпочтения по модели автомобиля: ${mark} ${model} ${ac_form_secondhand ? ' (готов рассмотреть б\\у)' : ''}<br />
 Дополнительно:<br />
-       
         - у меня есть ${ac_form_i_have} рублей 
         ${credit}
         ${tradeIn}
-    <br />
-Удачных продаж)`;
+`;
+
 	let subject = 'Agent CAR - подписка на поиск машины';
 
-nodemailerMailgun.sendMail({
+	let htmlData = html.replace('REPLACE_DATA', data);
+
+	nodemailerMailgun.sendMail({
 	// from: 'tmpmail@protonmail.com',
 	from: 'test@debian359.tk',
 	to: settings.emails, // An array if you have multiple recipients.
 	// cc:'second@domain.com',
 	// bcc:'secretagent@company.gov',
 	subject,
-	html
+	html: htmlData
 }, function (err, info) {
 	if (err) {
 		console.log('Mailgun Error: ', err);
@@ -236,7 +265,19 @@ Meteor.methods({
 		if (!ac_form_secondhand)
 			params.mileage = 0;
 
-		var foundCars = Cars.find(params, { sort: { price: -1 }, limit: 5 }).fetch();
+		const MAX_RESULT = 5;
+		var foundCars = Cars.find(params, { sort: { price: -1 }, limit: MAX_RESULT }).fetch();
+		if (ac_form_secondhand && foundCars.length < MAX_RESULT) {
+			// Правильно, он может ввести либо любую, либо модель, скажем, тигуан.
+			// Если он ставит галку "с пробегом"  - то подтягиваются все (вне зависимости от марки и модели)
+			// подержанные машины, которые по цене подходят и все новые тигуаны.
+
+			params.mileage = { $gte: 0 };
+			delete params.mark;
+			delete params.model;
+			let oldCars = Cars.find(params, {sort: { price: -1 }, limit: MAX_RESULT - foundCars.length}).fetch();
+			foundCars = [...foundCars, ...oldCars].sort((car1, car2) => car2.price < car1.price);
+		}
 		console.log('Found cars: ', foundCars);
 
 		QueriesHistory.insert({ ownerId,
@@ -287,7 +328,7 @@ Meteor.methods({
 	},
 
 	negativeSubscribe({ ownerId, contactInfo, searchParams }) {
-		console.log('reserveCar params: ', arguments);
+		console.log('negativeSubscribe params: ', arguments);
 		check(ownerId, String);
 		check(contactInfo, {
 			name: String,
@@ -332,4 +373,18 @@ Meteor.methods({
 		_.assign(settingsDB, settings);
 		return DealerSettings.update({ ownerId }, settingsDB);
 	},
+
+
+	gameSubscribe(ownerId, resultType, contactInfo) {
+		console.log('gameSubscribe params: ', arguments);
+		check(ownerId, String);
+		check(resultType, Number);
+		check(contactInfo, {
+			name: String,
+			email: String,
+			phone: String
+		});
+
+		return GameSubscribers.insert({ ownerId, contactInfo, resultType });
+	}
 });

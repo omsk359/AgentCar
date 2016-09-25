@@ -6,9 +6,18 @@
 				<p>Оставьте свои контактные данные и менеджер расскажет вам всё!</p>
 			</div>
 			<div class="agent_car_cell">
-				<input name="agent_car_reserve_name" id="agent_car_reserve_name" type="text" data-check="\S{2}" required placeholder="Ваше имя*"/>
-				<input name="agent_car_reserve_phone" id="agent_car_reserve_phone" type="text" value"" required placeholder="Телефон*"/>
-				<input name="agent_car_reserve_email" id="agent_car_reserve_email" type="text" value="" data-check="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?" placeholder="E-mail"/>
+                <div>
+                    <input name="agent_car_reserve_name" id="agent_car_reserve_name" type="text" data-check="\S{2}" required placeholder="Ваше имя*"/>
+                    <p class="agent_car_field_error">Не менее двух символов</p>
+                </div>
+                <div>
+                    <input name="agent_car_reserve_phone" id="agent_car_reserve_phone" type="text" required placeholder="Телефон*"/>
+                    <p class="agent_car_field_error">Введите телефон</p>
+                </div>
+                <div>
+                    <input name="agent_car_reserve_email" id="agent_car_reserve_email" type="text" value="" data-check="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?" placeholder="E-mail"/>
+                    <p class="agent_car_field_error">Введите корректный email</p>
+                </div>
 				<input type="submit" name="agent_car_reserve_send" class="agent_car_reserve" value="Забронировать"/>
 			</div>
 		</div>

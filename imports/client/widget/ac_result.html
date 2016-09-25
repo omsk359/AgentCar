@@ -2,20 +2,24 @@
     <div class="agent_car_return">
         <h3>Мы нашли для Вас</h3>
     </div>
-    <div class="agent_car_result">
+    <div data-id="${result._id}" class="agent_car_result">
         <div class="agent_car_mark">
             <strong>KIA Picanto</strong>
             <br/><br/>
             <img src="/img/picanto1.jpg" width="130" />
         </div>
         <div class="agent_car_equip">
-            <br/>Комлектация
-            <br/>Двигатель
-            <br/>Цвет
+            <br/>${result.equipment}
+            <br/>${result.kpp}
             <br/>
-            <div class="agent_car_price">555000 Р</div>
+            Тип: ${result.engine.type};
+            Объем: ${result.engine.capacity};
+            Мощность: ${result.engine.power}
+            <br/>${result.color}<br/>
+            Б/у. Пробег: ${result.mileage}; Год выпуска: ${result.year}<br />
+            <s>600 000</s>
+            <div class="agent_car_price">555 000 Р</div>
         </div>
-		<p>Внимание! Цены на представленные автомобили действуют только сегодня.</p>
     </div>
     <div class="agent_car_result_link">
         <span class="agent_car_result_link_n ac_link_active">1</span>
