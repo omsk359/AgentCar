@@ -5,7 +5,7 @@ import '/imports/server/collections/ReserveCars';
 import '/imports/server/collections/DealerSettings';
 import '/imports/server/collections/NegativeSubscribe';
 import _ from 'lodash';
-
+import './http_headers';
 import '/imports/server/collections/GameSubscribers';
 
 
