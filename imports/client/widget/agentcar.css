@@ -238,6 +238,10 @@
   border: solid 1px #999;
   border-radius: 15px 0px;
 }
+.agent_car_result_price_only_today {
+	color: #0C0;
+	text-align: center;
+}
 .agent_car_widget .agent_car_body .agent_car_result .agent_car_equip,
 .agent_car_widget .agent_car_body .agent_car_result .agent_car_mark {
   display: table-cell;
