@@ -16203,7 +16203,7 @@
 	    value: true
 	});
 	exports.getResult = getResult;
-	var resultTypes = ["дополнительное оборудование на выбор", "скидка на КАСКО 15%", "бесплатное ТО3"];
+	var resultTypes = ["скидка на дополнительное оборудование 15%", "скидка на КАСКО 15%", "бесплатное ТО"];
 
 	function getResult(type) {
 	    if (type >= 0 && type < resultTypes.length) return resultTypes[type];

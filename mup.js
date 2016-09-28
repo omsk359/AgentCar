@@ -44,7 +44,7 @@ module.exports = {
       MONGO_URL: 'mongodb://localhost/meteor'
     },
     log: { //optional
-      driver: 'syslog',
+      driver: 'journald',
 //      opts: {
 //        "syslog-address":'udp://syslogserverurl.com:1234'
 //      }
