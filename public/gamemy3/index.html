@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html><head><meta name="GCD" content="YTk3ODQ3ZWZhN2I4NzZmMzBkNTEwYjJlfe77a1b5848c6bf9d1169bf5f3b7a749"/>
+<html><head><meta name="GCD" content="YTk3ODQ3ZWZhN2I4NzZmMzBkNTEwYjJl73404e6665c29ac494d3534abc711789"/>
   <meta charset="utf-8">
   <title>game</title>
-  <meta name="generator" content="Google Web Designer 1.6.1.0726">
+  <meta name="generator" content="Google Web Designer 1.6.2.0916">
   <style data-exports-type="gwd-page" data-gwd-node="true">.gwd-inactive{visibility:hidden}</style>
   <style data-exports-type="gwd-image" data-gwd-node="true">img[is=gwd-image].scaled-proportionally{background-repeat:no-repeat;background-position:center}</style>
   <style data-exports-type="gwd-taparea" data-gwd-node="true">gwd-taparea{display:block;cursor:pointer;background-color:rgba(0,0,0,0);-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}</style>
@@ -1572,7 +1572,7 @@ body {
         -moz-animation-timing-function: linear;
     }
 }
-#fon .gwd-gen-ji7rgwdanimation {
+#game .gwd-gen-ji7rgwdanimation {
     animation: gwd-gen-ji7rgwdanimation_gwd-keyframes 16.7s linear 0s infinite normal forwards;
     -webkit-animation: gwd-gen-ji7rgwdanimation_gwd-keyframes 16.7s linear 0s infinite normal forwards;
     -moz-animation: gwd-gen-ji7rgwdanimation_gwd-keyframes 16.7s linear 0s infinite normal forwards;
@@ -1709,7 +1709,7 @@ body {
         -moz-animation-timing-function: linear;
     }
 }
-#fon .gwd-gen-17shgwdanimation {
+#game .gwd-gen-17shgwdanimation {
     animation: gwd-gen-17shgwdanimation_gwd-keyframes 7.7s linear 0s infinite normal forwards;
     -webkit-animation: gwd-gen-17shgwdanimation_gwd-keyframes 7.7s linear 0s infinite normal forwards;
     -moz-animation: gwd-gen-17shgwdanimation_gwd-keyframes 7.7s linear 0s infinite normal forwards;
@@ -1843,7 +1843,7 @@ body {
         -moz-animation-timing-function: linear;
     }
 }
-#fon .gwd-gen-1tw4gwdanimation {
+#game .gwd-gen-1tw4gwdanimation {
     animation: gwd-gen-1tw4gwdanimation_gwd-keyframes 9.9s linear 0s infinite normal forwards;
     -webkit-animation: gwd-gen-1tw4gwdanimation_gwd-keyframes 9.9s linear 0s infinite normal forwards;
     -moz-animation: gwd-gen-1tw4gwdanimation_gwd-keyframes 9.9s linear 0s infinite normal forwards;
@@ -2114,10 +2114,10 @@ x.prototype.attachedCallback=function(){var f=this.getContext("2d"),b=this.width
 Math.ceil(d)-.5;a.fillColor&&(f.fillStyle=w(f,a.fillColor,b,g,d),f.lineWidth=d,y(a,c,f,b,g),f.fill(),f.closePath());f.beginPath();c=Math.ceil(.5*d)-.5;a.strokeColor&&(f.strokeStyle=w(f,a.strokeColor,b,g,0),f.lineWidth=d,y(a,c,f,b,g),f.stroke(),f.closePath())};x.prototype.attributeChangedCallback=null;
 var y=function(f,b,g,a,d){var c=.5*a,h=.5*d,e=[b,b],k=f.i,l=f.j,p=f.c;f=f.f;c=c<h?c:h;k>c&&(k=c);p>c&&(p=c);f>c&&(f=c);l>c&&(l=c);c=a-b;h=d-b;0>=k&&0>=p&&0>=f&&0>=l?g.rect(e[0],e[1],a-2*b,d-2*b):(a=k-b,0>a&&(a=0),e[1]+=a,.001>Math.abs(a)&&(e[1]=b),g.moveTo(e[0],e[1]),e=[b,h],a=p-b,0>a&&(a=0),e[1]-=a,g.lineTo(e[0],e[1]),.001<a&&g.arcTo(b,h,b+a,h,p-b),e=[c,h],a=f-b,0>a&&(a=0),e[0]-=a,g.lineTo(e[0],e[1]),.001<a&&g.arcTo(c,h,c,h-a,f-b),e=[c,b],a=l-b,0>a&&(a=0),e[1]+=a,g.lineTo(e[0],e[1]),.001<a&&g.arcTo(c,
 b,c-a,b,l-b),e=[b,b],a=k-b,0>a&&(a=0),e[0]+=a,g.lineTo(e[0],e[1]),.001<a?g.arcTo(b,b,b,b+a,k-b):g.lineTo(b,2*b))};document.registerElement("gwd-rectangle",{prototype:x.prototype,"extends":"canvas"});}()
-</script><script data-source="gwdtaparea_min.js" data-version="4" data-exports-type="gwd-taparea">-function(){"use strict";var b;var d=function(a,c,g){var e;g?(e=document.createEvent("CustomEvent"),e.initCustomEvent(a,!0,!0,g)):(e=document.createEvent("Event"),e.initEvent(a,!0,!0));c.dispatchEvent(e);return e};var f=[],h=function(a){a=f.indexOf(a);0<=a&&f.splice(a,1)};document.addEventListener("click",function(a){for(var c=0;c<f.length;c++)if(25>Math.abs(a.clientX-f[c].m)&&25>Math.abs(a.clientY-f[c].o)||25>Math.abs(a.screenX-f[c].A)&&25>Math.abs(a.screenY-f[c].B))f.splice(c,1),a.stopPropagation(),a.preventDefault()},!0);var k=function(){};goog.inherits(k,HTMLElement);b=k.prototype;b.createdCallback=function(){this.l=this.j=0;this.f=this.b=this.g=this.c=null;this.a=!0;this.h=this.s.bind(this)};
-b.attachedCallback=function(){this.b||(this.c=this.i.bind(this),this.g=this.w.bind(this),this.b=this.v.bind(this),this.f=this.u.bind(this));this.addEventListener("click",this.c,!1);this.addEventListener("touchstart",this.g,!1);this.addEventListener("action",this.h,!1)};b.detachedCallback=function(){this.removeEventListener("click",this.c,!1);this.removeEventListener("touchstart",this.g,!1);this.removeEventListener("action",this.h,!1)};b.i=function(){this.a&&d("action",this);this.a=!0};
-b.w=function(a){this.addEventListener("touchmove",this.b,!1);this.addEventListener("touchend",this.f,!1);a=a.touches[0];this.j=a.clientX;this.l=a.clientY};b.u=function(a){this.i();this.removeEventListener("touchmove",this.b,!1);this.removeEventListener("touchend",this.f,!1);a=a.changedTouches[0];a={m:a.clientX,o:a.clientY,A:a.screenX,B:a.screenY};f.push(a);setTimeout(h.bind(null,a),2500)};b.v=function(a){a=a.touches[0];this.a=this.a&&10>=Math.abs(this.j-a.clientX)&&10>=Math.abs(this.l-a.clientY)};
-b.s=function(){var a=this.getAttribute("exit-override-url");a&&!d("tapareaexit",this,{url:a}).detail.handled&&window.open(a)};b.attributeChangedCallback=null;document.registerElement("gwd-taparea",{prototype:k.prototype});}()
+</script><script data-source="gwdtaparea_min.js" data-version="4" data-exports-type="gwd-taparea">-function(){"use strict";var c;var d=function(a,b,g){var e;g?(e=document.createEvent("CustomEvent"),e.initCustomEvent(a,!0,!0,g)):(e=document.createEvent("Event"),e.initEvent(a,!0,!0));b.dispatchEvent(e);return e};var f=[],h=function(a){a=f.indexOf(a);0<=a&&f.splice(a,1)};document.addEventListener("click",function(a){for(var b=0;b<f.length;b++)if(25>Math.abs(a.clientX-f[b].m)&&25>Math.abs(a.clientY-f[b].o)||25>Math.abs(a.screenX-f[b].A)&&25>Math.abs(a.screenY-f[b].B))f.splice(b,1),a.stopPropagation(),a.preventDefault()},!0);var k=function(){};goog.inherits(k,HTMLElement);c=k.prototype;c.createdCallback=function(){this.l=this.j=0;this.f=this.b=this.g=this.c=null;this.a=!0;this.h=this.s.bind(this)};
+c.attachedCallback=function(){this.b||(this.c=this.i.bind(this),this.g=this.w.bind(this),this.b=this.v.bind(this),this.f=this.u.bind(this));this.addEventListener("click",this.c,!1);this.addEventListener("touchstart",this.g,!1);this.addEventListener("action",this.h,!1)};c.detachedCallback=function(){this.removeEventListener("click",this.c,!1);this.removeEventListener("touchstart",this.g,!1);this.removeEventListener("action",this.h,!1)};c.i=function(){this.a&&d("action",this);this.a=!0};
+c.w=function(a){this.addEventListener("touchmove",this.b,!1);this.addEventListener("touchend",this.f,!1);a=a.touches[0];this.j=a.clientX;this.l=a.clientY};c.u=function(a){this.i();this.removeEventListener("touchmove",this.b,!1);this.removeEventListener("touchend",this.f,!1);a=a.changedTouches[0];a={m:a.clientX,o:a.clientY,A:a.screenX,B:a.screenY};f.push(a);setTimeout(h.bind(null,a),2500)};c.v=function(a){a=a.touches[0];this.a=this.a&&10>=Math.abs(this.j-a.clientX)&&10>=Math.abs(this.l-a.clientY)};
+c.s=function(){var a=this.getAttribute("exit-id"),b=this.getAttribute("exit-override-url");b&&!d("tapareaexit",this,{"exit-id":a,url:b}).detail.handled&&window.open(b)};c.attributeChangedCallback=null;document.registerElement("gwd-taparea",{prototype:k.prototype});}()
 </script>
       
       <script type="text/javascript" gwd-gwdid-version="1.0">+function(){var c;var f=function(a){this.c="";this.a=[];this.b="";a&&("string"==typeof a?this.h(a):this.g(a))};c=f.prototype;c.i=function(a){for(var d=this.c==a.c&&this.b==a.b&&this.a.length==a.a.length,b=0;d&&b<this.a.length;b++)d=this.a[b]==a.a[b];return d};c.u=function(){return""==this.f()};c.clear=function(){this.c="";this.a=[];this.b=""};
@@ -2552,14 +2552,13 @@ b.f=function(){this.a=!0;this.removeEventListener("load",this.c,!1);g("iframeloa
     </div>
     <iframe is="gwd-iframe" id="gwd-iframe_3" source="" class="gwd-iframe-8a2n" style="visibility: collapse;"></iframe>
     <p class="gwd-p-8otg gwd-p-27i0" id="pozdop" style="display: none;">Поздравляем!<br>
-      В багажнике:&nbsp;дополнительное<br>
-      оборудование на выбор!</p>
+      В багажнике: скидка на дополнительное оборудование 15%</p>
     <p class="gwd-p-8otg gwd-p-11xc" id="poakasko" style="display: none;">Поздравляем!<br>
       В багажнике:<br>
       скидка на КАСКО 15%!</p>
     <p class="gwd-p-8otg gwd-p-1ae1" id="pozto" style="display: none;">Поздравляем!<br>
       В багажнике:<br>
-      бесплатное ТО3!</p>
+      бесплатное ТО!</p>
     <iframe is="gwd-iframe" id="gwd-iframe_2" source="" class="gwd-iframe-19ow" style="visibility: collapse;"></iframe>
     <iframe is="gwd-iframe" id="gwd-iframe_4" source="" class="gwd-iframe-1ipf" style="visibility: collapse;"></iframe>
     <div class="gwd-div-9doj" id="Z" style="display: none;">
