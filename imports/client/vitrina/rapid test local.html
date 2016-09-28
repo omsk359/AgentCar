@@ -1,0 +1,681 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Untitled Document</title>
+<style type="text/css">
+</style>
+</head>
+<style type="text/css">
+body {
+	background-color: #FFF;
+	height: auto;
+	
+	font-family: Arial, Helvetica, sans-serif;
+	color: #999;
+	font-size: 12px;
+}
+.radius {
+	border: 5px solid #FFF;
+	background-color: #404041;
+	box-shadow: 0 0 10px rgba(0,0,0,0.5);
+	margin: 10px;
+	width: 250px;
+	position: fixed;
+	visibility: visible;
+	z-index: 99999;
+	padding: 20px;
+	color: #FFF;
+	top: 10%;
+	overflow: visible;
+	left: 70px;
+	border-radius: 20px 0 20px 0;
+   }
+.listalka {
+	float: left;
+	position: absolute;
+	width: 120%;
+	top: 160px;
+	z-index: 9999;
+	left: -23px;
+}
+.zagolovok {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 18px;
+	color: #FFF;
+	text-align: center;
+	top: 1%;
+	position: relative;
+	line-height: normal;
+	width: 100%;
+	font-weight: bold;
+}
+
+.logo {
+	position: relative;
+	z-index: 9999;
+	visibility: inherit;
+	left: 0%;
+	border-radius: 10px 0 10px 0;
+	background-color: #bf1e2d;
+	height: 30px;
+	width: 60px;
+	font-family: Georgia;
+	font-size: 18px;
+	line-height: 13px;
+	text-align: right;
+	padding-top: 12px;
+	padding-right: 18px;
+	padding-bottom: 7px;
+	padding-left: 5px;
+	box-shadow: 0 0 10px rgba(0,0,0,0.5);
+	overflow: visible;
+	color: #FFF;
+	top: -45px;
+	margin-bottom: -30px;
+}
+.close {
+	position: relative;
+	z-index: 9999;
+	visibility: inherit;
+	left: 91%;
+	border-radius: 5px 0 5px 0;
+	background-color: #bf1e2d;
+	height: 15px;
+	width: 20px;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 16px;
+	line-height: 13px;
+	text-align: center;
+	padding-top: 6px;
+	padding-right: 4px;
+	padding-bottom: 7px;
+	padding-left: 4px;
+	box-shadow: 0 0 10px rgba(0,0,0,0.5);
+	overflow: visible;
+	color: #FFF;
+	top: -53px;
+	margin-bottom: -30px;
+}
+.model {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	color: #d7df23;
+	border: 2px solid #d7df23;
+	border-radius: 10px 0 10px 0;
+	width: 38%;
+	padding-right: 0px;
+	padding-bottom: 10px;
+	padding-left: 3px;
+	margin: 10px;
+	text-align: center;
+	float: left;
+	height: auto;
+	vertical-align: middle;
+	position: relative;
+	visibility: inherit;
+	top: 15px;
+	padding-top: -20px;
+	clip: rect(0px,auto,0px,auto);
+	bottom: 10px;
+}
+.circle {
+	width: 20px;
+	height: 20px;
+	-moz-border-radius: 50px;
+	-webkit-border-radius: 50px;
+	border-radius: 50px;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	color: #FFF;
+	font-style: normal;
+	font-weight: bold;
+	background-color: #bf1e2d;
+	text-align: center;
+	border: 2px solid #FFF;
+	top: -10px;
+	position: relative;
+	visibility: inherit;
+	z-index: 99;
+	right: -65%;
+	overflow: visible;
+	line-height: 5px;
+	clip: rect(auto,auto,auto,auto);
+	float: left;
+	padding-top: 3px;
+	padding-right: 2px;
+	padding-bottom: 0px;
+	padding-left: 2px;
+}
+.TOPmenu {
+	width: 100%;
+	text-align: center;
+	position: relative;
+	border: 0px none #999;
+	margin-bottom: 50px;
+}
+.PhotoModel {
+	background-color: #FFF;
+	text-align: center;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	position: relative;
+	visibility: inherit;
+	width: 100%;
+	height: auto;
+	margin-right: 0px;
+	margin-left: 0px;
+	float: left;
+	color: #666;
+	font-size: 10px;
+}
+.OpisanieSMALL {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	color: #FFF;
+	list-style-type: disc;
+	list-style-color: #d7df23;
+	list-style-position: outside;
+	position: relative;
+	text-align: left;
+	visibility: visible;
+	float: left;
+	border: 0px solid #CCC;
+	margin-left: 0px;
+	left: -30px;
+	padding: 0; /* Убираем поля */
+	margin-left: 20px; /* Отступ слева */
+	width: 70%;
+}
+.zagolovok2 {
+	text-align: center;
+	font-size: 14px;
+	top: 20px;
+	clip: rect(20px,auto,20px,auto);
+	position: relative;
+	visibility: inherit;
+	bottom: 20px;
+	padding-bottom: 20px;
+	border-top-style: none;
+	font-family: Arial, Helvetica, sans-serif;
+}
+.menucap {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	color: #d7df23;
+	width: 20%;
+	padding-right: 0px;
+	padding-left: 3px;
+	text-align: center;
+	float: left;
+	height: auto;
+	position: relative;
+	visibility: inherit;
+	clip: rect(auto,auto,0px,auto);
+	padding-top: 7px;
+	padding-bottom: 7px;
+	margin: 2px;
+	border: 1px solid #d7df23;
+	border-radius: 5px 0 5px 0;
+}
+.menucap:hover{
+	background: #d7df23;
+	color: #333;
+}
+.ACTIVEMenu {
+	background-color: #d7df23;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	color: #333333;
+	width: 20%;
+	padding-right: 0px;
+	padding-left: 3px;
+	text-align: center;
+	float: left;
+	height: auto;
+	position: relative;
+	visibility: inherit;
+	clip: rect(auto,auto,0px,auto);
+	padding-top: 7px;
+	padding-bottom: 7px;
+	margin: 2px;
+	border: 1px solid #d7df23;
+	border-radius: 5px 0 5px 0;
+	box-shadow: 0 0 10px rgba(0,0,0,0.5);
+}
+ul {
+    padding: 0; 
+    margin-left: 20px; 
+   }
+     li {
+    color: #D7DF23; 
+   }
+   li span {
+    color: #FFF; 
+   }
+
+.knopkaPODROBNEE {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	color: #d7df23;
+	border: 2px solid #d7df23;
+	border-radius: 10px 0 10px 0;
+	width: 15%;
+	padding-right: 3px;
+	padding-bottom: 10px;
+	padding-left: 3px;
+	margin: 0px;
+	text-align: center;
+	float: left;
+	height: auto;
+	vertical-align: middle;
+	position: relative;
+	visibility: inherit;
+	top: 15px;
+	padding-top: 10px;
+	clip: rect(0px,auto,0px,auto);
+	bottom: 10px;
+	hover: background-color: #d7df23;
+	
+}
+
+.knopkaPODROBNEE:hover{
+    background: #d7df23;    
+}	
+.knopkaPODROBNEE:hover::after{
+	content: attr(data-title); 
+	position: absolute; 
+	left: -200px;
+	top: -200px; 
+	z-index: 1; 
+	font-family: Arial, sans-serif; 
+	font-size: 11px; 
+	padding: 10px 10px;
+	border: 1px solid #333; 
+	color: #333;
+	background-color: rgba(255,255,255,0.9);
+	width: 150px;
+	height: auto;
+	border-radius: 15px 0 15px 0;
+	box-shadow: 0 0 10px rgba(0,0,0,0.5);
+	text-align: left;
+   }
+
+
+   
+
+a {
+	color: #d7df23;
+	text-decoration: none;
+}
+a:active {
+	color: #d7df23;
+}
+
+
+
+
+a:hover {
+	color: #333;
+}
+a:visited {
+	color: #FFFFFF;
+}
+.oldprice {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 14px;
+	width: 100%;
+	position: relative;
+	float: left;
+	text-align: center;
+	text-decoration: line-through;
+	visibility: inherit;
+	z-index: auto;
+	border: 1px none #FFF;
+	padding-top: 15px;
+}
+.price {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 24px;
+	width: 100%;
+	position: relative;
+	float: left;
+	text-align: center;
+	visibility: inherit;
+	z-index: auto;
+	border: 1px none #FFF;
+	padding-top: 5px;
+	;
+	color: #d7df23;
+}
+.bron {
+	background-color: #bf1e2d;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	width: 100%;
+	height: auto;
+	color: #FFF;
+	border-top-style: none;
+	border-right-style: none;
+	border-bottom-style: none;
+	border-left-style: none;
+	padding-top: 10px;
+	padding-right: 2px;
+	padding-bottom: 10px;
+	padding-left: 2px;
+	margin-top: 10px;
+	box-shadow: 0 0 10px rgba(0,0,0,0.5);
+}
+.bron:hover{ 
+	background-color: #E21E2D;
+	
+}
+.lead {
+	position: relative;
+	visibility: inherit;
+	width: 75%;
+	background-color: #414042;
+	border: 1px solid #d7df23;
+	top: 10px;
+	clip: rect(3px,3px,3px,3px);
+	height: 30px;
+	float: left;
+	bottom: 10px;
+	color: #d7df23;
+	text-align: left;
+	text-indent: 5px;
+	font-size: 18px;
+}
+#phone {
+	color: #FFF;
+	font-size: 18px;
+}
+.enterSUB {
+	background-color: #C00;
+	top: 4px;
+	position: relative;
+	border-top-style: none;
+	border-right-style: none;
+	border-bottom-style: none;
+	border-left-style: none;
+	color: #FFF;
+	margin: 5px;
+	padding: 5px;
+	width: 19%;
+	height: 35px;
+	box-shadow: 0 0 10px rgba(0,0,0,0.5);
+	
+}
+.enterSUB:hover{
+    background: #E21E2D; 
+	
+}
+.vperednazad {
+	color: #be1e2d;
+	float: right;
+	position: relative;
+	top: 25%;
+	z-index: 99999999;
+	left: -10px;
+	font-size: 36px;
+	text-align: right;
+	width: 50%;
+}
+.vperednazad:hover{
+	background: #be1e2dD;
+	color: #F00;	
+}
+.vpered {
+	font-size: 36px;
+	color: #be1e2d;
+	position: relative;
+	float: left;
+	width: 45%;
+	text-align: left;
+}
+.vpered:hover{
+	background: #be1e2dD;
+	color: #F00;	
+}
+
+</style>
+
+<script type="text/javascript" src="jquery-3.1.0.js"></script>
+<!--
+плагин для телефона >
+<!-->
+<script type="text/javascript" src="jquery.maskedinput.min.js"></script>
+
+
+
+<!--
+скрипт для телефона >
+<!-->
+<script type="text/javascript">
+$(function(){
+  //2. Получить элемент, к которому необходимо добавить маску
+  $("#phone").mask("+7 (999) 999-99-99");
+});
+</script>
+
+
+
+<!--
+скрипт для второго телефона - хз почему, с одним  скриптом не работает >
+<!-->
+<script type="text/javascript">
+$(function(){
+  //2. Получить элемент, к которому необходимо добавить маску
+  $("#phone2").mask("+7 (999) 999-99-99");
+});
+</script>
+
+<!--
+подложка>
+<!-->
+<body>
+<p>hfkjghjdfhgkjfdhgd</p>
+<p>sdgljdflkjfsldkjlkdf</p>
+<p>sdljfhjhdskjfhsdkjfhkjsdhfkjsdhfsdfjhkjhsdkfjhdskjhfjksdhfkjsdhfkjsdhfsdfjhkjhsdkfjhdskjhfjksd</p>
+<p>sdfjhkjhsdkfjhdskjhfjksdhfkjsdhfkjsdhf</p>
+<p>sdfsjhfkjdshfkjsdhkfjdsq[qpOS;AL;LJADVISW</p>
+<p>SDKHB JUZUSELIEEJOWQUEOIOHIHiuoidviahdv</p>
+<p>dvajsdkjsjflsdkfjlksdjflkdsj</p> 
+<p>sfdjhkjfhdsssssjdfkjshls;dIWQOEELWKJDCKSdNFUSERI4PQIDOISHFIUAEYT8EURIOWFKJDBJSFYTFUENCDKJF </p>
+<p>EFIGEIUQB4c7BRUHWElrUWRUQEPwF EIF OIEwF</p>
+<p>sdfjhkjhsdkfjhdskjhfjksdhfkjsdhfkjsdhfsdfjhkjhsdkfjhdskjhfjksdhfkjsdhfkjsdhf</p>
+<p>sdfjhkjhsdkfjhdskjhfjksdhfkjsdhfkjsdhfsdfjhkjhsdkfjhdskjhfjksdhfkjsdhfkjsdhf</p>
+<p>hfkjghjdfhgkjfdhgd</p>
+<p>sdgljdflkjfsldkjlkdf</p>
+<p>sdljfhjhdskjfhsdkjfhkjsdhfkjsdhfsdfjhkjh
+
+
+
+<!--
+основной блок >
+<!-->
+<div class="radius">
+
+<!--
+блок с логотипом>
+<!-->
+	
+    <div class="logo"><strong>Ag</strong>ent
+  	car</div>
+  
+<!-- блок закрывашка><!--> 
+  		<div class="close">x</div>
+        
+        
+<!-- блок меню. Наверное не обязательно объяснять, что он должен работать :))><!-->        
+  
+  		<div class="TOPmenu">
+  			<div class="ACTIVEMenu">Rapid</div>
+  			<div class="menucap"> <a href="index.html">Octavia</a></div>
+  			<div class="menucap">Yeti</div>
+  			<div class="menucap">Superb</div>
+  		</div>
+
+
+<!-- листалка. это две кнопочки по бокам картинки, которые будут перелистывать странички. пример карусели в папке сайта><!--> 
+        			
+                    <div class="listalka"> 
+                    
+                    <!-- вправо - следующая машинка><!--> 
+  						<div class="vperednazad"> ► </div>
+                    
+                    <!-- влево - предыдущая машинка><!--> 
+  						<div class="vpered">◄ </div>
+					</div>
+  
+  
+<!-- цельный блок машины. В этом блоке все данные конкретно про эту машину><!--> 
+					<div id="Rapid01"> 
+
+<!-- Заголовок, состоит из названия модели и комплектации. Вытаскиваем из базы эти два параметра ставим один за другим><!--> 
+  
+  						<div class="zagolovok">Rapid Ambition</div>
+  			
+<!-- блок с фоткой на белом фоне><!-->  		 
+  								<div class="PhotoModel">
+                                <img src="photo/Rapid 8.jpg" width="170" height="81" />   <br /> 
+  
+  
+  <!--здесь же ставим количество просмотров за сегодня. 
+  Оно должно быть таким: рандомное число от 2 до 9 плюс количество реальных открытий><!-->  
+ 								просмотров сегодня: 45</div>
+                                
+ 
+ 
+ <!--див подмашиночный - в нем блок с описанием и кнопка на подробности><!-->  	
+  
+ 						<div>
+<!--описание листинговое, выводим так: 
+ 1 строка: объем двигателя, лошадки, коробка
+ 2 строка: статус (возможно это поменяется на ID или винномер машины
+ 3 строка: дилер, у которого эта машина стоит><!--> 
+                        
+                        
+        				<div class="OpisanieSMALL">
+   							<ul>
+   								<li><span> 1,4 л., 125 л.с., DSG</span></li>
+     							<li><span> Статус: на складе</span></li>
+      							<li><span> дилер: <strong>Сигма-Сервис</strong></span></li>
+    						</ul>
+   						</div>
+ 
+ 
+ <!--при наведении на кнопку вылазит подсказка. В нее мы тоже будем грузить данные - это полное описание комплектации. Предусмотрите для нее ввод с бекенда><!-->    
+ 
+    						<div class="knopkaPODROBNEE" data-title=" • Расширенная гарантия • Климат-контроль Climatronic, охлаждаемый перчаточный ящик, зеркало заднего вида с автозатемнением  • Уменьшенное стальное запасное колесо, Электромеханический усилитель руля, с регулировкой в зависимости от скорости, 3-спицевое кожаное рулевое колесо с управлением радио, Боковые молдинги в цвет кузова, Задний спойлер в цвет кузова, Передний центральный подлокотник, Сетка в багажном отделении, Кожаный рычаг стояночного тормоза, Рычаг КПП со вставкой из кожи, Накладки на пороги и наклейки Hockey Edition, Задний парктроник, Противотуманные фары со светодиодными ходовыми огнями, Многофункциональный дисплей Maxi Dot, Литые диски 7J x 16 Antia черные, шины 215
+• 45 R16, Хромированные детали интерьера (хром-пакет), Специальная обивка сидений Hockey Edition, Ассистент подъема в гору"> 
+
+ 
+ <!--сама кнопочка><!-->  
+       						
+                            <div>
+                            <img src="img/knopka podrobnee.png" width="18" height="22" />
+                            </div>
+                            
+<!--закрываем подмашиночный блок><!-->  
+					</div>
+
+
+
+<!--блок со старой ценой><!-->  
+       	<div class="oldprice"><span>957 900 руб.</span></div>
+        
+<!--блок со новой ценой><!-->  
+ 		 <div class="price"><span>899 900 руб.</span></div>
+  
+ 
+ 
+ <!--кнопка, она разворачивает форму для брони><!--> 
+       			<div>
+                <input id="open-close" href="#" class="bron" name="bron" type="button" value="Зарезервировать бесплатно на 2 дня">
+       		   </div>
+        
+
+<!--скрипт разворачивалка><!--> 
+       <script type="text/javascript">
+$(document).ready(function() {
+  $('#open-close').show();
+  $('#reserv').hide();
+
+  $('#open-close').click(function(event) {
+    event.preventDefault(); // Для того чтобы при нажатии на ссылку не кидало вверх
+    $('#reserv').slideToggle();
+  });
+});
+</script>
+
+<!--блок, который разворачивается><!--> 
+
+		<div id="reserv">
+          				<div class="zagolovok2">
+                        <span>Для подтверждения <br />оставьте Ваш телефон:</span>
+                        </div>
+				
+               	
+<!--форма для брони. У меня нет валидации - нужно поставить><!--> 
+				<div>
+					<form action="" method="get" target="_self">
+						<input id="phone"  class="lead" name="tel" type="text" >
+            			<input id="reserv" name="Submit" class="enterSUB" type="submit" value="↵"  onclick="alert('Спасибо! Вы забронировали автомобиль на два дня. Наш менеджер свяжется с Вами в ближайшее время!')"/>
+        			</form>
+				</div>
+<!--закрываем этот блок, который разворачивался><!--> 
+ 		</div>
+ 
+     
+<!--Блок заголовка лида><!-->      
+
+			<div class="zagolovok2">
+            	<span>Хочу подробностей!</span><br />
+				<span> Перезвоните мне сюда:</span>
+			</div>
+<!--Блок формы лида. У меня нет валидации - нужно поставить><!--> 			
+            <div>
+            	<form action="" method="get" target="_self">
+					<input id="phone2"  class="lead" name="tel" type="text" >
+            		<input id="callback" name="Submit" class="enterSUB" type="submit" value="↵"  onclick="alert('Спасибо! Наш менеджер перезвонит Вам в ближайшее время!')"/>
+     	    	</form>
+   			</div>
+
+<!--закрываем все блоки><!--> 	
+   		</div>
+	</div>
+</div>
+
+
+
+
+
+<!--это фикция сайта><!--> 
+
+<p>hfkjghjdfhgkjfdhgd</p>
+<p>sdgljdflkjfsldkjlkdf</p>
+<p>sdljfhjhdskjfhsdkjfhkjsdhfkjsdhfsdfjhkjhsdkfjhdskjhfjksdhfkjsdhfkjsdhfsdfjhkjhsdkfjhdskjhfjksd</p>
+<p>sdfjhkjhsdkfjhdskjhfjksdhfkjsdhfkjsdhf</p>
+<p>sdfsjhfkjdshfkjsdhkfjdsq[qpOS;AL;LJADVISW</p>
+<p>SDKHB JUZUSELIEEJOWQUEOIOHIHiuoidviahdv</p>
+<p>dvajsdkjsjflsdkfjlksdjflkdsj</p> 
+<p>sfdjhkjfhdsssssjdfkjshls;dIWQOEELWKJDCKSdNFUSERI4PQIDOISHFIUAEYT8EURIOWFKJDBJSFYTFUENCDKJF </p>
+<p>EFIGEIUQB4c7BRUHWElrUWRUQEPwF EIF OIEwF</p>
+<p>sdfjhkjhsdkfjhdskjhfjksdhfkjsdhfkjsdhfsdfjhkjhsdkfjhdskjhfjksdhfkjsdhfkjsdhf</p>
+<p>sdfjhkjhsdkfjhdskjhfjksdhfkjsdhfkjsdhfsdfjhkjhsdkfjhdskjhfjksdhfkjsdhfkjsdhf</p>
+<p>hfkjghjdfhgkjfdhgd</p>
+<p>sdgljdflkjfsldkjlkdf</p>
+<p>sdljfhjhdskjfhsdkjfhkjsdhfkjsdhfsdfjhkjhsdkfjhdskjhfjksdhfkjsdhfkjsdhfsdfjhkjhsdkfjhdskjhfjksd</p>
+<p>sdfjhkjhsdkfjhdskjhfjksdhfkjsdhfkjsdhf</p>
+<p>sdfsjhfkjdshfkjsdhkfjdsq[qpOS;AL;LJADVISW</p>
+<p>SDKHB JUZUSELIEEJOWQUEOIOHIHiuoidviahdv</p>
+<p>dvajsdkjsjflsdkfjlksdjflkdsj</p>
+<p>sfdjhkjfhdsssssjdfkjshls;dIWQOEELWKJDCKSdNFUSERI4PQIDOISHFIUAEYT8EURIOWFKJDBJSFYTFUENCDKJF </p>
+<p>EFIGEIUQB4c7BRUHWElrUWRUQEPwF EIF OIEwF</p>
+<p>sdfjhkjhsdkfjhdskjhfjksdhfkjsdhfkjsdhfsdfjhkjhsdkfjhdskjhfjksdhfkjsdhfkjsdhf</p>
+<p>sdfjhkjhsdkfjhdskjhfjksdhfkjsdhfkjsdhfsdfjhkjhsdkfjhdskjhfjksdhfkjsdhfkjsdhf</p>
+</body>
+</html>
