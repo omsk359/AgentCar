@@ -7,6 +7,7 @@ import '/imports/server/collections/NegativeSubscribe';
 import _ from 'lodash';
 import './http_headers';
 import '/imports/server/collections/GameSubscribers';
+import '/imports/server/collections/QueriesHistory';
 
 
 // for testing
@@ -53,6 +54,15 @@ DealerSettings.insert({ ownerId: 'kZD2WwvnheGtest3', mark: 'SKODA', position: 'l
 // DealerSettings.insert({ ownerId: 'kZD2WwvnheGtest3', mark: 'SKODA', position: 'left', color: 'green', opacity: 80, animate: true, emails: ['omsk359@protonmail.com'] });
 DealerSettings.insert({ ownerId: 'keK2WwvnheGwvnh', mark: 'SKODA', position: 'left', color: 'green', opacity: 80, animate: true,
 	emails: [
+		'omsk359@protonmail.com',
+		'victory.ch123@yandex.ru',
+		'buzillo@ya.ru',
+		'petemic@yandex.ru',
+		'skorospehova.alena@sigma.spb.ru',
+		'car.sales.skoda@sigma.spb.ru',
+		'reception-skoda@sigma.spb.ru'
+	],
+	emails_secondHand: [
 		'Baranov.Nikolay@sigma.spb.ru',
 		'Grigorev.Anton@sigma.spb.ru',
 		'Rozhkov.Ilya@sigma.spb.ru',
@@ -62,10 +72,7 @@ DealerSettings.insert({ ownerId: 'keK2WwvnheGwvnh', mark: 'SKODA', position: 'le
 		'omsk359@protonmail.com',
 		'victory.ch123@yandex.ru',
 		'buzillo@ya.ru',
-		'petemic@yandex.ru',
-		// 'skorospehova.alena@sigma.spb.ru',
-		// 'car.sales.skoda@sigma.spb.ru',
-		// 'reception-skoda@sigma.spb.ru'
+		'petemic@yandex.ru'
 	]
 });
 
