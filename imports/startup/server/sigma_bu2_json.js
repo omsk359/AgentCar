@@ -1,4 +1,4 @@
-[
+export default [
 {
     "photo": "http://s011.radikal.ru/i315/1610/d7/3fdd34a08a65.jpg",
     "mark": "SsangYong",
@@ -14,7 +14,7 @@
         "power": "175 л.с."
     },
     "kpp": "АКПП",
-    "priceold": ,
+    "priceold": 0,
     "price": 652700
 }, {
     "photo": "http://s017.radikal.ru/i432/1610/6b/8437f0d6bc2d.jpg",
@@ -23,7 +23,7 @@
     "equipment": "",
     "carcase": "Седан",
     "color": "Серебристый",
-    "mileage": 25 067,
+    "mileage": 25067,
     "year": 2014,
     "engine": {
         "type": "Бензиновый",
@@ -31,7 +31,7 @@
         "power": "105 л.с."
     },
     "kpp": "МКПП",
-    "priceold": ,
+    "priceold": 0,
     "price": 546800
 },{
     "photo": "http://s013.radikal.ru/i325/1610/a6/42b8c0dc45c1.jpg",
@@ -40,7 +40,7 @@
     "equipment": "",
     "carcase": "Кроссовер",
     "color": "Бордовый",
-    "mileage": 106 191,
+    "mileage": 106191,
     "year": 2011,
     "engine": {
         "type": "бензиновый",
@@ -48,7 +48,7 @@
         "power": "150 л.с."
     },
     "kpp": "АКПП",
-    "priceold": ,
+    "priceold": 0,
     "price": 826700 
 },{
     "photo": "http://i066.radikal.ru/1610/a1/909ac9f5f913.jpg",
@@ -57,7 +57,7 @@
     "equipment": "",
     "carcase": "Хэтчбек",
     "color": "Черный",
-    "mileage": 343 655,
+    "mileage": 343655,
     "year": 1998,
     "engine": {
         "type": "бензиновый",
@@ -65,7 +65,7 @@
         "power": "125 л.с."
     },
     "kpp": "МКПП",
-    "priceold": ,
+    "priceold": 0,
     "price": 66800
 },{
     "photo": "http://s14.radikal.ru/i187/1610/1e/d03305d80ed3.jpg",
@@ -74,7 +74,7 @@
     "equipment": "",
     "carcase": "Седан",
     "color": "Серый",
-    "mileage": 113 952,
+    "mileage": 113952,
     "year": 2006,
     "engine": {
         "type": "бензиновый",
@@ -82,7 +82,7 @@
         "power": "113 л.с."
     },
     "kpp": "МКПП",
-    "priceold": ,
+    "priceold": 0,
     "price": 257800
 },
 {
@@ -92,7 +92,7 @@
     "equipment": "",
     "carcase": "Хэтчбек",
     "color": "Белый",
-    "mileage": 142 055,
+    "mileage": 142055,
     "year": 2011,
     "engine": {
         "type": "бензиновый",
@@ -100,7 +100,7 @@
         "power": "122 л.с."
     },
     "kpp": "МКПП",
-    "priceold": ,
+    "priceold": 0,
     "price": 467800
 },
 {
@@ -110,7 +110,7 @@
     "equipment": "",
     "carcase": "Внедорожник",
     "color": "Черный",
-    "mileage": 121 655,
+    "mileage": 121655,
     "year": 2011,
     "engine": {
         "type": "бензиновый",
@@ -118,7 +118,7 @@
         "power": "122 л.с."
     },
     "kpp": "МКПП",
-    "priceold": ,
+    "priceold": 0,
     "price": 664300
 },
 {
@@ -128,7 +128,7 @@
     "equipment": "",
     "carcase": "Седан",
     "color": "Коричневый",
-    "mileage": 1 924,
+    "mileage": 1924,
     "year": 2015,
     "engine": {
         "type": "бензиновый",
@@ -136,7 +136,7 @@
         "power": "150 л.с."
     },
     "kpp": "Робот",
-    "priceold": ,
+    "priceold": 0,
     "price": 1606300
 },
 {
@@ -146,7 +146,7 @@
     "equipment": "",
     "carcase": "Хэтчбек",
     "color": "Серый",
-    "mileage": 149 810,
+    "mileage": 149810,
     "year": 2010,
     "engine": {
         "type": "бензиновый",
@@ -154,7 +154,7 @@
         "power": "88 л.с."
     },
     "kpp": "АКПП",
-    "priceold": ,
+    "priceold": 0,
     "price": 326800
 },
 {
@@ -164,7 +164,7 @@
     "equipment": "",
     "carcase": "Хэтчбек",
     "color": "Черный",
-    "mileage": 166 024,
+    "mileage": 166024,
     "year": 2008,
     "engine": {
         "type": "бензиновый",
@@ -172,7 +172,7 @@
         "power": "80 л.с."
     },
     "kpp": "Робот",
-    "priceold": ,
+    "priceold": 0,
     "price": 253800
 },
 {
@@ -182,7 +182,7 @@
     "equipment": "",
     "carcase": "Хэтчбек",
     "color": "Красный",
-    "mileage": 85 122,
+    "mileage": 85122,
     "year": 2011,
     "engine": {
         "type": "бензиновый",
@@ -190,7 +190,7 @@
         "power": "68 л.с."
     },
     "kpp": "МКПП",
-    "priceold": ,
+    "priceold": 0,
     "price": 286100
 },
 {
@@ -200,7 +200,7 @@
     "equipment": "",
     "carcase": "Седан",
     "color": "Оранжевый",
-    "mileage": 120 800,
+    "mileage": 120800,
     "year": 2007,
     "engine": {
         "type": "бензиновый",
@@ -208,7 +208,7 @@
         "power": "64 л.с."
     },
     "kpp": "МКПП",
-    "priceold": ,
+    "priceold": 0,
     "price": 218200
 },
 {
@@ -218,7 +218,7 @@
     "equipment": "",
     "carcase": "Хэтчбек",
     "color": "Красный",
-    "mileage": 20 750,
+    "mileage": 20750,
     "year": 2012,
     "engine": {
         "type": "бензиновый",
@@ -226,7 +226,7 @@
         "power": "120 л.с."
     },
     "kpp": "АКПП",
-    "priceold": ,
+    "priceold": 0,
     "price": 514200
 },
 {
@@ -236,7 +236,7 @@
     "equipment": "",
     "carcase": "Седан",
     "color": "Темно-синий",
-    "mileage": 112 600,
+    "mileage": 112600,
     "year": 2007,
     "engine": {
         "type": "бензиновый",
@@ -244,7 +244,7 @@
         "power": "102 л.с."
     },
     "kpp": "МКПП",
-    "priceold": ,
+    "priceold": 0,
     "price": 184700
 },
 {
@@ -254,7 +254,7 @@
     "equipment": "",
     "carcase": "Седан",
     "color": "Синий",
-    "mileage": 116 915,
+    "mileage": 116915,
     "year": 2011,
     "engine": {
         "type": "бензиновый",
@@ -262,7 +262,7 @@
         "power": "152 л.с."
     },
     "kpp": "АКПП",
-    "priceold": ,
+    "priceold": 0,
     "price": 663200
 },
 {
@@ -272,7 +272,7 @@
     "equipment": "",
     "carcase": "Кроссовер",
     "color": "Красный",
-    "mileage": 41 100,
+    "mileage": 41100,
     "year": 2012,
     "engine": {
         "type": "бензиновый",
@@ -280,7 +280,7 @@
         "power": "94 л.с."
     },
     "kpp": "МКПП",
-    "priceold": ,
+    "priceold": 0,
     "price": 243700 
 },
 {
@@ -290,7 +290,7 @@
     "equipment": "",
     "carcase": "Внедорожник",
     "color": "Серебристый",
-    "mileage": 115 710,
+    "mileage": 115710,
     "year": 2004,
     "engine": {
         "type": "бензиновый",
@@ -298,7 +298,7 @@
         "power": "116 л.с."
     },
     "kpp": "МКПП",
-    "priceold": ,
+    "priceold": 0,
     "price": 348400 
 },
 {
@@ -308,7 +308,7 @@
     "equipment": "",
     "carcase": "Фургон",
     "color": "Белый",
-    "mileage": 149 280,
+    "mileage": 149280,
     "year": 2011,
     "engine": {
         "type": "Дизельный",
@@ -316,7 +316,7 @@
         "power": "86 л.с."
     },
     "kpp": "МКПП",
-    "priceold": ,
+    "priceold": 0,
     "price": 608300 
 },
 {
@@ -326,7 +326,7 @@
     "equipment": "",
     "carcase": "Минивэн",
     "color": "Серебристый",
-    "mileage": 1 037,
+    "mileage": 1037,
     "year": 2015,
     "engine": {
         "type": "Дизельный",
@@ -334,7 +334,7 @@
         "power": "140 л.с."
     },
     "kpp": "АКПП",
-    "priceold": ,
+    "priceold": 0,
     "price": 1526100 
 },
 {
@@ -344,7 +344,7 @@
     "equipment": "",
     "carcase": "Седан",
     "color": "Коричневый",
-    "mileage": 110 000,
+    "mileage": 110000,
     "year": 2011,
     "engine": {
         "type": "Бензиновый",
@@ -352,7 +352,7 @@
         "power": "122 л.с."
     },
     "kpp": "МКПП",
-    "priceold": ,
+    "priceold": 0,
     "price": 596300
 },
 {
@@ -362,7 +362,7 @@
     "equipment": "",
     "carcase": "Лифтбэк",
     "color": "Темно-серый",
-    "mileage": 101 614,
+    "mileage": 101614,
     "year": 2014,
     "engine": {
         "type": "Бензиновый",
@@ -370,7 +370,7 @@
         "power": "105 л.с."
     },
     "kpp": "АКПП",
-    "priceold": ,
+    "priceold": 0,
     "price": 629300
 },
 {
@@ -380,7 +380,7 @@
     "equipment": "",
     "carcase": "Седан",
     "color": "Серебристый",
-    "mileage": 97 733,
+    "mileage": 97733,
     "year": 2007,
     "engine": {
         "type": "Бензиновый",
@@ -388,7 +388,7 @@
         "power": "107 л.с."
     },
     "kpp": "АКПП",
-    "priceold": ,
+    "priceold": 0,
     "price": 267700
 },
 {
@@ -398,7 +398,7 @@
     "equipment": "",
     "carcase": "Седан",
     "color": "Белый",
-    "mileage": 62 447,
+    "mileage": 62447,
     "year": 2012,
     "engine": {
         "type": "Бензиновый",
@@ -406,7 +406,7 @@
         "power": "116 л.с."
     },
     "kpp": "МКПП",
-    "priceold": ,
+    "priceold": 0,
     "price": 467300
 },
 {
@@ -416,7 +416,7 @@
     "equipment": "",
     "carcase": "Кроссовер",
     "color": "Черный",
-    "mileage": 26 321 ,
+    "mileage": 26321,
     "year": 2014,
     "engine": {
         "type": "Бензиновый",
@@ -424,7 +424,7 @@
         "power": "167 л.с."
     },
     "kpp": "АКПП",
-    "priceold": ,
+    "priceold": 0,
     "price": 1017300
 },
 {
@@ -434,7 +434,7 @@
     "equipment": "",
     "carcase": "Внедорожник",
     "color": "Серый",
-    "mileage": 39 200,
+    "mileage": 39200,
     "year": 2013,
     "engine": {
         "type": "Дизельный",
@@ -442,7 +442,7 @@
         "power": "170 л.с."
     },
     "kpp": "АКПП",
-    "priceold": ,
+    "priceold": 0,
     "price": 1624100
 },
 {
@@ -452,7 +452,7 @@
     "equipment": "",
     "carcase": "Седан",
     "color": "Серебристый",
-    "mileage": 154 018,
+    "mileage": 154018,
     "year": 2007,
     "engine": {
         "type": "Бензиновый",
@@ -460,7 +460,7 @@
         "power": "75 л.с."
     },
     "kpp": "МКПП",
-    "priceold": ,
+    "priceold": 0,
     "price": 98700
 },
 {
@@ -470,7 +470,7 @@
     "equipment": "",
     "carcase": "Лифтбэк",
     "color": "Коричневый",
-    "mileage": 53 860,
+    "mileage": 53860,
     "year": 2014,
     "engine": {
         "type": "Бензиновый",
@@ -478,7 +478,7 @@
         "power": "140 л.с."
     },
     "kpp": "АКПП",
-    "priceold": ,
+    "priceold": 0,
     "price": 803800
 },
 {
@@ -488,7 +488,7 @@
     "equipment": "",
     "carcase": "Универсал",
     "color": "Красный",
-    "mileage": 81 836,
+    "mileage": 81836,
     "year": 2013,
     "engine": {
         "type": "Бензиновый",
@@ -496,7 +496,7 @@
         "power": "125 л.с."
     },
     "kpp": "Робот",
-    "priceold": ,
+    "priceold": 0,
     "price": 543300
 },
 ]

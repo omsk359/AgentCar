@@ -34,7 +34,8 @@ CarsObjects.forEach(obj => Cars.insert(obj));
 
 import skodaProductionCars_new from './skoda_json';
 import skodaProductionCars_bu from './sigma_bu_json';
-let skodaProductionCars = [...skodaProductionCars_new, ...skodaProductionCars_bu];
+import skodaProductionCars_bu2 from './sigma_bu2_json';
+let skodaProductionCars = [...skodaProductionCars_new, ...skodaProductionCars_bu, ...skodaProductionCars_bu2];
 const SkodaTest = skodaProductionCars.map(car => ({ ...car, ownerId: 'kZD2WwvnheGtest3', checked: true }));
 const SkodaProd = skodaProductionCars.map(car => ({ ...car, ownerId: 'keK2WwvnheGwvnh', checked: true }));
 [...SkodaTest, ...SkodaProd].forEach(obj => Cars.insert(obj));
