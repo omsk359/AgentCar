@@ -122,7 +122,7 @@ ${ phone ? `Телефон - ${phone}<br />` : ''}
 ${ email ? `E-mail - ${email}<br />` : ''}
 Предпочтения по модели автомобиля: ${mark} ${model} ${ac_form_secondhand ? ' (готов рассмотреть б\\у)' : ''}<br />
 Дополнительно:<br />
-        - у меня есть ${ac_form_i_have} рублей 
+        - у меня есть ${ac_form_i_have} рублей<br />
         ${credit}
         ${tradeIn}
 `;
