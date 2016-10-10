@@ -2,9 +2,14 @@ var webpack = require('webpack'),
     path = require('path');
 
 module.exports = {
-    entry: "./game.js",
+    entry: {
+        game: "./gameLoader",
+        gameFrame: "./gameFrame",
+        // game_old: "./game"
+    },
     output: {
-        filename: "../../../public/game.js",
+        path: path.join(__dirname, "../../../public"),
+        filename: "[name].js",
         publicPath: "http://debian359.tk/"
         // publicPath: "http://localhost:3000/"
     },
@@ -13,10 +18,6 @@ module.exports = {
             {
                 test: /\.js$/,
                 exclude: /(node_modules|libs)/,
-                include: [
-                    __dirname,
-                    // path.resolve(__dirname, '../../common/game')
-                ],
                 loader: "babel",
 		        query: {
 			        presets: ['es2015', 'stage-2']
@@ -40,7 +41,7 @@ module.exports = {
             _: 'lodash',
             Q: 'q'
         }),
-        // new webpack.optimize.UglifyJsPlugin({ minimize: true, compress: { warnings: false } })
+        new webpack.optimize.UglifyJsPlugin({ minimize: true, compress: { warnings: false } })
     ]
 
 }

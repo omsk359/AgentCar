@@ -7,6 +7,7 @@ import '/imports/server/collections/NegativeSubscribe';
 import _ from 'lodash';
 import './http_headers';
 import '/imports/server/collections/GameSubscribers';
+import '/imports/server/collections/QueriesHistory';
 
 
 // for testing
@@ -34,7 +35,8 @@ CarsObjects.forEach(obj => Cars.insert(obj));
 
 import skodaProductionCars_new from './skoda_json';
 import skodaProductionCars_bu from './sigma_bu_json';
-let skodaProductionCars = [...skodaProductionCars_new, ...skodaProductionCars_bu];
+import skodaProductionCars_bu2 from './sigma_bu2_json';
+let skodaProductionCars = [...skodaProductionCars_new, ...skodaProductionCars_bu, ...skodaProductionCars_bu2];
 const SkodaTest = skodaProductionCars.map(car => ({ ...car, ownerId: 'kZD2WwvnheGtest3', checked: true }));
 const SkodaProd = skodaProductionCars.map(car => ({ ...car, ownerId: 'keK2WwvnheGwvnh', checked: true }));
 [...SkodaTest, ...SkodaProd].forEach(obj => Cars.insert(obj));
@@ -50,7 +52,29 @@ DealerSettings.insert({ ownerId: 'kZD2WwvnheGtest2', mark: 'Skoda', position: 'r
 
 DealerSettings.insert({ ownerId: 'kZD2WwvnheGtest3', mark: 'SKODA', position: 'left', color: 'green', opacity: 80, animate: true, emails: ['omsk359@protonmail.com', 'victory.ch123@yandex.ru', 'buzillo@ya.ru', 'petemic@yandex.ru'] });
 // DealerSettings.insert({ ownerId: 'kZD2WwvnheGtest3', mark: 'SKODA', position: 'left', color: 'green', opacity: 80, animate: true, emails: ['omsk359@protonmail.com'] });
-DealerSettings.insert({ ownerId: 'keK2WwvnheGwvnh', mark: 'SKODA', position: 'left', color: 'green', opacity: 80, animate: true, emails: ['omsk359@protonmail.com', 'victory.ch123@yandex.ru', 'buzillo@ya.ru', 'petemic@yandex.ru', 'skorospehova.alena@sigma.spb.ru', 'car.sales.skoda@sigma.spb.ru', 'reception-skoda@sigma.spb.ru'] });
+DealerSettings.insert({ ownerId: 'keK2WwvnheGwvnh', mark: 'SKODA', position: 'left', color: 'green', opacity: 80, animate: true,
+	emails: [
+		'omsk359@protonmail.com',
+		'victory.ch123@yandex.ru',
+		'buzillo@ya.ru',
+		'petemic@yandex.ru',
+		'skorospehova.alena@sigma.spb.ru',
+		'car.sales.skoda@sigma.spb.ru',
+		'reception-skoda@sigma.spb.ru'
+	],
+	emails_secondHand: [
+		'Baranov.Nikolay@sigma.spb.ru',
+		'Grigorev.Anton@sigma.spb.ru',
+		'Rozhkov.Ilya@sigma.spb.ru',
+		'Mesnyankin.Artem@sigma.spb.ru',
+		'Solovev.Sergey@sigma.spb.ru',
+
+		'omsk359@protonmail.com',
+		'victory.ch123@yandex.ru',
+		'buzillo@ya.ru',
+		'petemic@yandex.ru'
+	]
+});
 
 /*
 var html = Assets.getText('email_template.html');

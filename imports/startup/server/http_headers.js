@@ -14,6 +14,8 @@ var connectHandler = WebApp.connectHandlers; // get meteor-core's connect-implem
 Meteor.startup(function () {
     connectHandler.use(function (req, res, next) {
         // res.setHeader('Strict-Transport-Security', 'max-age=2592000; includeSubDomains'); // 2592000s / 30 days
+        res.setHeader('Access-Control-Allow-Origin', '*');
+        res.setHeader('X-Frame-Options', 'SAMEORIGIN');
         return next();
     })
 })
