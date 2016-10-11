@@ -7,10 +7,13 @@ Meteor.publish('DealerSettings', function(ownerId) {
 
 DealerSettings.before.insert(function(userId, doc) {
     _.defaults(doc, {
+        name: 'No Name',
+        mark: false,
         position: 'left',
         color: 'red',
         opacity: 0,
         animate: false,
-        customCSS: ''
+        customCSS: '',
+        placementType: 'dealer' // one of ['dealer', 'partner']
      });
 });
