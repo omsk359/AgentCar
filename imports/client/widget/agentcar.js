@@ -181,6 +181,13 @@ function showSearchResults(results) {
 		$('[name=agent_car_reserve]').show();
 		//$('[name=agent_car_need_details]').show();
 		$('[name=agent_car_need_details]').click();
+
+        let { ac_form_i_have, ac_form_credit_pay, ac_form_credit_time, ac_form_car_cost } = getSearchParams();
+        let ac_form_cash = ac_form_i_have + ac_form_credit_pay * ac_form_credit_time + ac_form_car_cost;
+        let text = $('.agent_car_return h3').text();
+        text = text.replace(/[\d\s]*$/, ' ' + formatPrice(ac_form_cash));
+        $('.agent_car_return h3').text(text);
+
     } else {
         $('.agent_car_negative_block').show();
         $('.agent_car_negative_form').show();
