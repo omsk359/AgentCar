@@ -9,6 +9,7 @@ import DealerSettings from '/imports/common/collections/DealerSettings';
 import NegativeSubscribe from '/imports/common/collections/NegativeSubscribe';
 import _ from 'lodash';
 import nodemailer from 'nodemailer';
+import moment from 'moment';
 // import mg from 'nodemailer-mailgun-transport';
 import mg from './nodemailer-mailgun-transport';
 
@@ -350,6 +351,23 @@ Meteor.methods({
 		_.assign(settingsDB, settings);
 		return DealerSettings.update({ ownerId }, settingsDB);
 	},
+
+	onCarView(carId) {
+		check(carId, String);
+
+		let car = Cars.findOne({ _id: carId });
+		if (!car) throw new Meteor.Error('car', 'Wrong car ID');
+
+		let toMoskowTime = date => moment(date).utcOffset('+03:00');
+
+		if (toMoskowTime().date() != toMoskowTime(car.viewLastDate).date()) // new day
+			var viewCnt = _.random(3, 4);
+		else
+			viewCnt = car.viewCnt + 1;
+
+		Cars.update({ _id: carId }, { $set: { viewCnt }, $currentDate: { viewLastDate: true } }, { upsert: true });
+	},
+
 
 
 	gameSubscribe(ownerId, resultType, contactInfo) {

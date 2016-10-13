@@ -109,13 +109,24 @@ function negativeSubscribe(contactInfo, searchParams) {
 
 function onWidgetOpen() {
     asteroid.call("onWidgetOpen", ownerId).result
-    .then(result => {
-        DEBUG && console.log("onWidgetOpen Success: ", result);
-    }).catch(error => {
-        console.log("onWidgetOpen Error");
-        console.error(error);
-    });
+        .then(result => {
+            DEBUG && console.log("onWidgetOpen Success: ", result);
+        }).catch(error => {
+            console.log("onWidgetOpen Error");
+            console.error(error);
+        });
 }
+
+function onCarView(carId) {
+    asteroid.call('onCarView', carId).result
+        .then(result => {
+            DEBUG && console.log("onCarView Success: ", result);
+        }).catch(error => {
+            console.log("onCarView Error");
+            console.error(error);
+        });
+}
+
 
 function showSearchResults(results) {
     DEBUG && console.log('Total results: ', results.length);
@@ -136,6 +147,7 @@ function showSearchResults(results) {
 
     const onSelect_i = i => {
         const result = results[i];
+        onCarView(result._id);
         $('.ac_link_active').removeClass('ac_link_active');
         $(`.agent_car_result_link a:eq(${i})`).addClass('ac_link_active');
         if (result.mileage)
@@ -164,7 +176,8 @@ function showSearchResults(results) {
                     ${mileage}<br />
                     <s>${formatPrice(result.priceold)}</s>
                     <div class="agent_car_price">${formatPrice(result.price)} &#8381;</div>
-                    ${dealerStr}
+                    ${dealerStr || ''}
+                    Просмотров: ${result.viewCnt}
                 </div>
             </div>`
         );
