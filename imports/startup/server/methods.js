@@ -9,6 +9,7 @@ import DealerSettings from '/imports/common/collections/DealerSettings';
 import NegativeSubscribe from '/imports/common/collections/NegativeSubscribe';
 import _ from 'lodash';
 import nodemailer from 'nodemailer';
+import moment from 'moment';
 // import mg from 'nodemailer-mailgun-transport';
 import mg from './nodemailer-mailgun-transport';
 
@@ -171,15 +172,23 @@ Meteor.methods({
 
 		return marksModels;
 	},
+	allDealersInfo() {
+		return DealerSettings.find({ placementType: 'dealer' }, { fields: { name: 1, ownerId: 1, _id: 0 } }).fetch();
+	},
 	getInitWidgetData(ownerId) {
 		check(ownerId, String);
+
+		console.time('TODO');
 
 		Meteor.call('onWidgetLoaded', ownerId);
 
 		let marksModels = Meteor.call('availableMarksModels', ownerId);
 		let settings = DealerSettings.findOne({ ownerId });
+		let dealersInfo = Meteor.call('allDealersInfo');
 
-		return { marksModels, settings };
+		console.timeEnd('TODO');
+
+		return { marksModels, settings, dealersInfo };
 	},
 
 	onWidgetOpen(ownerId) {
@@ -213,22 +222,26 @@ Meteor.methods({
 		check(ac_form_car_cost, Number);
 		check(ac_form_secondhand, Boolean);
 
+		var settings = DealerSettings.findOne({ ownerId });
+		if (!settings) throw new Meteor.Error('settings', 'Wrong dealer ID');
+
 		var ac_form_cash = ac_form_i_have + ac_form_credit_pay * ac_form_credit_time + ac_form_car_cost;
-		var ac_gte_cash = ac_form_cash - delta;
+		// var ac_gte_cash = ac_form_cash - delta;
 		var ac_lte_cash = ac_form_cash + delta;
-		// console.log(`gte: ${ac_gte_cash}; lte: ${ac_lte_cash}`);
-		// console.log(`Cars: ${Cars.find({ mark, price: { $gte: ac_gte_cash, $lte: ac_lte_cash } }).count()}`);
 
 		var params = {
-			ownerId, mark, checked: true,
+			checked: true,
             price: { $gte: 0, $lte: ac_lte_cash }
             // price: { $gte: ac_gte_cash, $lte: ac_lte_cash }
 		};
-		console.log('Params2: ', params);
+		if (settings.placementType == 'dealer')
+			_.assign(params, { ownerId, mark });
+
 		if (model)
 			params.model = model;
 		if (!ac_form_secondhand)
 			params.mileage = 0;
+		console.log('Params2: ', params);
 
 		const MAX_RESULT = 5;
 		var foundCars = Cars.find(params, { sort: { price: -1 }, limit: MAX_RESULT }).fetch();
@@ -338,6 +351,23 @@ Meteor.methods({
 		_.assign(settingsDB, settings);
 		return DealerSettings.update({ ownerId }, settingsDB);
 	},
+
+	onCarView(carId) {
+		check(carId, String);
+
+		let car = Cars.findOne({ _id: carId });
+		if (!car) throw new Meteor.Error('car', 'Wrong car ID');
+
+		let toMoskowTime = date => moment(date).utcOffset('+03:00');
+
+		if (toMoskowTime().date() != toMoskowTime(car.viewLastDate).date()) // new day
+			var viewCnt = _.random(3, 4);
+		else
+			viewCnt = car.viewCnt + 1;
+
+		Cars.update({ _id: carId }, { $set: { viewCnt }, $currentDate: { viewLastDate: true } }, { upsert: true });
+	},
+
 
 
 	gameSubscribe(ownerId, resultType, contactInfo) {
