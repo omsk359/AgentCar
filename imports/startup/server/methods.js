@@ -258,23 +258,24 @@ Meteor.methods({
 		}
 		console.log('Found cars: ', foundCars);
 
-		QueriesHistory.insert({ ownerId,
+		let searchQueryId = QueriesHistory.insert({ ownerId,
 			query: {
 				mark, model, ac_form_i_have, ac_form_credit_pay, ac_form_credit_time, ac_form_car_cost, ac_form_secondhand
 			},
 			result: foundCars //_.map(foundCars, '_id')
-		}, (err) => {
+		}/*, (err) => {
 			// async this, don't wait for response
 			if (err)
 				console.error('QueriesHistory.insert err: ', err);
-		});
+		}*/);
 		Statistics.update({ ownerId }, { $inc: { queries: 1 } }, { upsert: true }, (err) => {
 			// async this, don't wait for response
 			if (err)
 				console.error('Statistics.update err: ', err);
 		});
 
-		return foundCars;
+		// return foundCars;
+		return { foundCars, searchQueryId };
 	},
 
 	reserveCar(ownerId, carId, contactInfo, needDetails = false) {
@@ -361,13 +362,30 @@ Meteor.methods({
 		let toMoskowTime = date => moment(date).utcOffset('+03:00');
 
 		if (toMoskowTime().date() != toMoskowTime(car.viewLastDate).date()) // new day
-			var viewCnt = _.random(3, 4);
+			var viewCnt = _.random(3, 15);
 		else
 			viewCnt = car.viewCnt + 1;
 
 		Cars.update({ _id: carId }, { $set: { viewCnt }, $currentDate: { viewLastDate: true } }, { upsert: true });
 	},
 
+	onResultLock(searchQueryId, contactInfo) {
+		check(searchQueryId, String);
+		check(contactInfo, {
+			phone: String
+		});
+
+		QueriesHistory.update({ _id: searchQueryId }, { $set: { contactInfo } }, (err) => {
+			// async this, don't wait for response
+			if (err)
+				console.error('QueriesHistory.update err: ', err);
+		});
+		Statistics.update({ ownerId }, { $inc: { resultLocks: 1 } }, { upsert: true }, (err) => {
+			// async this, don't wait for response
+			if (err)
+				console.error('Statistics.update err: ', err);
+		});
+	},
 
 
 	gameSubscribe(ownerId, resultType, contactInfo) {
