@@ -50,7 +50,8 @@ DealerSettings.insert({ ownerId: 'kZD2WwvnheG9RCkeK', mark: 'LADA', emails: ['om
 DealerSettings.insert({ ownerId: 'kZD2WwvnheGtest1', mark: 'LADA', emails: false });
 DealerSettings.insert({ ownerId: 'kZD2WwvnheGtest2', mark: 'Skoda', position: 'right', color: 'green', opacity: 80, animate: true, emails: false });
 
-DealerSettings.insert({ ownerId: 'kZD2WwvnheGtest3', mark: 'SKODA', position: 'left', color: 'green', opacity: 80, animate: true, emails: ['omsk359@protonmail.com', 'victory.ch123@yandex.ru', 'buzillo@ya.ru', 'petemic@yandex.ru'] });
+DealerSettings.insert({ ownerId: 'kZD2WwvnheGtest3', mark: 'SKODA', position: 'left', color: 'green', opacity: 80, animate: true, emails: ['omsk359@protonmail.com'] });
+// DealerSettings.insert({ ownerId: 'kZD2WwvnheGtest3', mark: 'SKODA', position: 'left', color: 'green', opacity: 80, animate: true, emails: ['omsk359@protonmail.com', 'victory.ch123@yandex.ru', 'buzillo@ya.ru', 'petemic@yandex.ru'] });
 DealerSettings.insert({
 	ownerId: 'kZD2WwvnheGtest4',
 	placementType: 'partner', name: 'PartnerTest',
