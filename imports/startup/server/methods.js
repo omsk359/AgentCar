@@ -244,9 +244,9 @@ Meteor.methods({
 			params.mileage = 0;
 		console.log('Params2: ', params);
 
-		const MAX_RESULT = 5;
-		var foundCars = Cars.find(params, { sort: { price: -1 }, limit: MAX_RESULT }).fetch();
-		if (ac_form_secondhand && foundCars.length < MAX_RESULT) {
+		// const MAX_RESULT = 5;
+		var foundCars = Cars.find(params, { sort: { price: -1 }/*, limit: MAX_RESULT*/ }).fetch();
+		if (ac_form_secondhand/* && foundCars.length < MAX_RESULT*/) {
 			// Правильно, он может ввести либо любую, либо модель, скажем, тигуан.
 			// Если он ставит галку "с пробегом"  - то подтягиваются все (вне зависимости от марки и модели)
 			// подержанные машины, которые по цене подходят и все новые тигуаны.
@@ -254,7 +254,7 @@ Meteor.methods({
 			params.mileage = { $gte: 0 };
 			delete params.mark;
 			delete params.model;
-			let oldCars = Cars.find(params, {sort: { price: -1 }, limit: MAX_RESULT - foundCars.length}).fetch();
+			let oldCars = Cars.find(params, {sort: { price: -1 }/*, limit: MAX_RESULT - foundCars.length*/}).fetch();
 			foundCars = [...foundCars, ...oldCars].sort((car1, car2) => car2.price < car1.price);
 		}
 		console.log('Found cars: ', foundCars);
