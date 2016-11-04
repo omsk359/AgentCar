@@ -96,13 +96,13 @@ function getInitWidgetData() {
 function filterByParams(params, cb) {
     DEBUG && console.log('Params: ', { ...params, ownerId });
     asteroid.call("carsByParams", { ...params, ownerId }).result
-    .then(result => {
-        DEBUG && console.log("carsByParams Success: ", result);
-        cb(result);
-    }).catch(error => {
-        console.log("carsByParams Error");
-        console.error(error);
-    });
+        .then(result => {
+            DEBUG && console.log("carsByParams Success: ", result);
+            cb(result);
+        }).catch(error => {
+            console.log("carsByParams Error");
+            console.error(error);
+        });
 }
 
 function reserveCar(carId, contactInfo, needDetails = false) {
@@ -156,23 +156,18 @@ function onResultLock(searchQueryId, contactInfo) {
 
 function showSearchResults(results) {
     DEBUG && console.log('Total results: ', results.length);
+    results = _.uniqWith(results, _.isEqual);
+    DEBUG && console.log('Total results 2: ', results);
 
-    // $('.agent_car_form').hide();
-    // $('.agent_car_result_block').hide();
-    // $('.agent_car_negative_block').hide();
-    // $('[name=agent_car_reserve]').hide();
-    // $('.agent_car_reserve_status').html('');
-
-    // $('.agent_car_result').empty();
-    // $('.agent_car_result_link').empty();
-
-    const formatPrice = (price, sep = ' ') =>
+    let formatPrice = (price, sep = ' ') =>
         _.chain(price).split('').reverse().chunk(3)
                       .map(arr => arr.reverse().join(''))
                       .reverse().join(sep).value();
 
-    const onSelect_i = i => {
+    let onSelect_i = i => {
+        DEBUG && console.log(`onSelect_i(${i})`);
         const result = results[i];
+        updateNavPanel(i);
         onCarView(result._id);
         $('.ac_link_active').removeClass('ac_link_active');
         $(`.agent_car_result_link a:eq(${i})`).addClass('ac_link_active');
@@ -201,19 +196,41 @@ function showSearchResults(results) {
                     <br/>${result.color}<br/>
                     ${mileage}<br />
                     Доступность: ${result.availability}<br />
-                    <s>${formatPrice(result.priceold)}</s>
+                    <s>${result.priceold ? formatPrice(result.priceold) + '&#8381;' : ''}</s>
                     <div class="agent_car_price">${formatPrice(result.price)} &#8381;</div>
                     ${dealerStr || ''}
-                    Просмотров: ${result.viewCnt}
+                    Просмотров сегодня: ${result.viewCnt}
                 </div>
             </div>`
         );
     };
-    if (results.length > 1)
-        results.forEach((result, i) => {
-            $('.agent_car_result_link').append(`<span class="agent_car_result_link_n">${i+1}</span>`);
-            $('.agent_car_result_link span:last').click(onSelect_i.bind(null, i));
-         });
+
+    let updateNavPanel = i => {
+        $('.agent_car_result_link').empty();
+        addNavPanel(i);
+    };
+
+    let addNavPanel = (i, n = results.length) => {
+
+        let getNavItem = (title, i) =>
+            $('.agent_car_result_link')
+                .append(`<span class="agent_car_result_link_n">${title}</span>`).find(':last')
+                .click(() => i && onSelect_i(i));
+        let left = () => getNavItem('<', i - 1), right = () => getNavItem('>', i + 1);
+        let num = i => getNavItem(i, i - 1), dots = () => getNavItem('…');
+        let range = (a, b) => { while (a <= b) num(a++) };
+
+        if (n <= 5) // [1, ..., n]
+            range(1, n);
+        else if (i < 3) // [1, 2, 3, '...', n]
+            range(1, 3), dots(), num(n), right();
+        else if (n - 1 - i < 3) // [1, '...', n-2, n-1, n]
+            left(), num(1), dots(), range(n-2, n);
+        else // [1, '...', i, '...', n]
+            left(), num(1), dots(), num(i), dots(), num(n), right();
+    };
+
+
     if (results.length) {
         $('.agent_car_result_block').show();
         // $('.agent_car_return h3').text('Мы нашли для Вас');
@@ -224,8 +241,9 @@ function showSearchResults(results) {
 
         let { ac_form_i_have, ac_form_credit_pay, ac_form_credit_time, ac_form_car_cost } = getSearchParams();
         let ac_form_cash = ac_form_i_have + ac_form_credit_pay * ac_form_credit_time + ac_form_car_cost;
+        DEBUG && console.log('getSearchParams: ', getSearchParams());
         let text = $('.agent_car_return h3').text();
-        text = text.replace(/[\d\s]*$/, ' ' + formatPrice(ac_form_cash));
+        text = text.replace(/\d[\d\s]*/, formatPrice(ac_form_cash) + ' ');
         $('.agent_car_return h3').text(text);
 
     } else {
@@ -243,7 +261,6 @@ function showSearchResultsLock({ foundCars, searchQueryId }) {
     $('.agent_car_reserve_status').html('');
 
     $('.agent_car_result').empty();
-    $('.agent_car_result_link').empty();
 
     let header = $('.agent_car_result_lock_block h3');
     let s = header.text().replace(/[\d\s]*$/, ' ' + foundCars.length);

@@ -25,22 +25,32 @@ import Cars from '/imports/common/collections/cars';
 //     CarsObjects.forEach(obj => Cars.insert(obj));
 // });
 
-import CarsObjects from './cars_xls';
 
-console.log('CarsObjects: ', CarsObjects);
-console.log('CarsObjects prices: ', _.map(CarsObjects, 'price'));
-console.log('CarsObjects prices: ', _.map(CarsObjects, 'photo'));
+// import CarsObjects from './cars_xls';
+
+// console.log('CarsObjects: ', CarsObjects);
+// console.log('CarsObjects prices: ', _.map(CarsObjects, 'price'));
+// console.log('CarsObjects prices: ', _.map(CarsObjects, 'photo'));
 Cars.remove({});
-CarsObjects.forEach(obj => Cars.insert(obj));
+// CarsObjects.forEach(obj => Cars.insert(obj));
 
-import skodaProductionCars_new from './skoda_json';
-import skodaProductionCars_bu from './sigma_bu_json';
-import skodaProductionCars_bu2 from './sigma_bu2_json';
-let skodaProductionCars = [...skodaProductionCars_new, ...skodaProductionCars_bu, ...skodaProductionCars_bu2];
-skodaProductionCars = skodaProductionCars.map(car => ({ ...car, availability: 'в наличии' }));
-const SkodaTest = skodaProductionCars.map(car => ({ ...car, ownerId: 'kZD2WwvnheGtest3' }));
-const SkodaProd = skodaProductionCars.map(car => ({ ...car, ownerId: 'keK2WwvnheGwvnh' }));
-[...SkodaTest, ...SkodaProd].forEach(obj => Cars.insert({ ...obj, checked: true }));
+
+import sigmaCars from './new_cars_04.11.16/all 16-10-2016 SigmaService';
+import sigmaCars_bu from './new_cars_04.11.16/all BU 16-10-2016 SigmaService';
+let sigmaAll = [...sigmaCars, ...sigmaCars_bu];
+const SigmaTest = sigmaAll.map(car => ({ ...car, ownerId: 'kZD2WwvnheGtest3' }));
+const SigmaProd = sigmaAll.map(car => ({ ...car, ownerId: 'keK2WwvnheGwvnh' }));
+[...SigmaTest, ...SigmaProd].forEach(obj => Cars.insert({ ...obj, checked: true }));
+
+
+// import skodaProductionCars_new from './skoda_json';
+// import skodaProductionCars_bu from './sigma_bu_json';
+// import skodaProductionCars_bu2 from './sigma_bu2_json';
+// let skodaProductionCars = [...skodaProductionCars_new, ...skodaProductionCars_bu, ...skodaProductionCars_bu2];
+// skodaProductionCars = skodaProductionCars.map(car => ({ ...car, availability: 'в наличии' }));
+// const SkodaTest = skodaProductionCars.map(car => ({ ...car, ownerId: 'kZD2WwvnheGtest3' }));
+// const SkodaProd = skodaProductionCars.map(car => ({ ...car, ownerId: 'keK2WwvnheGwvnh' }));
+// [...SkodaTest, ...SkodaProd].forEach(obj => Cars.insert({ ...obj, checked: true }));
 
 import DealerSettings from '/imports/common/collections/DealerSettings';
 
@@ -60,7 +70,7 @@ DealerSettings.insert({
 	emails: ['omsk359@protonmail.com', 'victory.ch123@yandex.ru', 'buzillo@ya.ru', 'petemic@yandex.ru']
 });
 DealerSettings.insert({
-	ownerId: 'keK2WwvnheGwvnh', name: 'Sigma', mark: 'SKODA',
+	ownerId: 'keK2WwvnheGwvnh', name: 'Сигма Сервис', mark: 'SKODA',
 	position: 'left', color: 'green', opacity: 80, animate: true,
 	emails: [
 		'omsk359@protonmail.com',
