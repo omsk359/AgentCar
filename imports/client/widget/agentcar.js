@@ -214,7 +214,9 @@ function showSearchResults(results) {
 
         let getNavItem = (title, i) =>
             $('.agent_car_result_link')
-                .append(`<span class="agent_car_result_link_n">${title}</span>`).find(':last')
+                .append(`<span class="
+                        agent_car_result_link_n ${i || i === 0 ? '' : 'agent_car_no_pointer'}
+                    ">${title}</span>`).find(':last')
                 .click(() => i && onSelect_i(i));
         let left = () => getNavItem('<', i - 1), right = () => getNavItem('>', i + 1);
         let num = i => getNavItem(i, i - 1), dots = () => getNavItem('…');
