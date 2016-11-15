@@ -12,6 +12,7 @@
     "lodash": "^4.15.0",
     "mailgun-js": "^0.7.12",
     "meteor-node-stubs": "~0.2.0",
+    "moment": "^2.15.2",
     "nodemailer": "^2.5.0",
     "react": "^15.3.1",
     "react-addons-pure-render-mixin": "^15.3.1",

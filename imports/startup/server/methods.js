@@ -10,6 +10,7 @@ import NegativeSubscribe from '/imports/common/collections/NegativeSubscribe';
 import _ from 'lodash';
 import nodemailer from 'nodemailer';
 import moment from 'moment';
+import { toMoskowTime } from '/imports/common/helpers';
 // import mg from 'nodemailer-mailgun-transport';
 import mg from './nodemailer-mailgun-transport';
 
@@ -46,7 +47,7 @@ function sendMail(ownerId, car, contactInfo, needDetails) {
 		Автомобиль: <b>${car.mark} - ${car.model}</b>, цена: <b>${car.price}</b><br>
 	`;
 
-	let htmlData = EMAIL_TEMPLATE.replace('REPLACE_DATA', data);
+	let html = EMAIL_TEMPLATE.replace('REPLACE_DATA', data);
 
 	let subject;
 	if (needDetails)
@@ -54,7 +55,7 @@ function sendMail(ownerId, car, contactInfo, needDetails) {
 	else
 		subject = 'Agent CAR - бронирование машины';
 	
-	let sendTo = car.mileage ? settings.emails_secondHand: settings.emails;
+	let sendTo = car.mileage ? settings.emails_secondHand : settings.emails;
 
 	nodemailerMailgun.sendMail({
 		// from: 'tmpmail@protonmail.com',
@@ -86,7 +87,7 @@ function sendMailSubscribe(ownerId, contactInfo, searchParams) {
 		Имя - ${name}<br />
 		${ phone ? `Телефон - ${phone}<br />` : ''}
 		${ email ? `E-mail - ${email}<br />` : ''}
-		Предпочтения по модели автомобиля: ${mark} ${model} ${ac_form_secondhand ? ' (готов рассмотреть б\\у)' : ''}<br />
+		Предпочтения по модели автомобиля: ${mark} ${model} ${ac_form_secondhand ? ' (готов рассмотреть б/у)' : ''}<br />
 		Дополнительно:<br />
 				- у меня есть ${ac_form_i_have} рублей<br />
 				${credit}
@@ -194,7 +195,7 @@ Meteor.methods({
 	onWidgetOpen(ownerId) {
 		check(ownerId, String);
 
-		Statistics.update({ ownerId }, { $inc: { widgetOpen: 1 } }, { upsert: true }, (err) => {
+		Statistics.update({ ownerId }, { $inc: { widgetOpen: 1 } }, { upsert: true }, err => {
 			// async this, don't wait for response
 			if (err)
 				console.error('Statistics.update widgetOpen err: ', err);
@@ -203,7 +204,7 @@ Meteor.methods({
 	onWidgetLoaded(ownerId) {
 		check(ownerId, String);
 
-		Statistics.update({ ownerId }, { $inc: { widgetLoaded: 1 } }, { upsert: true }, (err) => {
+		Statistics.update({ ownerId }, { $inc: { widgetLoaded: 1 } }, { upsert: true }, err => {
 			// async this, don't wait for response
 			if (err)
 				console.error('Statistics.update widgetLoaded err: ', err);
@@ -243,9 +244,9 @@ Meteor.methods({
 			params.mileage = 0;
 		console.log('Params2: ', params);
 
-		const MAX_RESULT = 5;
-		var foundCars = Cars.find(params, { sort: { price: -1 }, limit: MAX_RESULT }).fetch();
-		if (ac_form_secondhand && foundCars.length < MAX_RESULT) {
+		// const MAX_RESULT = 5;
+		var foundCars = Cars.find(params, { sort: { price: -1 }/*, limit: MAX_RESULT*/ }).fetch();
+		if (ac_form_secondhand/* && foundCars.length < MAX_RESULT*/) {
 			// Правильно, он может ввести либо любую, либо модель, скажем, тигуан.
 			// Если он ставит галку "с пробегом"  - то подтягиваются все (вне зависимости от марки и модели)
 			// подержанные машины, которые по цене подходят и все новые тигуаны.
@@ -253,28 +254,29 @@ Meteor.methods({
 			params.mileage = { $gte: 0 };
 			delete params.mark;
 			delete params.model;
-			let oldCars = Cars.find(params, {sort: { price: -1 }, limit: MAX_RESULT - foundCars.length}).fetch();
+			let oldCars = Cars.find(params, {sort: { price: -1 }/*, limit: MAX_RESULT - foundCars.length*/}).fetch();
 			foundCars = [...foundCars, ...oldCars].sort((car1, car2) => car2.price < car1.price);
 		}
 		console.log('Found cars: ', foundCars);
 
-		QueriesHistory.insert({ ownerId,
+		let searchQueryId = QueriesHistory.insert({ ownerId,
 			query: {
 				mark, model, ac_form_i_have, ac_form_credit_pay, ac_form_credit_time, ac_form_car_cost, ac_form_secondhand
-			},
+			}, createdAt: new Date(),
 			result: foundCars //_.map(foundCars, '_id')
-		}, (err) => {
+		}/*, err => {
 			// async this, don't wait for response
 			if (err)
 				console.error('QueriesHistory.insert err: ', err);
-		});
-		Statistics.update({ ownerId }, { $inc: { queries: 1 } }, { upsert: true }, (err) => {
+		}*/);
+		Statistics.update({ ownerId }, { $inc: { queries: 1 } }, { upsert: true }, err => {
 			// async this, don't wait for response
 			if (err)
 				console.error('Statistics.update err: ', err);
 		});
 
-		return foundCars;
+		// return foundCars;
+		return { foundCars, searchQueryId };
 	},
 
 	reserveCar(ownerId, carId, contactInfo, needDetails = false) {
@@ -296,7 +298,7 @@ Meteor.methods({
 		sendMail(ownerId, car, contactInfo, needDetails);
 
 		let incObj = needDetails ? { needDetails: 1 } : { reserve: 1 };
-		Statistics.update({ ownerId }, { $inc: incObj }, { upsert: true }, (err) => {
+		Statistics.update({ ownerId }, { $inc: incObj }, { upsert: true }, err => {
 			// async this, don't wait for response
 			if (err)
 				console.error('Stat update err: ', err);
@@ -325,7 +327,7 @@ Meteor.methods({
 
 		sendMailSubscribe(ownerId, contactInfo, searchParams);
 
-		Statistics.update({ ownerId }, { $inc: { subscribe: 1 } }, { upsert: true }, (err) => {
+		Statistics.update({ ownerId }, { $inc: { subscribe: 1 } }, { upsert: true }, err => {
 			// async this, don't wait for response
 			if (err)
 				console.error('Stat update err: ', err);
@@ -358,16 +360,35 @@ Meteor.methods({
 		let car = Cars.findOne({ _id: carId });
 		if (!car) throw new Meteor.Error('car', 'Wrong car ID');
 
-		let toMoskowTime = date => moment(date).utcOffset('+03:00');
+		// let toMoskowTime = date => moment(date).utcOffset('+03:00');
 
 		if (toMoskowTime().date() != toMoskowTime(car.viewLastDate).date()) // new day
-			var viewCnt = _.random(3, 4);
+			var viewCnt = _.random(3, 15);
 		else
 			viewCnt = car.viewCnt + 1;
 
 		Cars.update({ _id: carId }, { $set: { viewCnt }, $currentDate: { viewLastDate: true } }, { upsert: true });
 	},
 
+	onResultLock(ownerId, searchQueryId, contactInfo) {
+		console.log('onResultLock params: ', arguments);
+		check(searchQueryId, String);
+		check(contactInfo, {
+			phone: String
+		});
+
+		QueriesHistory.upsert({ _id: searchQueryId }, { $set: { contactInfo }, $currentDate: { contactInfoDate: true } }, err => {
+		// console.log('QueriesHistory.upsert params: ', arr);
+			// async this, don't wait for response
+			if (err)
+				console.error('QueriesHistory.update err: ', err);
+		});
+		Statistics.update({ ownerId }, { $inc: { resultLocks: 1 } }, { upsert: true }, err => {
+			// async this, don't wait for response
+			if (err)
+				console.error('Statistics.update err: ', err);
+		});
+	},
 
 
 	gameSubscribe(ownerId, resultType, contactInfo) {

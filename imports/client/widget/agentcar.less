@@ -283,14 +283,22 @@
 		.agent_car_result_link {
 			text-align: center;
 			
-			a, span {
+			.mixin {
 				padding: 2px 2px;
 				text-decoration: none;
-				font-size: 14px;
-				
+				font-size: 14px;				
+			}
+			a, span {
+				.mixin;
 				&:hover {
 					text-decoration: underline;
 					cursor: pointer;
+				}
+			}
+			span.agent_car_no_pointer {
+				.mixin;
+				&:hover {
+					cursor: auto;
 				}
 			}
 			

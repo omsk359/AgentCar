@@ -38,6 +38,9 @@ DEBUG && console.log('ac_need_details: ', ac_need_details);
 const ac_negative = require('html!./ac_negative.html');
 DEBUG && console.log('ac_negative: ', ac_negative);
 
+const ac_result_lock = require('html!./ac_result_lock.html');
+DEBUG && console.log('ac_result: ', ac_result_lock);
+
 const ownerId = $(document.currentScript).data('id');
 const asteroid = new Asteroid(ACurl, location.protocol == 'https:');
 
@@ -49,12 +52,12 @@ if (DEBUG) {
     var rq = statistics.reactiveQuery({});
     rq.on('change', function() {
         DEBUG && console.log('CHANGE! ', rq.result);
-        const [{ queries, widgetLoaded, widgetOpen, reserve, subscribe, needDetails }] = rq.result;
+        const [{ queries, widgetLoaded, widgetOpen, reserve, subscribe, needDetails, resultLocks }] = rq.result;
         $('#agent_car_widget_stat').remove();
         $('.agent_car_body').append(
             `<div id="agent_car_widget_stat">
                 Открытий/загрузок виджета: ${widgetOpen||0}/${widgetLoaded||0};
-                Отправлено форм: ${queries||0}; Заявок/узнать подробнее/подписок: ${reserve||0}/${needDetails||0}/${subscribe||0}
+                Отправлено форм(с тел./всего): ${resultLocks||0}/${queries||0}; Заявок/узнать подробнее/подписок: ${reserve||0}/${needDetails||0}/${subscribe||0}
             </div>`
         );
     });
@@ -66,6 +69,19 @@ if (DEBUG) {
 		DEBUG && console.log('DealerSettings CHANGE! ', dealerSettings_rq.result);
 		applySettings(dealerSettings = dealerSettings_rq.result[0]);
 	});
+
+    var initDebug = () => {
+        $('#agent_car_i_have').val('800 000');
+        if ($('.agent_car_body').is(':hidden'))
+            $('.agent_car_logo').click();
+        $('.agent_car_search').click();
+        window.checkAllInput = checkAllInput;
+        $('[name=agent_car_result_lock_phone]').val('+7 (111) 111-2222');
+        window.setTimeout(() => {
+            $('[name=agent_car_result_lock_send]').click();
+            // $('[name=agent_car_need_details]').click();
+        }, 5000);
+    };
 }
 
 function getInitWidgetData() {
@@ -80,13 +96,13 @@ function getInitWidgetData() {
 function filterByParams(params, cb) {
     DEBUG && console.log('Params: ', { ...params, ownerId });
     asteroid.call("carsByParams", { ...params, ownerId }).result
-    .then(result => {
-        DEBUG && console.log("carsByParams Success: ", result);
-        cb(result);
-    }).catch(error => {
-        console.log("carsByParams Error");
-        console.error(error);
-    });
+        .then(result => {
+            DEBUG && console.log("carsByParams Success: ", result);
+            cb(result);
+        }).catch(error => {
+            console.log("carsByParams Error");
+            console.error(error);
+        });
 }
 
 function reserveCar(carId, contactInfo, needDetails = false) {
@@ -127,26 +143,31 @@ function onCarView(carId) {
         });
 }
 
+function onResultLock(searchQueryId, contactInfo) {
+    return asteroid.call('onResultLock', ownerId, searchQueryId, contactInfo).result
+        .then(result => {
+            DEBUG && console.log("onResultLock Success: ", result);
+        }).catch(error => {
+            console.log("onResultLock Error");
+            console.error(error);
+        });
+}
+
 
 function showSearchResults(results) {
     DEBUG && console.log('Total results: ', results.length);
+    results = _.uniqWith(results, _.isEqual);
+    DEBUG && console.log('Total results 2: ', results);
 
-    $('.agent_car_form').hide();
-    $('.agent_car_result_block').hide();
-    $('.agent_car_negative_block').hide();
-    $('[name=agent_car_reserve]').hide();
-    $('.agent_car_reserve_status').html('');
-
-    $('.agent_car_result').empty();
-    $('.agent_car_result_link').empty();
-
-    const formatPrice = (price, sep = ' ') =>
+    let formatPrice = (price, sep = ' ') =>
         _.chain(price).split('').reverse().chunk(3)
                       .map(arr => arr.reverse().join(''))
                       .reverse().join(sep).value();
 
-    const onSelect_i = i => {
+    let onSelect_i = i => {
+        DEBUG && console.log(`onSelect_i(${i})`);
         const result = results[i];
+        updateNavPanel(i);
         onCarView(result._id);
         $('.ac_link_active').removeClass('ac_link_active');
         $(`.agent_car_result_link a:eq(${i})`).addClass('ac_link_active');
@@ -174,31 +195,57 @@ function showSearchResults(results) {
                     Мощность: ${result.engine.power}
                     <br/>${result.color}<br/>
                     ${mileage}<br />
-                    <s>${formatPrice(result.priceold)}</s>
+                    Доступность: ${result.availability}<br />
+                    <s>${result.priceold ? formatPrice(result.priceold) + '&#8381;' : ''}</s>
                     <div class="agent_car_price">${formatPrice(result.price)} &#8381;</div>
                     ${dealerStr || ''}
-                    Просмотров: ${result.viewCnt}
+                    Просмотров сегодня: ${result.viewCnt}
                 </div>
             </div>`
         );
     };
-    if (results.length > 1)
-        results.forEach((result, i) => {
-            $('.agent_car_result_link').append(`<span class="agent_car_result_link_n">${i+1}</span>`);
-            $('.agent_car_result_link span:last').click(onSelect_i.bind(null, i));
-         });
+
+    let updateNavPanel = i => {
+        $('.agent_car_result_link').empty();
+        addNavPanel(i);
+    };
+
+    let addNavPanel = (i, n = results.length) => {
+
+        let getNavItem = (title, i) =>
+            $('.agent_car_result_link')
+                .append(`<span class="
+                        agent_car_result_link_n ${i || i === 0 ? '' : 'agent_car_no_pointer'}
+                    ">${title}</span>`).find(':last')
+                .click(() => i && onSelect_i(i));
+        let left = () => getNavItem('<', i - 1), right = () => getNavItem('>', i + 1);
+        let num = i => getNavItem(i, i - 1), dots = () => getNavItem('…');
+        let range = (a, b) => { while (a <= b) num(a++) };
+
+        if (n <= 5) // [1, ..., n]
+            range(1, n);
+        else if (i < 3) // [1, 2, 3, '...', n]
+            range(1, 3), dots(), num(n), right();
+        else if (n - 1 - i < 3) // [1, '...', n-2, n-1, n]
+            left(), num(1), dots(), range(n-2, n);
+        else // [1, '...', i, '...', n]
+            left(), num(1), dots(), num(i), dots(), num(n), right();
+    };
+
+
     if (results.length) {
         $('.agent_car_result_block').show();
         // $('.agent_car_return h3').text('Мы нашли для Вас');
         onSelect_i(0);
-		$('[name=agent_car_reserve]').show();
-		//$('[name=agent_car_need_details]').show();
-		$('[name=agent_car_need_details]').click();
+		// $('[name=agent_car_reserve]').show();
+		// $('[name=agent_car_need_details]').show();
+        // $('[name=agent_car_need_details_send]').click();
 
         let { ac_form_i_have, ac_form_credit_pay, ac_form_credit_time, ac_form_car_cost } = getSearchParams();
         let ac_form_cash = ac_form_i_have + ac_form_credit_pay * ac_form_credit_time + ac_form_car_cost;
+        DEBUG && console.log('getSearchParams: ', getSearchParams());
         let text = $('.agent_car_return h3').text();
-        text = text.replace(/[\d\s]*$/, ' ' + formatPrice(ac_form_cash));
+        text = text.replace(/\d[\d\s]*/, formatPrice(ac_form_cash) + ' ');
         $('.agent_car_return h3').text(text);
 
     } else {
@@ -208,12 +255,47 @@ function showSearchResults(results) {
     }
 }
 
+function showSearchResultsLock({ foundCars, searchQueryId }) {
+    $('.agent_car_form').hide();
+    $('.agent_car_result_block').hide();
+    $('.agent_car_negative_block').hide();
+    $('[name=agent_car_reserve]').hide();
+    $('.agent_car_reserve_status').html('');
+
+    $('.agent_car_result').empty();
+
+    let header = $('.agent_car_result_lock_block h3');
+    let s = header.text().replace(/[\d\s]*$/, ' ' + foundCars.length);
+    header.text(s);
+
+    if (!foundCars.length)
+        return showSearchResults(foundCars);
+
+    $('.agent_car_result_block').hide();
+    $('.agent_car_result_lock_block').show();
+
+    $('[name=agent_car_result_lock_send]').one('click', e => {
+        e && e.preventDefault();
+        if (!checkAllInput(['[name=agent_car_result_lock_phone]']))
+            return DEBUG && console.info('lock! ', e);
+
+        let phone = $('[name=agent_car_result_lock_phone]').val();
+        $('#agent_car_reserve_phone, #agent_car_need_details_phone, #agent_car_negative_phone').val(phone);
+        onResultLock(searchQueryId, { phone }).then(() => {
+            $('.agent_car_result_block').show();
+            $('.agent_car_result_lock_block').hide();
+            showSearchResults(foundCars);
+        });
+    });
+
+}
+
 function initSearchResults() {
     $('.agent_car_search').click(() => {
         $('.agent_car_form').show();
-        $('.agent_car_result_block').hide();
+        $('.agent_car_result_block, .agent_car_result_lock_block').hide();
 		$('[name=agent_car_reserve]').show();
-//		$('[name=agent_car_need_details]').show();
+		$('[name=agent_car_need_details]').show();
 		$('.agent_car_reserve_block').hide();
 		$('.agent_car_need_details_block').hide();
         $('.agent_car_negative_block').hide();
@@ -230,16 +312,56 @@ function initSearchResults() {
 		$('[name=agent_car_reserve]').hide();
 		$('[name=agent_car_need_details]').hide();
 	});
-	$('[name=agent_car_need_details]').click(() => {
-		$('.agent_car_need_details_block').show();
-		// $('.agent_car_reserve_status').text('');
-		$('[name=agent_car_reserve]').hide();
-		$('[name=agent_car_need_details]').hide();
-	});
+	// $('[name=agent_car_need_details]').click(() => {
+	// 	$('.agent_car_need_details_block').show();
+	// 	// $('.agent_car_reserve_status').text('');
+	// 	$('[name=agent_car_reserve]').hide();
+	// 	$('[name=agent_car_need_details]').hide();
+	// });
+    $('[name=agent_car_need_details]').click(e => {
+        e.preventDefault();
+        var carId = $('.agent_car_result').data('id');
+        // reserveCarForm(carId);
+        onWidgetCloseAddHandler(() => reserveCarForm(carId, ['[name=agent_car_need_details_name]']))
+
+        $('.agent_car_reserve_status').html(
+            // '<p>Спасибо, что обратились в нашу компанию. Менеджер свяжется с Вами в самое ближайшее время.</p>'
+            '<p>Наш менеджер свяжется с Вами в ближайшее время и расскажет все об этой машине.</p>'
+        );
+        $('.agent_car_result_price_only_today').hide();
+        $('[name=agent_car_need_details]').hide();
+    });
+
+    $('[name=agent_car_result_lock_phone]').blur(e => checkInput(e.target));
+
+    // $('[name=agent_car_result_lock_send]').click(e => {
+    //     e.preventDefault();
+    //     console.log('-- CHECK LOCK ', $('[name=agent_car_result_lock_phone]').val());
+    //     var toCheck = [ '[name=agent_car_result_lock_phone]', '[name=agent_car_result_lock_phone]' ];
+    //     if (!checkAllInput(toCheck))
+    //         return;
+    //     var name = $('[name=agent_car_result_lock_phone]').val();
+    //     console.log('@@@@@@@@@@@ -- NO LOCK11');
+
+    //     // e.preventDefault();
+    //     // console.log('-- CHECK LOCK ', $('[name=agent_car_result_lock_phone]').val());
+    //     // if (!checkAllInput(['[name=agent_car_result_lock_phone]']))
+    //     //     return console.info('lock! ', e);
+    //     // console.log('@@@@@@@@@@@ -- NO LOCK11');
+
+    //     let phone = $('[name=agent_car_result_lock_phone]').val();
+    //     // onResultLock(searchQueryId, { phone }).then(() => {
+    //     //     $('.agent_car_result_block').show();
+    //     //     $('.agent_car_result_lock_block').hide();
+    //     // });
+    // });    
 }
 
 function checkInput(input) {
     var val = $(input).val();
+    if (!val)
+        debugger
+    DEBUG && console.log(`checkInput val: ${val}`);
     var errField = $(input).parent().find('.agent_car_field_error');
     var required = $(input).attr('required');
     required = typeof required !== typeof undefined && required !== false;
@@ -252,6 +374,7 @@ function checkInput(input) {
 		var ok = required ? val : false;
 	else
 		ok = new RegExp(check).test(val);
+    DEBUG && console.log(`ok: ${ok}; check: "${check}"; val: ${val}`);
     ok ? errField.hide() : errField.show();
     return ok;
 }
@@ -293,6 +416,41 @@ function initReserve() {
         });
     });
 }
+// var onWidgetCloseHandlers = [];
+function onWidgetCloseAddHandler(func) {
+    DEBUG && console.log('[onWidgetCloseAddHandler] ', func);
+    let once = _.once(func);
+    // onWidgetCloseHandlers.push(once);
+    $(window).bind('beforeunload', once);
+    $('.agent_car_widget').on('closeWidget', event => once());
+}
+let reserveCarForm = (carId, withoutCheckInputs = []) => {
+    DEBUG && console.log(`reserveCarForm for carId ${carId}`);
+    var toCheck = [ '[name=agent_car_need_details_name]', '[name=agent_car_need_details_phone]', '[name=agent_car_need_details_email]' ];
+    if (!checkAllInput(_.difference(toCheck, withoutCheckInputs)))
+        return;
+    var name = $('[name=agent_car_need_details_name]').val() || 'noname';
+    var phone = $('[name=agent_car_need_details_phone]').val();
+    var email = $('[name=agent_car_need_details_email]').val();
+    // var carId = $('.agent_car_result').data('id');
+    var info = { name, phone };
+    if (/\S/.test(email))
+        info.email = email;
+    reserveCar(carId, info, true).then(reserveId => {
+        $('.agent_car_reserve_status').html(
+            // '<p>Спасибо, что обратились в нашу компанию. Менеджер свяжется с Вами в самое ближайшее время.</p>'
+            '<p>Наш менеджер свяжется с Вами в ближайшее время и расскажет все об этой машине.</p>'
+        );
+        $('.agent_car_result_price_only_today').hide();
+        $('.agent_car_need_details_block').hide();
+    }).catch(err => {
+        alert(`Ошибка! ${err.message}`);
+        $('.agent_car_reserve_status').text(`Ошибка! ${err.message}`);
+        console.log("need_detailsCar Error");
+        console.error(err);
+    });
+}
+
 function initNeedDetails() {
 	$('.agent_car_need_details_block').hide();
 
@@ -300,32 +458,37 @@ function initNeedDetails() {
 	$('[name=agent_car_need_details_phone]').blur(e => checkInput(e.target));
 	$('[name=agent_car_need_details_email]').blur(e => checkInput(e.target));
 
-	$('[name=agent_car_need_details_send]').click(e => {
-		e.preventDefault();
-		var toCheck = [ '[name=agent_car_need_details_name]', '[name=agent_car_need_details_phone]', '[name=agent_car_need_details_email]' ];
-		if (!checkAllInput(toCheck))
-			return;
-		var name = $('[name=agent_car_need_details_name]').val();
-		var phone = $('[name=agent_car_need_details_phone]').val();
-		var email = $('[name=agent_car_need_details_email]').val();
-		var carId = $('.agent_car_result').data('id');
-		var info = { name, phone };
-		if (/\S/.test(email))
-			info.email = email;
-		reserveCar(carId, info, true).then(reserveId => {
-			// alert(`Успешно забронировали! ID заявки: ${reserveId}`);
-			$('.agent_car_reserve_status').html(
-				'<p>Спасибо, что обратились в нашу компанию. Менеджер свяжется с Вами в самое ближайшее время.</p>'
-			);
-			$('.agent_car_result_price_only_today').hide();
-			$('.agent_car_need_details_block').hide();
-		}).catch(err => {
-			alert(`Ошибка! ${err.message}`);
-			$('.agent_car_reserve_status').text(`Ошибка! ${err.message}`);
-			console.log("need_detailsCar Error");
-			console.error(err);
-		});
-	});
+    $('[name=agent_car_need_details_send]').one('click', e => {
+        e.preventDefault();
+        var carId = $('.agent_car_result').data('id');
+        reserveCarForm(carId);
+    });
+    // $('[name=agent_car_need_details_send]').click(e => {
+    //     e.preventDefault();
+    //     var toCheck = [ '[name=agent_car_need_details_name]', '[name=agent_car_need_details_phone]', '[name=agent_car_need_details_email]' ];
+    //     if (!checkAllInput(toCheck))
+    //         return;
+    //     var name = $('[name=agent_car_need_details_name]').val();
+    //     var phone = $('[name=agent_car_need_details_phone]').val();
+    //     var email = $('[name=agent_car_need_details_email]').val();
+    //     var carId = $('.agent_car_result').data('id');
+    //     var info = { name, phone };
+    //     if (/\S/.test(email))
+    //         info.email = email;
+    //     reserveCar(carId, info, true).then(reserveId => {
+    //         // alert(`Успешно забронировали! ID заявки: ${reserveId}`);
+    //         $('.agent_car_reserve_status').html(
+    //             '<p>Спасибо, что обратились в нашу компанию. Менеджер свяжется с Вами в самое ближайшее время.</p>'
+    //         );
+    //         $('.agent_car_result_price_only_today').hide();
+    //         $('.agent_car_need_details_block').hide();
+    //     }).catch(err => {
+    //         alert(`Ошибка! ${err.message}`);
+    //         $('.agent_car_reserve_status').text(`Ошибка! ${err.message}`);
+    //         console.log("need_detailsCar Error");
+    //         console.error(err);
+    //     });
+    // });
 }
 
 function initNegative() {
@@ -361,7 +524,7 @@ function initNegative() {
 }
 
 function initMaket() {
-    $('.agent_car_result_block').hide();
+    $('.agent_car_result_block, .agent_car_result_lock_block').hide();
 	$('.agent_car_text_last_price').hide();
 
     $('[name=agent_car_credit_pay]').closest('.agent_car_group').hide();
@@ -389,6 +552,8 @@ function initMaket() {
             $('.agent_car_logo').addClass('agent_car_opacity');
         if (dealerSettings.animate)
             $('.agent_car_logo').addClass('agent_car_animate');
+
+        $('.agent_car_widget').trigger('closeWidget');
     };
     var open = () => {
         $('.agent_car_logo').css('height', '65px');
@@ -409,7 +574,7 @@ function initMaket() {
 	$('.agent_car_form').submit(function(e) {
 	    var params = getSearchParams();
 
-        filterByParams(params, showSearchResults);
+        filterByParams(params, showSearchResultsLock);
 
         e.preventDefault();
 		return false;
@@ -501,13 +666,14 @@ if (!isMobile)
 		$(document).ready(function() {
 			$('body').append(ac_maket);
 
-			$('.agent_car_result_block').replaceWith(ac_result);
+            $('.agent_car_result_block').replaceWith(ac_result);
+            $('.agent_car_result_lock_block').replaceWith(ac_result_lock);
 			$('.agent_car_reserve_block').replaceWith(ac_reserve);
 			$('.agent_car_need_details_block').replaceWith(ac_need_details);
 			$('.agent_car_negative_block').replaceWith(ac_negative);
 			$('.agent_car_field_error').hide();
 
-			$('#agent_car_reserve_phone, #agent_car_need_details_phone, #agent_car_negative_phone').mask('+7 (999) 999-9999');
+			$('#agent_car_reserve_phone, #agent_car_need_details_phone, #agent_car_negative_phone, #agent_car_result_lock_phone').mask('+7 (999) 999-9999');
 			$('#agent_car_i_have, #agent_car_credit_pay, #agent_car_my_car_cost').autoNumeric('init', { aSep: ' ', vMin: '0', mDec: '0' });
 
 			initMaket();
@@ -519,6 +685,7 @@ if (!isMobile)
 			initReserve();
 			initNeedDetails();
 			initNegative();
+            initDebug && initDebug();
 
 			if (AUTO_OPEN)
 				window.setTimeout(() => {

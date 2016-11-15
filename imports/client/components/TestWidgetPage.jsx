@@ -5,8 +5,10 @@ import ReserveCars from '/imports/common/collections/ReserveCars';
 import DealerSettings from '/imports/common/collections/DealerSettings';
 import NegativeSubscribe from '/imports/common/collections/NegativeSubscribe';
 import QueriesHistory from '/imports/common/collections/QueriesHistory';
+import { toMoskowTime } from '/imports/common/helpers';
+// import moment from 'moment';
 
-import '../css/test.css';
+import '../css/test.css'; 
 
 export default class TestWidgetPageDumb extends React.Component {
     componentWillMount() {
@@ -32,7 +34,7 @@ export default class TestWidgetPageDumb extends React.Component {
         if (loadingStats || loadingSettings || loadingReserve || loadingNegative)
             return <div>Loading...</div>;
 
-        const { widgetOpen, widgetLoaded, queries, reserve, subscribe, needDetails } = stats || {};
+        const { widgetOpen, widgetLoaded, queries, reserve, subscribe, needDetails, resultLocks } = stats || {};
         let { emails, emails_secondHand } = settings || {};
         emails = emails ? emails.join(', ') : 'Отсутствует';
         emails_secondHand = emails_secondHand ? emails_secondHand.join(', ') : 'Отсутствует';
@@ -52,21 +54,27 @@ export default class TestWidgetPageDumb extends React.Component {
                 <input type="button" value="Сохранить" onClick={this.saveSettings.bind(this)} />
                 <h4>Статистика</h4>
                 Открытий/загрузок виджета: <b>{widgetOpen||0}/{widgetLoaded||0}</b><br />
-				Отправлено поисковых форм: <b>{queries||0}</b><br />
+				Отправлено поисковых форм (с тел./всего): <b>{resultLocks||0}/{queries||0}</b><br />
 				Всего заказов/узнать подробнее/подписок: <b>{reserve||0}/{needDetails||0}/{subscribe||0}</b><br />
 
 
                 <h4>Поисковые запросы ({queriesHistory.length})</h4>
                 <table><tbody>
-                <tr><th>Марка - Модель</th><th>У меня есть</th><th>Кредит</th><th>Trade In</th><th>Б/у</th><th>Результат</th></tr>
+                <tr>
+                    <th>Тел. ({_.filter(queriesHistory, 'contactInfo').length})</th><th>Дата</th>
+                    <th>Марка - Модель</th><th>У меня есть</th><th>Кредит</th>
+                    <th>Trade In</th><th>Б/у</th><th>Результат</th>
+                </tr>
                 {queriesHistory.map(({
-                    ownerId, result = [],
+                    ownerId, result = [], contactInfo = { phone: '-' }, createdAt,
                     query: {
                         mark, model, ac_form_i_have, ac_form_credit_pay, ac_form_credit_time,
                         ac_form_car_cost, ac_form_secondhand
                     }
                 }, i) => (
                     <tr key={i}>
+                        <td>{contactInfo.phone}</td>
+                        <td>{createdAt ? toMoskowTime(createdAt).format('MM.DD HH:mm') : '-'}</td>
                         <td>{mark} - {model}</td>
                         <td>{ac_form_i_have}</td>
                         <td>{ac_form_credit_pay ? `${ac_form_credit_pay} на ${ac_form_credit_time} мес` : '-'}</td>
