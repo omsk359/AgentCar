@@ -1,18 +1,21 @@
 <div class="agent_car_result_lock_block">
-	<form class="agent_car_result_lock_form" action="">
-		<h3>Найдено автомобилей:</h3>
-		<div class="agent_car_group">
-			<div class="agent_car_col">
-				<p>Для продолжения введите Ваш номер телефона</p>
-			</div>
-			<div class="agent_car_cell">
-                <div>
-                    <input name="agent_car_result_lock_phone" id="agent_car_result_lock_phone" type="text" required placeholder="Телефон*"/>
-                    <p class="agent_car_field_error">Введите телефон</p>
-                </div>
-				<input type="submit" name="agent_car_result_lock_send" class="agent_car_reserve" value="Смотреть предложения"/>
-			</div>
+	<form class="agent_car_result_lock_form">
+		<h3>Оформите дисконтную карту Sigma online ещё до покупки!</h3>
+		<p>Дисконтная карта дает дополнительную скидку при покупке и при сервисном обслуживании автомобиля</p>
+		<div class="agent_car_blackbox">
+			<h3><strong>SIGMA</strong> DISCOUNT CARD</h3>
+			<div>
+				<p>Введите Ваш номер телефона - он будет номером Вашей дисконтной карты</p>
+				<input name="agent_car_result_lock_phone" id="agent_car_result_lock_phone" type="text" required />
+                <p class="agent_car_field_error">Введите телефон</p>
+        	</div>
+			<div>
+				<p>Имя и фамилия</p>
+				<input name="agent_car_result_lock_fio" id="agent_car_result_lock_fio" type="text" required />
+                <p class="agent_car_field_error">Введите имя</p>
+        	</div>
 		</div>
+		<input type="submit" name="agent_car_result_lock_send" class="agent_car_next_step" value="Оформить и перейти к просмотру"/>
 	</form>
 	<input type="button" name="go" class="agent_car_search" value="Вернуться к параметрам поиска" />
 </div>

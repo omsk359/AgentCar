@@ -74,13 +74,13 @@ if (DEBUG) {
         $('#agent_car_i_have').val('800 000');
         if ($('.agent_car_body').is(':hidden'))
             $('.agent_car_logo').click();
-        $('.agent_car_search').click();
-        window.checkAllInput = checkAllInput;
-        $('[name=agent_car_result_lock_phone]').val('+7 (111) 111-2222');
-        window.setTimeout(() => {
-            $('[name=agent_car_result_lock_send]').click();
-            // $('[name=agent_car_need_details]').click();
-        }, 5000);
+        // $('.agent_car_search').click();
+        // window.checkAllInput = checkAllInput;
+        // $('[name=agent_car_result_lock_phone]').val('+7 (111) 111-2222');
+        // window.setTimeout(() => {
+        //     $('[name=agent_car_result_lock_send]').click();
+        //     // $('[name=agent_car_need_details]').click();
+        // }, 5000);
     };
 }
 
@@ -265,7 +265,7 @@ function showSearchResultsLock({ foundCars, searchQueryId }) {
     $('.agent_car_result').empty();
 
     let header = $('.agent_car_result_lock_block h3');
-    let s = header.text().replace(/[\d\s]*$/, ' ' + foundCars.length);
+    let s = header.text().replace(/\d[\d\s]*/, foundCars.length + ' ');
     header.text(s);
 
     if (!foundCars.length)
@@ -274,21 +274,30 @@ function showSearchResultsLock({ foundCars, searchQueryId }) {
     $('.agent_car_result_block').hide();
     $('.agent_car_result_lock_block').show();
 
-    $('[name=agent_car_result_lock_send]').one('click', e => {
-        e && e.preventDefault();
-        if (!checkAllInput(['[name=agent_car_result_lock_phone]']))
-            return DEBUG && console.info('lock! ', e);
-
-        let phone = $('[name=agent_car_result_lock_phone]').val();
-        $('#agent_car_reserve_phone, #agent_car_need_details_phone, #agent_car_negative_phone').val(phone);
-        onResultLock(searchQueryId, { phone }).then(() => {
+    showLockedResults = ({ phone, name }) => {
+        onResultLock(searchQueryId, { phone, name }).then(() => {
             $('.agent_car_result_block').show();
             $('.agent_car_result_lock_block').hide();
             showSearchResults(foundCars);
         });
-    });
+    };
+    // $('[name=agent_car_result_lock_send]').one('click', e => {
+    //     e && e.preventDefault();
+    //     if (!checkAllInput(['[name=agent_car_result_lock_phone]', '[name=agent_car_result_lock_fio]']))
+    //         return DEBUG && console.info('lock! ', e);
+
+    //     let phone = $('[name=agent_car_result_lock_phone]').val();
+    //     let name = $('[name=agent_car_result_lock_fio]').val();
+    //     $('#agent_car_reserve_phone, #agent_car_need_details_phone, #agent_car_negative_phone').val(phone);
+    //     onResultLock(searchQueryId, { phone, name }).then(() => {
+    //         $('.agent_car_result_block').show();
+    //         $('.agent_car_result_lock_block').hide();
+    //         showSearchResults(foundCars);
+    //     });
+    // });
 
 }
+var showLockedResults = () => {};
 
 function initSearchResults() {
     $('.agent_car_search').click(() => {
@@ -333,6 +342,19 @@ function initSearchResults() {
     });
 
     $('[name=agent_car_result_lock_phone]').blur(e => checkInput(e.target));
+    $('[name=agent_car_result_lock_fio]').blur(e => checkInput(e.target));
+
+    $('[name=agent_car_result_lock_send]').click(e => {
+        e && e.preventDefault();
+        if (!checkAllInput(['[name=agent_car_result_lock_phone]', '[name=agent_car_result_lock_fio]']))
+            return DEBUG && console.info('lock! ', e);
+
+        let phone = $('[name=agent_car_result_lock_phone]').val();
+        let name = $('[name=agent_car_result_lock_fio]').val();
+        $('#agent_car_reserve_phone, #agent_car_need_details_phone, #agent_car_negative_phone').val(phone);
+
+        showLockedResults({ phone, name });
+    });
 
     // $('[name=agent_car_result_lock_send]').click(e => {
     //     e.preventDefault();
@@ -607,12 +629,24 @@ function applySettings({ mark, customCSS, position, color, opacity, animate, und
     if (position == 'right')
         $('.agent_car_widget').addClass('agent_car_right');
 
-    if (color == 'green') {
-        $('.agent_car_logo').addClass('agent_car_green');
-        $('[type=submit]').addClass('agent_car_green');
-        $('[type=button]').addClass('agent_car_green');
-        $('.agent_car_close').addClass('agent_car_green');
-    }
+    // if (color == 'green') {
+    //     $('.agent_car_logo').addClass('agent_car_green');
+    //     $('[type=submit]').addClass('agent_car_green');
+    //     $('[type=button]').addClass('agent_car_green');
+    //     $('.agent_car_close').addClass('agent_car_green');
+    // }
+
+    // const color2class = {
+    //     green: 'agent_car_green',
+    //     green2: 'agent_car_green2'
+    // };
+    // let cssClass = color2class[color];
+    let colorClass =  `agent_car_${color}`;
+    $('.agent_car_logo').addClass(colorClass);
+    $('[type=submit]').addClass(colorClass);
+    $('[type=button]').addClass(colorClass);
+    $('.agent_car_close').addClass(colorClass);
+
 
     if (opacity)
         $('.agent_car_logo').addClass('agent_car_opacity');

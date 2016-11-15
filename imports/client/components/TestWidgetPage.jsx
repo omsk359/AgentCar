@@ -40,7 +40,7 @@ export default class TestWidgetPageDumb extends React.Component {
         emails_secondHand = emails_secondHand ? emails_secondHand.join(', ') : 'Отсутствует';
         return (
             <div>
-                <h3>Дилер {settings.mark} (id - {ownerId})</h3>
+                <h3>{settings.placementType == 'partner' ? 'Партнер' : 'Дилер'} "{settings.name}" ({settings.mark}) (id - {ownerId})</h3>
 				Emails: {emails}<br />
 				Emails (б/у): {emails_secondHand}<br />
 				Цвет: {settings.color}; Расположение: {settings.position};
@@ -61,19 +61,20 @@ export default class TestWidgetPageDumb extends React.Component {
                 <h4>Поисковые запросы ({queriesHistory.length})</h4>
                 <table><tbody>
                 <tr>
-                    <th>Тел. ({_.filter(queriesHistory, 'contactInfo').length})</th><th>Дата</th>
-                    <th>Марка - Модель</th><th>У меня есть</th><th>Кредит</th>
+                    <th>Тел. ({_.filter(queriesHistory, 'contactInfo').length})</th><th>Имя</th>
+                    <th>Дата</th><th>Марка - Модель</th><th>У меня есть</th><th>Кредит</th>
                     <th>Trade In</th><th>Б/у</th><th>Результат</th>
                 </tr>
                 {queriesHistory.map(({
-                    ownerId, result = [], contactInfo = { phone: '-' }, createdAt,
+                    ownerId, result = [], contactInfo: { phone, name }, createdAt,
                     query: {
                         mark, model, ac_form_i_have, ac_form_credit_pay, ac_form_credit_time,
                         ac_form_car_cost, ac_form_secondhand
                     }
                 }, i) => (
                     <tr key={i}>
-                        <td>{contactInfo.phone}</td>
+                        <td>{phone || '-'}</td>
+                        <td>{name || '-'}</td>
                         <td>{createdAt ? toMoskowTime(createdAt).format('MM.DD HH:mm') : '-'}</td>
                         <td>{mark} - {model}</td>
                         <td>{ac_form_i_have}</td>

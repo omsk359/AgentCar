@@ -374,7 +374,8 @@ Meteor.methods({
 		console.log('onResultLock params: ', arguments);
 		check(searchQueryId, String);
 		check(contactInfo, {
-			phone: String
+			phone: String,
+			name: String
 		});
 
 		QueriesHistory.upsert({ _id: searchQueryId }, { $set: { contactInfo }, $currentDate: { contactInfoDate: true } }, err => {

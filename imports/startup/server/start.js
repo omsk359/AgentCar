@@ -38,7 +38,9 @@ Cars.remove({});
 import sigmaCars from './new_cars_04.11.16/all 16-10-2016 SigmaService';
 import sigmaCars_bu from './new_cars_04.11.16/all BU 16-10-2016 SigmaService';
 let sigmaAll = [...sigmaCars, ...sigmaCars_bu];
-const SigmaTest = sigmaAll.map(car => ({ ...car, ownerId: 'kZD2WwvnheGtest3' }));
+const SigmaTest = sigmaAll.map(car => ({ ...car, ownerId: 'test3' }));
+let carTest4 = _.find(SigmaTest, car => car.price == 853000);
+carTest4 = carTest4.ownerId = 'test4';
 const SigmaProd = sigmaAll.map(car => ({ ...car, ownerId: 'keK2WwvnheGwvnh' }));
 [...SigmaTest, ...SigmaProd].forEach(obj => Cars.insert({ ...obj, checked: true }));
 
@@ -48,7 +50,7 @@ const SigmaProd = sigmaAll.map(car => ({ ...car, ownerId: 'keK2WwvnheGwvnh' }));
 // import skodaProductionCars_bu2 from './sigma_bu2_json';
 // let skodaProductionCars = [...skodaProductionCars_new, ...skodaProductionCars_bu, ...skodaProductionCars_bu2];
 // skodaProductionCars = skodaProductionCars.map(car => ({ ...car, availability: 'в наличии' }));
-// const SkodaTest = skodaProductionCars.map(car => ({ ...car, ownerId: 'kZD2WwvnheGtest3' }));
+// const SkodaTest = skodaProductionCars.map(car => ({ ...car, ownerId: 'test3' }));
 // const SkodaProd = skodaProductionCars.map(car => ({ ...car, ownerId: 'keK2WwvnheGwvnh' }));
 // [...SkodaTest, ...SkodaProd].forEach(obj => Cars.insert({ ...obj, checked: true }));
 
@@ -58,17 +60,20 @@ DealerSettings.remove({});
 DealerSettings.insert({ ownerId: 'kZD2WwvnheG9RCwwD', mark: 'LADA', emails: ['omsk359@protonmail.com', 'victory.ch123@yandex.ru', 'buzillo@ya.ru', 'petemic@yandex.ru'] });
 // sparz2
 DealerSettings.insert({ ownerId: 'kZD2WwvnheG9RCkeK', mark: 'LADA', emails: ['omsk359@protonmail.com', 'victory.ch123@yandex.ru', 'buzillo@ya.ru', 'petemic@yandex.ru'] });
-DealerSettings.insert({ ownerId: 'kZD2WwvnheGtest1', mark: 'LADA', emails: false });
-DealerSettings.insert({ ownerId: 'kZD2WwvnheGtest2', mark: 'Skoda', position: 'right', color: 'green', opacity: 80, animate: true, emails: false });
+DealerSettings.insert({ ownerId: 'test1', mark: 'LADA', emails: false });
 
-DealerSettings.insert({ ownerId: 'kZD2WwvnheGtest3', mark: 'SKODA', position: 'left', color: 'green', opacity: 80, animate: true, emails: ['omsk359@protonmail.com'] });
-// DealerSettings.insert({ ownerId: 'kZD2WwvnheGtest3', mark: 'SKODA', position: 'left', color: 'green', opacity: 80, animate: true, emails: ['omsk359@protonmail.com', 'victory.ch123@yandex.ru', 'buzillo@ya.ru', 'petemic@yandex.ru'] });
+DealerSettings.insert({ ownerId: 'test2', mark: 'SKODA', position: 'right', color: 'green', opacity: 80, animate: true, emails: false });
+
+// DealerSettings.insert({ ownerId: 'test3', mark: 'SKODA', position: 'left', color: 'green', opacity: 80, animate: true, emails: ['omsk359@protonmail.com'] });
+DealerSettings.insert({ ownerId: 'test3', name: 'Сигма Тест', mark: 'SKODA', position: 'left', color: 'green', opacity: 80, animate: true, emails: ['omsk359@protonmail.com', 'victory.ch123@yandex.ru', 'buzillo@ya.ru', 'petemic@yandex.ru'] });
+DealerSettings.insert({ ownerId: 'test4', name: 'Сигма Тест2', mark: 'SKODA', position: 'left', color: 'green2', opacity: 80, animate: true, emails: ['omsk359@protonmail.com', 'victory.ch123@yandex.ru', 'buzillo@ya.ru', 'petemic@yandex.ru'] });
 DealerSettings.insert({
-	ownerId: 'kZD2WwvnheGtest4',
+	ownerId: 'test5', color: 'green',
 	placementType: 'partner', name: 'PartnerTest',
-	position: 'left', color: 'green', opacity: 80, animate: true,
+	position: 'left', opacity: 80, animate: true,
 	emails: ['omsk359@protonmail.com', 'victory.ch123@yandex.ru', 'buzillo@ya.ru', 'petemic@yandex.ru']
 });
+
 DealerSettings.insert({
 	ownerId: 'keK2WwvnheGwvnh', name: 'Сигма Сервис', mark: 'SKODA',
 	position: 'left', color: 'green', opacity: 80, animate: true,
@@ -157,8 +162,8 @@ function sendMail(ownerId, car, contactInfo, needDetails) {
 // import NegativeSubscribe from '/imports/common/collections/NegativeSubscribe';
 // NegativeSubscribe.remove({ ownerId: 'keK2WwvnheGwvnh' });
 
-// DealerSettings.insert({ ownerId: 'kZD2WwvnheGtest1', mark: 'LADA', position: 'left', customCSS: '.agent_car_logo { right: 45px !important; }', emails: false });
-// DealerSettings.insert({ ownerId: 'kZD2WwvnheGtest2', mark: 'SKODA', customCSS: '.agent_car_widget { right: 55px !important; } .agent_car_logo { left: 100px !important; }', emails: false });
+// DealerSettings.insert({ ownerId: 'test1', mark: 'LADA', position: 'left', customCSS: '.agent_car_logo { right: 45px !important; }', emails: false });
+// DealerSettings.insert({ ownerId: 'test2', mark: 'SKODA', customCSS: '.agent_car_widget { right: 55px !important; } .agent_car_logo { left: 100px !important; }', emails: false });
 
 // Cars.insert({ mark: 'KIA', model: 'PICANTO', equipment: 'Classic', k: 'хачбек', color: 'красный',
 //     engine: 'вид: бензиновый; объем: 1.0; мощность: 66; кпп: 5МТ; ускорение: 14.6; расход бензина: 4.5',
