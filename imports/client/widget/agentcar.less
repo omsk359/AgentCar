@@ -16,7 +16,7 @@
 	// right: 10px;
 	bottom: 10px;
 	//bottom: 30px;
-    font-family: Halvetica, Verdana, Arial;
+    font-family: Halvetica, Verdana, Arial, sans-serif;
     font-size: 12px;
 	display: block;
 	width: 180px;
@@ -283,22 +283,14 @@
 		.agent_car_result_link {
 			text-align: center;
 			
-			.mixin {
+			a, span {
 				padding: 2px 2px;
 				text-decoration: none;
-				font-size: 14px;				
-			}
-			a, span {
-				.mixin;
+				font-size: 14px;
+				
 				&:hover {
 					text-decoration: underline;
 					cursor: pointer;
-				}
-			}
-			span.agent_car_no_pointer {
-				.mixin;
-				&:hover {
-					cursor: auto;
 				}
 			}
 			
@@ -326,16 +318,69 @@
 			}
 		}			
 	}
-	.agent_car_result_price_only_today {
-		color: #0C0;
-		text-align: center;
-	}
 
 	.agent_car_text_last_price {
 		font-size: x-small;
 		color: #808080 !important;
 	}
 	
+	.agent_car_model {
+		float: left;
+		position: relative;
+		color: #d7df23;
+		
+		border: 2px solid #d7df23;
+		border-radius: 10px 0 10px 0;
+		box-sizing: border-box;
+
+		// 3 car in row				
+		// width: 31%;
+		// margin-left: 1%;
+		// margin-bottom: 5%;
+		
+		// 2 car in row
+		width: 37%;
+		margin: 1% 2% 8% 7%;
+		
+		min-height: 70px;
+		padding: 23px 7px 3px 7px;
+
+		text-align: center;
+		height: auto;
+		vertical-align: middle;
+		top: 15px;
+		bottom: 10px;
+
+		&:hover {
+			background: #d7df23;
+			color: #333;
+			cursor: pointer;
+		}
+	}
+	
+	.agent_car_circle {
+		width: 20px;
+		height: 20px;
+		position: absolute;
+		top: -13px;
+		right: 10px;
+		z-index: 99;
+		
+		border: 2px solid #fff;
+		border-radius: 20px;
+		-moz-border-radius: 20px;
+		-webkit-border-radius: 20px;
+		
+		font-size: 10px;
+		color: #FFF;
+		font-style: normal;
+		font-weight: bold;
+		background-color: #bf1e2d;
+		text-align: center;
+		overflow: hidden;
+		
+		padding: 6px 3px 0px 3px;
+	}
 }
 
 .agent_car_mark strong {
@@ -350,6 +395,26 @@
 
 .agent_car_right {
 	right: 10px;
+}
+
+.agent_car_showcase {
+	text-align: center;
+}
+
+.agent_car_clear {
+	clear: both;
+}
+
+.agent_car_motivation {
+	width: 80%;
+	margin: 3% 0 0 8%; 
+	// margin-top: 10px;
+	hr {
+		border: none;
+	    color: #fff;
+	    background-color: #fff;
+	    height: 1px;
+	}
 }
 
 @media screen and (max-width: 480px) {
