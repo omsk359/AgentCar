@@ -2,7 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 import { check, Match } from 'meteor/check';
 import Cars from '/imports/common/collections/cars';
-import Statistics from '/imports/common/collections/Statistics';
+// import Statistics from '/imports/common/collections/Statistics';
 import QueriesHistory from '/imports/common/collections/QueriesHistory';
 import ReserveCars from '/imports/common/collections/ReserveCars';
 import DealerSettings from '/imports/common/collections/DealerSettings';
@@ -10,7 +10,7 @@ import NegativeSubscribe from '/imports/common/collections/NegativeSubscribe';
 import _ from 'lodash';
 import nodemailer from 'nodemailer';
 import moment from 'moment';
-import { toMoskowTime } from '/imports/common/helpers';
+import { toMoskowTime, incStatsField } from '/imports/common/helpers';
 // import mg from 'nodemailer-mailgun-transport';
 import mg from './nodemailer-mailgun-transport';
 
@@ -195,20 +195,22 @@ Meteor.methods({
 	onWidgetOpen(ownerId) {
 		check(ownerId, String);
 
-		Statistics.update({ ownerId }, { $inc: { widgetOpen: 1 } }, { upsert: true }, err => {
-			// async this, don't wait for response
-			if (err)
-				console.error('Statistics.update widgetOpen err: ', err);
-		});
+		// Statistics.update({ ownerId }, { $inc: { widgetOpen: 1 } }, { upsert: true }, err => {
+		// 	// async this, don't wait for response
+		// 	if (err)
+		// 		console.error('Statistics.update widgetOpen err: ', err);
+		// });
+		incStatsField(ownerId, 'widgetOpen');
 	},
 	onWidgetLoaded(ownerId) {
 		check(ownerId, String);
 
-		Statistics.update({ ownerId }, { $inc: { widgetLoaded: 1 } }, { upsert: true }, err => {
-			// async this, don't wait for response
-			if (err)
-				console.error('Statistics.update widgetLoaded err: ', err);
-		});
+		// Statistics.update({ ownerId }, { $inc: { widgetLoaded: 1 } }, { upsert: true }, err => {
+		// 	// async this, don't wait for response
+		// 	if (err)
+		// 		console.error('Statistics.update widgetLoaded err: ', err);
+		// });
+		incStatsField(ownerId, 'widgetLoaded');
 	},
 
 	carsByParams({ ownerId, mark, model, ac_form_i_have, ac_form_credit_pay = 0, ac_form_secondhand = false,
@@ -269,11 +271,13 @@ Meteor.methods({
 			if (err)
 				console.error('QueriesHistory.insert err: ', err);
 		}*/);
-		Statistics.update({ ownerId }, { $inc: { queries: 1 } }, { upsert: true }, err => {
-			// async this, don't wait for response
-			if (err)
-				console.error('Statistics.update err: ', err);
-		});
+
+		// Statistics.update({ ownerId }, { $inc: { queries: 1 } }, { upsert: true }, err => {
+		// 	// async this, don't wait for response
+		// 	if (err)
+		// 		console.error('Statistics.update err: ', err);
+		// });
+		incStatsField(ownerId, 'queries');
 
 		// return foundCars;
 		return { foundCars, searchQueryId };
@@ -297,12 +301,13 @@ Meteor.methods({
 
 		sendMail(ownerId, car, contactInfo, needDetails);
 
-		let incObj = needDetails ? { needDetails: 1 } : { reserve: 1 };
-		Statistics.update({ ownerId }, { $inc: incObj }, { upsert: true }, err => {
-			// async this, don't wait for response
-			if (err)
-				console.error('Stat update err: ', err);
-		});
+		// let incObj = needDetails ? { needDetails: 1 } : { reserve: 1 };
+		// Statistics.update({ ownerId }, { $inc: incObj }, { upsert: true }, err => {
+		// 	// async this, don't wait for response
+		// 	if (err)
+		// 		console.error('Stat update err: ', err);
+		// });
+		incStatsField(ownerId, needDetails ? 'needDetails' : 'reserve');
 
 		return ReserveCars.insert({ ownerId, car, contactInfo, needDetails });
 	},
@@ -327,11 +332,12 @@ Meteor.methods({
 
 		sendMailSubscribe(ownerId, contactInfo, searchParams);
 
-		Statistics.update({ ownerId }, { $inc: { subscribe: 1 } }, { upsert: true }, err => {
-			// async this, don't wait for response
-			if (err)
-				console.error('Stat update err: ', err);
-		});
+		// Statistics.update({ ownerId }, { $inc: { subscribe: 1 } }, { upsert: true }, err => {
+		// 	// async this, don't wait for response
+		// 	if (err)
+		// 		console.error('Stat update err: ', err);
+		// });
+		incStatsField(ownerId, 'subscribe');
 
 		return NegativeSubscribe.insert({ ownerId, contactInfo, searchParams });
 	},
@@ -384,11 +390,12 @@ Meteor.methods({
 			if (err)
 				console.error('QueriesHistory.update err: ', err);
 		});
-		Statistics.update({ ownerId }, { $inc: { resultLocks: 1 } }, { upsert: true }, err => {
-			// async this, don't wait for response
-			if (err)
-				console.error('Statistics.update err: ', err);
-		});
+		// Statistics.update({ ownerId }, { $inc: { resultLocks: 1 } }, { upsert: true }, err => {
+		// 	// async this, don't wait for response
+		// 	if (err)
+		// 		console.error('Statistics.update err: ', err);
+		// });
+		incStatsField(ownerId, 'resultLocks');
 	},
 
 

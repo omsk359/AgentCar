@@ -8,6 +8,7 @@ import _ from 'lodash';
 import './http_headers';
 import '/imports/server/collections/GameSubscribers';
 import '/imports/server/collections/QueriesHistory';
+import { initStatsAll } from '/imports/common/helpers';
 
 
 // for testing
@@ -155,8 +156,10 @@ function sendMail(ownerId, car, contactInfo, needDetails) {
 // sendMail();
 */
 
-// import Statistics from '/imports/common/collections/Statistics';
+import Statistics from  '/imports/common/collections/Statistics';
 // Statistics.remove({ ownerId: 'keK2WwvnheGwvnh' });
+Statistics.remove({});
+initStatsAll();
 // import ReserveCars from '/imports/common/collections/ReserveCars';
 // ReserveCars.remove({ ownerId: 'keK2WwvnheGwvnh' });
 // import NegativeSubscribe from '/imports/common/collections/NegativeSubscribe';

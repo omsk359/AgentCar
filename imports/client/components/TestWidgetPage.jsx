@@ -7,6 +7,7 @@ import NegativeSubscribe from '/imports/common/collections/NegativeSubscribe';
 import QueriesHistory from '/imports/common/collections/QueriesHistory';
 import { toMoskowTime } from '/imports/common/helpers';
 // import moment from 'moment';
+import { getCurrentStats } from '/imports/common/helpers';
 
 import '../css/test.css'; 
 
@@ -141,7 +142,7 @@ export default class TestWidgetPageDumb extends React.Component {
 
 const TestWidgetPage = createContainer(props => {
     const { dealerId } = props.params;
-    const statisticsHandle = Meteor.subscribe('statistics', dealerId);
+    const statisticsHandle = Meteor.subscribe('statisticsHistory', dealerId);
     const reserveCarsHandle = Meteor.subscribe('ReserveCars', dealerId);
     const dealerSettingsHandle = Meteor.subscribe('DealerSettings', dealerId);
     const negativeSubscribeHandle = Meteor.subscribe('NegativeSubscribe', dealerId);
@@ -153,7 +154,9 @@ const TestWidgetPage = createContainer(props => {
         loadingSettings: !dealerSettingsHandle.ready(),
         loadingNegative: !negativeSubscribeHandle.ready(),
         loadingQueriesHistory: !queriesHistoryHandle.ready(),
-        stats: Statistics.findOne({ ownerId: dealerId }),
+        // stats: Statistics.findOne({ ownerId: dealerId }),
+        stats: getCurrentStats(dealerId),
+        statsHistory: Statistics.findOne({ ownerId: dealerId }),
         settings: DealerSettings.findOne({ ownerId: dealerId }),
         reserveCars: ReserveCars.find({ ownerId: dealerId }).fetch(),
         negativeSubscribes: NegativeSubscribe.find({ ownerId: dealerId }).fetch(),
