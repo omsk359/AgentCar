@@ -264,9 +264,9 @@ function showSearchResultsLock({ foundCars, searchQueryId }) {
 
     $('.agent_car_result').empty();
 
-    let header = $('.agent_car_result_lock_block h3');
-    let s = header.text().replace(/\d[\d\s]*/, foundCars.length + ' ');
-    header.text(s);
+    // let header = $('.agent_car_result_lock_block h3');
+    // let s = header.text().replace(/\d[\d\s]*/, foundCars.length + ' ');
+    // header.text(s);
 
     if (!foundCars.length)
         return showSearchResults(foundCars);

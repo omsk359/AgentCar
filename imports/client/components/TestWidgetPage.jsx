@@ -66,15 +66,15 @@ export default class TestWidgetPageDumb extends React.Component {
                     <th>Trade In</th><th>Б/у</th><th>Результат</th>
                 </tr>
                 {queriesHistory.map(({
-                    ownerId, result = [], contactInfo: { phone, name }, createdAt,
+                    ownerId, result = [], contactInfo = {}, createdAt,
                     query: {
                         mark, model, ac_form_i_have, ac_form_credit_pay, ac_form_credit_time,
                         ac_form_car_cost, ac_form_secondhand
                     }
                 }, i) => (
                     <tr key={i}>
-                        <td>{phone || '-'}</td>
-                        <td>{name || '-'}</td>
+                        <td>{contactInfo.phone || '-'}</td>
+                        <td>{contactInfo.name || '-'}</td>
                         <td>{createdAt ? toMoskowTime(createdAt).format('MM.DD HH:mm') : '-'}</td>
                         <td>{mark} - {model}</td>
                         <td>{ac_form_i_have}</td>
