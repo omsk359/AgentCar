@@ -117,34 +117,50 @@ function sendMailSubscribe(ownerId, contactInfo, searchParams) {
 }
 
 Meteor.methods({
-	'cars.insert'(mark, model, equipment, year, engine, color, price, photo) {
+	'cars.insert'(ownerId, { mark, model, equipment, carcase, kpp, year, engineType, engineCapacity, enginePower, color, price, priceold, mileage, availability, photo }) {
+		console.log('cars.insert Params: ', arguments);
+		check(ownerId, String);
 		check(mark, String);
 		check(model, String);
 		check(equipment, String);
+		check(carcase, String);
+		check(kpp, String);
 		check(year, String);
-		check(engine, String);
+		check(engineType, String);
+		check(engineCapacity, String);
+		check(enginePower, String);
 		check(color, String);
 		check(price, String);
+		check(priceold, String);
+		check(mileage, String);
+		check(availability, String);
 		check(photo, String);
 
 		// Make sure the user is logged in before inserting a task
-		if (! this.userId) {
-			throw new Meteor.Error('not-authorized');
-		}
+		// if (! this.userId) {
+		// 	throw new Meteor.Error('not-authorized');
+		// }
 
-		Cars.insert({
+		let id = Cars.insert({
 			mark,
 			model,
 			equipment,
-			year,
-			engine,
+			carcase,
+			kpp,
+			year: +year,
+			engine: { type: engineType, capacity: engineCapacity, power: enginePower },
 			color,
-			price,
+			price: +price, priceold: +priceold,
 			photo,
-			//      createdAt: new Date(),
-			ownerId: this.userId,
-			username: Meteor.users.findOne(this.userId).username,
+			mileage: +mileage,
+			availability,
+	        createdAt: new Date(),
+			ownerId,//: this.userId,
+			checked: true//,
+			/*username: _.get(Meteor.users.findOne(this.userId), 'username') || '',*/
 		});
+		console.log('id: ', id);
+		return id;
 	},
 	'cars.remove'(carId) {
 		check(carId, String);
@@ -174,6 +190,7 @@ Meteor.methods({
 		return marksModels;
 	},
 	allDealersInfo() {
+		// return DealerSettings.allNames().fetch();
 		return DealerSettings.find({ placementType: 'dealer' }, { fields: { name: 1, ownerId: 1, _id: 0 } }).fetch();
 	},
 	getInitWidgetData(ownerId) {

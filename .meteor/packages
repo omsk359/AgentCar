@@ -25,3 +25,4 @@ std:accounts-ui
 shell-server@0.2.1
 mrt:mongodb-aggregation
 matb33:collection-hooks
+deanius:promise

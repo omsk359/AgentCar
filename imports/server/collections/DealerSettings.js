@@ -5,6 +5,11 @@ Meteor.publish('DealerSettings', function(ownerId) {
     return DealerSettings.find({ ownerId });
 });
 
+Meteor.publish('DealerSettings_allNames', function(/*placementType = 'dealer'*/) {
+    return DealerSettings.find({ placementType: 'dealer' }, { fields: { name: 1, ownerId: 1 } });
+    // return DealerSettings.allNames(placementType);//.find({ placementType }, { fields: { name: 1, ownerId: 1, _id: 0 } });
+});
+
 DealerSettings.before.insert(function(userId, doc) {
     _.defaults(doc, {
         name: 'No Name',

@@ -32,18 +32,23 @@ import Cars from '/imports/common/collections/cars';
 // console.log('CarsObjects: ', CarsObjects);
 // console.log('CarsObjects prices: ', _.map(CarsObjects, 'price'));
 // console.log('CarsObjects prices: ', _.map(CarsObjects, 'photo'));
-Cars.remove({});
+//Cars.remove({});
 // CarsObjects.forEach(obj => Cars.insert(obj));
 
 
-import sigmaCars from './new_cars_04.11.16/all 16-10-2016 SigmaService';
-import sigmaCars_bu from './new_cars_04.11.16/all BU 16-10-2016 SigmaService';
-let sigmaAll = [...sigmaCars, ...sigmaCars_bu];
-const SigmaTest = sigmaAll.map(car => ({ ...car, ownerId: 'test3' }));
-let carTest4 = _.find(SigmaTest, car => car.price == 853000);
-carTest4 = carTest4.ownerId = 'test4';
-const SigmaProd = sigmaAll.map(car => ({ ...car, ownerId: 'keK2WwvnheGwvnh' }));
-[...SigmaTest, ...SigmaProd].forEach(obj => Cars.insert({ ...obj, checked: true }));
+
+// Cars.remove({});
+
+// import sigmaCars from './new_cars_04.11.16/all 16-10-2016 SigmaService';
+// import sigmaCars_bu from './new_cars_04.11.16/all BU 16-10-2016 SigmaService';
+// let sigmaAll = [...sigmaCars, ...sigmaCars_bu];
+// const SigmaTest = sigmaAll.map(car => ({ ...car, ownerId: 'test3' }));
+// let carTest4 = _.find(SigmaTest, car => car.price == 853000);
+// carTest4 = carTest4.ownerId = 'test4';
+// const SigmaProd = sigmaAll.map(car => ({ ...car, ownerId: 'keK2WwvnheGwvnh' }));
+// [...SigmaTest, ...SigmaProd].forEach(obj => Cars.insert({ ...obj, checked: true }));
+
+
 
 
 // import skodaProductionCars_new from './skoda_json';
@@ -157,9 +162,11 @@ function sendMail(ownerId, car, contactInfo, needDetails) {
 */
 
 import Statistics from  '/imports/common/collections/Statistics';
-// Statistics.remove({ ownerId: 'keK2WwvnheGwvnh' });
-Statistics.remove({});
+// Statistics.remove({});
 initStatsAll();
+
+// Statistics.remove({ ownerId: 'keK2WwvnheGwvnh' });
+
 // import ReserveCars from '/imports/common/collections/ReserveCars';
 // ReserveCars.remove({ ownerId: 'keK2WwvnheGwvnh' });
 // import NegativeSubscribe from '/imports/common/collections/NegativeSubscribe';

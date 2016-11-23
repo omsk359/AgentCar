@@ -8,5 +8,6 @@ Meteor.publish('cars', function carsPublication() {
 
 Cars.before.insert(function(userId, car) {
     car.viewLastDate = moment().subtract(1, 'day').toDate();
+    car.createdAt = new Date();
     car.viewCnt = _.random(3, 15);
 });

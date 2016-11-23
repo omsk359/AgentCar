@@ -5,11 +5,13 @@ import ReserveCars from '/imports/common/collections/ReserveCars';
 import DealerSettings from '/imports/common/collections/DealerSettings';
 import NegativeSubscribe from '/imports/common/collections/NegativeSubscribe';
 import QueriesHistory from '/imports/common/collections/QueriesHistory';
-import { toMoskowTime } from '/imports/common/helpers';
-// import moment from 'moment';
-import { getCurrentStats } from '/imports/common/helpers';
+import { toMoskowTime, getCurrentStats } from '/imports/common/helpers';
+import classNames from 'classnames'
+import moment from 'moment';
+import _ from 'lodash';
 
 import '../css/test.css'; 
+
 
 export default class TestWidgetPageDumb extends React.Component {
     componentWillMount() {
@@ -29,11 +31,91 @@ export default class TestWidgetPageDumb extends React.Component {
         Meteor.call('saveSettings', this.props.ownerId, { customCSS, underElements, overElements });
     }
 
+    statsHistoryToTree(statsHistory) {
+        // statsHistory = [
+        //     { open: 0, lock: 0, kek: 0, date: moment('2015-12-30 00:04').toDate() },
+        //     { open: 1, lock: 0, kek: 0, date: moment('2015-12-30 09:04').toDate() },
+        //     { open: 2, lock: 0, kek: 0, date: moment('2015-12-30 10:32').toDate() },
+        //     { open: 2, lock: 1, kek: 0, date: moment('2015-12-31 15:01').toDate() },
+        //     { open: 2, lock: 1, kek: 1, date: moment('2015-12-31 22:35').toDate() },
+        //     { open: 3, lock: 1, kek: 1, date: moment('2015-12-31 22:40').toDate() },
+        //     { open: 3, lock: 1, kek: 2, date: moment('2016-01-02 01:40').toDate() },
+        //     { open: 3, lock: 2, kek: 2, date: moment('2016-01-05 01:45').toDate() },
+        //     { open: 3, lock: 3, kek: 2, date: moment('2016-01-06 00:01').toDate() },
+        //     { open: 4, lock: 3, kek: 2, date: moment('2016-02-02 00:01').toDate() },
+        // ];
+        let hist = statsHistory.map(item => _.mapKeys(item, (cnt, field) => ({
+            widgetOpen: 'Открытия',
+            widgetLoaded: 'Загрузки',
+            resultLocks: 'Поиск[тел.]',
+            queries: 'Поиск',
+            reserve: 'Заявки',
+            needDetails: 'Подробнее',
+            subscribe: 'Подписки',
+            date: 'date'
+        }[field])));
+        console.log('TRANSLATE: ', hist);
+
+        hist.sort((a, b) => moment(b.date).isBefore(a.date));
+        let prevItem = hist.shift();
+        let res = {
+          title: 'История статистики',
+          childNodes: []
+        };
+        hist.forEach(item => { 
+            console.log('-- ', item);
+            let date = moment(item.date);
+            let treeYear = _.find(res.childNodes, child => child.title.startsWith(date.format('YYYY')));
+            if (!treeYear) {
+                res.childNodes.push({ title: `${date.format('YYYY')} ()`, childNodes: [] });
+                treeYear = _.last(res.childNodes);
+            }
+            let treeMonth = _.find(treeYear.childNodes, child => child.title.startsWith(date.format('MM')));
+            if (!treeMonth) {
+                treeYear.childNodes.push({ title: `${date.format('MM')} ()`, childNodes: [] });
+                treeMonth = _.last(treeYear.childNodes);
+            }
+            let treeDay = _.find(treeMonth.childNodes, child => child.title.startsWith(date.format('DD')));
+            if (!treeDay) {
+                treeMonth.childNodes.push({ title: `${date.format('DD')} ()`, childNodes: [] });
+                treeDay = _.last(treeMonth.childNodes);
+            }
+            let hoursRange = `${date.format('HH')}-${_.padStart(date.hour()+1, 2, '0')}`;
+            let treeHour = _.find(treeDay.childNodes, child => child.title.startsWith(hoursRange));
+            if (!treeHour) {
+                treeDay.childNodes.push({ title: `${hoursRange} ()` });
+                treeHour = _.last(treeDay.childNodes);
+            }
+
+            let field = _.findKey(item, (cnt, field) => prevItem[field] != cnt && field != 'date');
+
+            let incFieldInTitle = treeNode => {
+                let fieldCntRe = new RegExp(`${field} \\+(\\d+)`);
+                let match = treeNode.title.match(fieldCntRe);
+                if (!match)
+                    treeNode.title = treeNode.title.replace(/\)/, ` ${field} +1 ) `);
+                else
+                    treeNode.title = treeNode.title.replace(fieldCntRe, `${field} +${+match[1]+1}`);
+            };
+            incFieldInTitle(treeYear);
+            incFieldInTitle(treeMonth);
+            incFieldInTitle(treeDay);
+            incFieldInTitle(treeHour);
+
+            prevItem = item;
+        });
+        console.log('statsHist tree: ', res);
+
+        return res;
+    }
+
     render() {
+
         const { loadingStats, loadingReserve, loadingSettings, loadingNegative, loadingQueriesHistory,
-                stats, reserveCars, settings, negativeSubscribes, ownerId, queriesHistory = [] } = this.props;
+                stats, statsHistory, reserveCars, settings, negativeSubscribes, ownerId, queriesHistory = [] } = this.props;
         if (loadingStats || loadingSettings || loadingReserve || loadingNegative)
             return <div>Loading...</div>;
+        console.log('statsHistory: ', statsHistory);
 
         const { widgetOpen, widgetLoaded, queries, reserve, subscribe, needDetails, resultLocks } = stats || {};
         let { emails, emails_secondHand } = settings || {};
@@ -58,6 +140,7 @@ export default class TestWidgetPageDumb extends React.Component {
 				Отправлено поисковых форм (с тел./всего): <b>{resultLocks||0}/{queries||0}</b><br />
 				Всего заказов/узнать подробнее/подписок: <b>{reserve||0}/{needDetails||0}/{subscribe||0}</b><br />
 
+                <TreeNode node={this.statsHistoryToTree(statsHistory)} />
 
                 <h4>Поисковые запросы ({queriesHistory.length})</h4>
                 <table><tbody>
@@ -156,7 +239,7 @@ const TestWidgetPage = createContainer(props => {
         loadingQueriesHistory: !queriesHistoryHandle.ready(),
         // stats: Statistics.findOne({ ownerId: dealerId }),
         stats: getCurrentStats(dealerId),
-        statsHistory: Statistics.findOne({ ownerId: dealerId }),
+        statsHistory: Statistics.find({ ownerId: dealerId }).fetch().map(st => _.omit(st, ['_id', 'ownerId'])),
         settings: DealerSettings.findOne({ ownerId: dealerId }),
         reserveCars: ReserveCars.find({ ownerId: dealerId }).fetch(),
         negativeSubscribes: NegativeSubscribe.find({ ownerId: dealerId }).fetch(),
@@ -166,3 +249,52 @@ const TestWidgetPage = createContainer(props => {
 }, TestWidgetPageDumb);
 
 export default TestWidgetPage
+
+
+class TreeNode extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+        visible: true,
+    };
+    this.toggle = this.toggle.bind(this);
+  }
+  
+  toggle() {
+    this.setState({visible: !this.state.visible});
+  }
+  
+  render() {
+    var childNodes;
+    var classObj;
+
+    if (this.props.node.childNodes != null) {
+      childNodes = this.props.node.childNodes.map(function(node, index) {
+        return <li key={index}><TreeNode node={node} /></li>
+      });
+
+      classObj = {
+        togglable: true,
+        "togglable-down": this.state.visible,
+        "togglable-up": !this.state.visible
+      };
+    }
+
+    var style;
+    if (!this.state.visible) {
+      style = {display: "none"};
+    }
+
+    return (
+      <div>
+        <h5 onClick={this.toggle} className={classNames(classObj)}>
+          {this.props.node.title}
+        </h5>
+        <ul style={style}>
+          {childNodes}
+        </ul>
+      </div>
+    );
+  }
+}
+// http://jsfiddle.net/ssorallen/xx8mw/

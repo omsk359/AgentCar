@@ -8,6 +8,7 @@ import WidgetCode from './WidgetCode';
 import TestWidgetPage from './TestWidgetPage';
 import TestGamePage from './TestGamePage';
 import TestVitrinaPage from './TestVitrinaPage';
+import AddCarPage from './AddCarPage';
 
 const requireAuth = (nextState, replace) => {
     if (!Meteor.userId())
@@ -27,6 +28,7 @@ export class Routes extends React.Component {
                     <Route path="test-widget/:dealerId" component={TestWidgetPage} />
                     <Route path="test-game/:dealerId" component={TestGamePage} />
                     <Route path="test-vitrina/:dealerId" component={TestVitrinaPage} />
+                    <Route path="addCar" component={AddCarPage} />
                 </Route>
             </Router>
         )
