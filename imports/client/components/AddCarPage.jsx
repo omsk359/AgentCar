@@ -43,7 +43,7 @@ export default class AddCarPageDumb extends React.Component {
 
         let { ownerId, ...carParams } = formMap;
         Meteor.callPromise('cars.insert', ownerId, carParams).then(id => {
-            $('#result').css('color', 'green').val(`Ок! id машины - ${id}`).show(0).delay(5000).hide(0);
+            $('#result').css('color', 'green').text(`Ок! id машины - ${id}`).show(0).delay(5000).hide(0);
         });
         return false;
         // Meteor.call('cars.insert', ...[] = { ownerId, ...carParams }  formMap.ownerId, _.omit(formMap, ['ownerId']));
@@ -113,10 +113,8 @@ export default class AddCarPageDumb extends React.Component {
                         <option key={s} value={s}>{s}</option>
                     ))}
                     </select>
-                    <input type='submit' value='Send' />
+                    <input type='submit' value='Добавить!'  /><span  id='result' />
                 </form>
-                <span id='result'></span>
-
             </div>
         )
     }
